@@ -1,0 +1,3 @@
+class ModelPIDProvider:
+    @classmethod
+    def create(cls, pid_value, record, model_field_name, **kwargs) -> None: ...

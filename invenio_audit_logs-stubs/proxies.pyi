@@ -1,0 +1,5 @@
+from _typeshed import Incomplete
+
+current_audit_logs_service: Incomplete
+current_audit_logs_actions_registry: Incomplete
+current_audit_logs_resolvers: Incomplete

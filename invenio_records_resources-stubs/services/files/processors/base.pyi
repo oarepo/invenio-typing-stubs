@@ -1,0 +1,16 @@
+from typing import List
+
+from invenio_records_resources.records.api import FileRecord
+from invenio_records_resources.services.files.processors.image import (
+    ImageMetadataExtractor,
+)
+
+class ProcessorRunner:
+    def __init__(self, processors: List[ImageMetadataExtractor]): ...
+    def run(self, file_record: FileRecord): ...
+
+class FileProcessor:
+    @staticmethod
+    def file_extension(file_record: FileRecord) -> str: ...
+    def can_process(self, file_record: FileRecord) -> bool: ...
+    def process(self, file_record: FileRecord) -> None: ...

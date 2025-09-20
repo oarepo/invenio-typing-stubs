@@ -1,0 +1,19 @@
+from _typeshed import Incomplete
+from invenio_audit_logs import config as config
+from invenio_audit_logs.resources import AuditLogResource as AuditLogResource
+from invenio_audit_logs.resources import (
+    AuditLogResourceConfig as AuditLogResourceConfig,
+)
+from invenio_audit_logs.services import AuditLogService as AuditLogService
+from invenio_audit_logs.services import AuditLogServiceConfig as AuditLogServiceConfig
+
+class InvenioAuditLogs:
+    def __init__(self, app=None) -> None: ...
+    def init_app(self, app) -> None: ...
+    def init_config(self, app) -> None: ...
+    audit_log_service: Incomplete
+    def init_services(self, app) -> None: ...
+    audit_log_resource: Incomplete
+    def init_resources(self, app) -> None: ...
+    actions_registry: Incomplete
+    def load_actions_registry(self) -> None: ...

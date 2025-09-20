@@ -1,0 +1,13 @@
+from _typeshed import Incomplete
+from invenio_drafts_resources.services.records.components.base import (
+    BaseRecordFilesComponent as BaseRecordFilesComponent,
+)
+
+class _DraftMediaFilesComponent(BaseRecordFilesComponent):
+    def update_draft(self, identity, data=None, record=None, errors=None) -> None: ...
+    def edit(self, identity, draft=None, record=None) -> None: ...
+    def new_version(self, identity, draft=None, record=None) -> None: ...
+    def import_files(self, identity, draft=None, record=None) -> None: ...
+
+MediaFilesAttrConfig: Incomplete
+DraftMediaFilesComponent: Incomplete

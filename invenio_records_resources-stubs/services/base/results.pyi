@@ -1,0 +1,13 @@
+from typing import Any
+
+class ServiceItemResult:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
+
+class ServiceListResult:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
+
+class ServiceBulkItemResult:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
+
+class ServiceBulkListResult:
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...

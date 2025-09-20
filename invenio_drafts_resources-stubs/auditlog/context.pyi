@@ -1,0 +1,13 @@
+from _typeshed import Incomplete
+
+class UserContext:
+    key: Incomplete
+    resolver: Incomplete
+    def __init__(self, key: str = 'user') -> None: ...
+    def __call__(self, data, lookup_key: str = 'user_id', **kwargs) -> None: ...
+
+class RecordContext:
+    def __call__(self, data, **kwargs) -> None: ...
+
+class RequestContext:
+    def __call__(self, data, **kwargs) -> None: ...

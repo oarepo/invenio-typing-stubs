@@ -1,0 +1,13 @@
+from typing import (
+    List,
+    Union,
+)
+
+
+def extract_file_metadata(service_id: str, record_id: str, file_key: str): ...
+
+
+def manage_indexer_queues(): ...
+
+
+def send_change_notifications(record_type: str, records_info: List[List[Union[str, int]]]): ...
