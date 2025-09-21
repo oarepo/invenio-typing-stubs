@@ -18,6 +18,7 @@ import pytest
         "invenio_records-stubs",
         "invenio_requests-stubs",
         "invenio_vocabularies-stubs",
+        "invenio_pidstore-stubs",
     ],
 )
 def test_mypy_for_each_package(pkg):
