@@ -1,3 +1,4 @@
+from abc import ABC
 from io import (
     BufferedReader,
     BytesIO,
@@ -20,7 +21,7 @@ from invenio_records_resources.records.api import (
 from invenio_records_resources.services.files.service import FileService
 from werkzeug.wsgi import LimitedStream
 
-class Transfer:
+class Transfer(ABC):
     def __init__(
         self,
         record: Record,

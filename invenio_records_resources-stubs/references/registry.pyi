@@ -1,11 +1,11 @@
 import abc
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Iterator
 
 class ResolverRegistryBase(ABC, metaclass=abc.ABCMeta):
     @classmethod
     @abstractmethod
-    def get_registered_resolvers(cls) -> list[Any]: ...
+    def get_registered_resolvers(cls) -> Iterator[Any]: ...  # keep typing
     @classmethod
     def resolve_entity_proxy(
         cls, reference_dict: dict[str, Any], raise_: bool = ...

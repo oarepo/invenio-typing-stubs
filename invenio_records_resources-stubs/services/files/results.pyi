@@ -15,9 +15,11 @@ from invenio_records_resources.records.api import (
     Record,
 )
 from invenio_records_resources.services.base.links import LinksTemplate
+from invenio_records_resources.services.base.results import ServiceListResult
 from invenio_records_resources.services.files.service import FileService
+from invenio_records_resources.services.records.results import RecordItem
 
-class FileItem:
+class FileItem(RecordItem):
     def __init__(
         self,
         service: FileService,
@@ -28,7 +30,7 @@ class FileItem:
         links_tpl: Optional[LinksTemplate] = ...,
     ): ...
     @property
-    def _obj(self) -> FileRecord: ...
+    def _obj(self) -> FileRecord: ...  # type: ignore[override]
     @property
     def file_id(self) -> str: ...
     def get_stream(self, mode: str) -> BufferedReader: ...
@@ -38,7 +40,7 @@ class FileItem:
         self, restricted: bool = ..., as_attachment: bool = ...
     ) -> Response: ...
 
-class FileList:
+class FileList(ServiceListResult):
     def __init__(
         self,
         service: FileService,

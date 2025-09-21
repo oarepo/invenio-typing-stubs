@@ -18,9 +18,10 @@ from invenio_records_resources.records.api import (
     FileRecord,
     Record,
 )
+from invenio_records_resources.services.base.components import BaseServiceComponent
 from werkzeug.wsgi import LimitedStream
 
-class FileServiceComponent:
+class FileServiceComponent(BaseServiceComponent):
     def commit_file(
         self,
         identity: Identity,

@@ -11,6 +11,7 @@ from invenio_vocabularies.resources.serializer import (
 from invenio_vocabularies.services.schema import (
     VocabularyRelationSchema as VocabularyRelationSchema,
 )
+from marshmallow.fields import Field
 
 class VocabularyCF(BaseCF):
     field_keys: List[str]
@@ -34,3 +35,7 @@ class VocabularyCF(BaseCF):
         **kwargs: Any,
     ) -> None: ...
     def options(self, identity: Identity) -> Optional[List[Dict[str, Any]]]: ...
+    @property
+    def field(self) -> Field: ...
+    @property
+    def mapping(self) -> Any: ...

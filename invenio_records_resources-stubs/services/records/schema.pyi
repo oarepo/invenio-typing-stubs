@@ -12,7 +12,7 @@ from invenio_records_resources.records.api import (
 )
 from invenio_records_resources.services.base import Service
 
-class BaseRecordSchema:
+class BaseRecordSchema(ma.Schema):
     def clean(self, input_data: Dict[str, Any], **kwargs) -> Dict[str, Any]: ...
 
 class ServiceSchemaWrapper:

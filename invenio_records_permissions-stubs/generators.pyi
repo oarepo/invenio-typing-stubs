@@ -35,6 +35,8 @@ class ConditionalGenerator(Generator, metaclass=abc.ABCMeta):
     def __init__(
         self, then_: Sequence[Generator], else_: Sequence[Generator]
     ) -> None: ...
+    @staticmethod
+    def _make_query(generators: Sequence[Generator], **kwargs) -> dsl.query.Query: ...
 
 class IfConfig(ConditionalGenerator):
     accept_values: Sequence[Any]

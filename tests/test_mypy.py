@@ -1,3 +1,4 @@
+import shutil
 import subprocess
 import sys
 
@@ -21,6 +22,8 @@ import pytest
 )
 def test_mypy_for_each_package(pkg):
     """Run mypy for each package."""
+
+    shutil.rmtree(".mypy_cache", ignore_errors=True)
 
     subprocess.check_call(
         [

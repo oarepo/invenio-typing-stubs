@@ -59,8 +59,6 @@ class RequestsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     schema: type[_Schema]
     indexer_queue_name: str
     index_dumper: Any
-    links_item: Dict[str, Callable[..., Any]]
-    links_search: Dict[str, Callable[..., Any]]
     links_user_requests_search: Dict[str, Callable[..., Any]]
     action_link: Any
     payload_schema_cls: type

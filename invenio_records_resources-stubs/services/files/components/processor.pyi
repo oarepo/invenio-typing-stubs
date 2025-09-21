@@ -5,12 +5,15 @@ from invenio_records_resources.records.api import (
     FileRecord,
     Record,
 )
+from invenio_records_resources.services.files.components.base import (
+    FileServiceComponent,
+)
 
-class FileProcessorComponent:
+class FileProcessorComponent(FileServiceComponent):
     def commit_file(
         self,
         identity: Identity,
-        id: str,
+        id_: str,
         file_key: str,
         record: Record,
     ): ...

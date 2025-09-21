@@ -85,6 +85,17 @@ class RecordBulkList(ServiceBulkListResult):
     def results(self) -> Iterator[RecordBulkItem]: ...
 
 class RecordItem(ServiceItemResult):
+    _service: RecordService  # keep typing
+    _identity: Identity  # keep typing
+    _record: Record  # keep typing
+    _errors: Optional[List[Any]]  # keep typing
+    _links_tpl: Optional[LinksTemplate]  # keep typing
+    _schema: ServiceSchemaWrapper  # keep typing
+    _expandable_fields: Optional[List[ExpandableField]]  # keep typing
+    _expand: bool  # keep typing
+    _nested_links_item: Optional[List[Link]]  # keep typing
+    _data: Optional[Dict[str, Any]]  # keep typing
+
     def __getitem__(self, key: str) -> Any: ...
     def __init__(
         self,
@@ -112,6 +123,17 @@ class RecordItem(ServiceItemResult):
     def to_dict(self) -> Dict[str, Any]: ...
 
 class RecordList(ServiceListResult):
+    _expand: bool  # keep typing
+    _identity: Identity  # keep typing
+    _fields_resolver: Optional[FieldsResolver]  # keep typing
+    _schema: ServiceSchemaWrapper  # keep typing
+    _expandable_fields: Optional[List[ExpandableField]]  # keep typing
+    _links_tpl: Optional[LinksTemplate]  # keep typing
+    _links_item_tpl: Optional[LinksTemplate]  # keep typing
+    _nested_links_item: Optional[List[Link]]  # keep typing
+    _service: RecordService  # keep typing
+    _results: Any  # keep typing
+
     def __init__(
         self,
         service: RecordService,

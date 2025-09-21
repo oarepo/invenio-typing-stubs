@@ -9,8 +9,11 @@ from flask_principal import (
     Identity,
 )
 from invenio_records_resources.records.api import Record
+from invenio_records_resources.services.files.components.base import (
+    FileServiceComponent,
+)
 
-class FileMetadataComponent:
+class FileMetadataComponent(FileServiceComponent):
     def commit_file(
         self,
         identity: Identity,

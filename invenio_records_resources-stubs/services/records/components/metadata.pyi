@@ -11,8 +11,9 @@ from flask_principal import (
 from invenio_records_resources.records.api import (
     Record,
 )
+from invenio_records_resources.services.records.components.base import ServiceComponent
 
-class MetadataComponent:
+class MetadataComponent(ServiceComponent):
     def create(
         self,
         identity: Identity,

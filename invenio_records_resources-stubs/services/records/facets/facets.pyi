@@ -67,3 +67,27 @@ class NestedTermsFacet:
     def get_value_filter(
         self, parsed_value: Union[Tuple[str, List[Any]], Tuple[str, List[str]]]
     ) -> Any: ...
+
+class CFFacetMixin:
+    @classmethod
+    def field(cls, field: str) -> str: ...
+
+class CFTermsFacet(CFFacetMixin, TermsFacet):
+    def __init__(
+        self,
+        *,
+        field: str,
+        label: str | None = None,
+        value_labels: dict[str, str] | None = None,
+        **kwargs: Any,
+    ): ...
+
+class CFNestedTermsFacet(CFFacetMixin, NestedTermsFacet):
+    def __init__(
+        self,
+        *,
+        field: str,
+        label: str | None = None,
+        value_labels: dict[str, str] | None = None,
+        **kwargs: Any,
+    ): ...

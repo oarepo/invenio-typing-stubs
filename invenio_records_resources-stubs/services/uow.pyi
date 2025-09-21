@@ -9,11 +9,11 @@ from invenio_db.uow import Operation, UnitOfWork  # noqa
 from invenio_indexer.api import RecordIndexer
 from invenio_records_resources.records.api import FileRecord, Record
 
-class ChangeNotificationOp:
+class ChangeNotificationOp(Operation):
     def __init__(self, record_type: str, records: List[Record]): ...
     def on_post_commit(self, uow: UnitOfWork): ...
 
-class RecordBulkCommitOp:
+class RecordBulkCommitOp(Operation):
     def __init__(
         self,
         records: List[Record],
@@ -23,7 +23,7 @@ class RecordBulkCommitOp:
     def on_commit(self, uow: UnitOfWork): ...
     def on_register(self, uow: UnitOfWork): ...
 
-class RecordCommitOp:
+class RecordCommitOp(Operation):
     def __init__(
         self,
         record: Union[FileRecord, Record],
@@ -36,7 +36,7 @@ class RecordCommitOp:
 class RecordIndexOp(RecordCommitOp):
     def on_register(self, uow: UnitOfWork): ...
 
-class RecordDeleteOp:
+class RecordDeleteOp(Operation):
     def __init__(
         self,
         record: Record,
@@ -58,7 +58,7 @@ class IndexRefreshOp(Operation):
     def __init__(self, indexer: Any, index: Optional[str] = ..., **kwargs: Any): ...
     def on_post_commit(self, uow: UnitOfWork): ...
 
-class TaskOp:
+class TaskOp(Operation):
     def __init__(self, celery_task: Any, *args, **kwargs): ...
     def on_post_commit(self, uow: UnitOfWork): ...
     celery_kwargs: dict[str, Any]

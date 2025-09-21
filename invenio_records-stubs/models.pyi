@@ -7,6 +7,7 @@ from typing import (
 )
 from uuid import UUID
 
+from invenio_db import db
 from sqlalchemy.engine.base import Connection
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm.mapper import Mapper
@@ -20,7 +21,7 @@ def timestamp_before_update(
     mapper: Mapper, connection: Connection, target: RecordMetadata
 ) -> None: ...
 
-class RecordMetadataBase(Timestamp):
+class RecordMetadataBase(db.Model, Timestamp):
     encoder: Optional[Any]
     id: Mapped[UUID]
     json: Mapped[Optional[Dict[str, Any]]]

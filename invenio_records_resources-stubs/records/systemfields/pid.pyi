@@ -22,7 +22,8 @@ class PIDFieldContext[R: Record = Record](RelatedModelFieldContext[R]):
         with_deleted: bool = ...,
     ) -> R: ...
 
-class PIDField[R: Record = Record](RelatedModelField[R, PIDFieldContext[R]]):
+# strange, it says that PIDFieldContext[R] is not a subclass of RelatedModelFieldContext[Record] but is
+class PIDField[R: Record = Record](RelatedModelField[R, PIDFieldContext[R], R]):  # type: ignore[type-var]
     def __init__(
         self,
         key: str = ...,

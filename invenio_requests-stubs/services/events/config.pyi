@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List
+from typing import Any, Dict
 
 from invenio_records_permissions.policies.records import (
     RecordPermissionPolicy as RecordPermissionPolicy,
@@ -14,9 +14,7 @@ class RequestEventItem(RecordItem):
     @property
     def id(self) -> str: ...
 
-class RequestEventList(RecordList):
-    @property
-    def hits(self) -> List[Any]: ...
+class RequestEventList(RecordList): ...
 
 class RequestEventLink(Link):
     @staticmethod
@@ -27,8 +25,6 @@ class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     permission_policy_cls: type[RecordPermissionPolicy]
     schema: type[Schema]
     record_cls = RequestEvent
-    result_item_cls: type[RequestEventItem]
-    result_list_cls: type[RequestEventList]
+    result_item_cls: type[RequestEventItem]  # type: ignore[assignment]
+    result_list_cls: type[RequestEventList]  # type: ignore[assignment]
     indexer_queue_name: str
-    links_item: Dict[str, Callable[..., Any]]
-    links_search: Dict[str, Callable[..., Any]]

@@ -16,6 +16,7 @@ from flask_principal import (
 from invenio_db.uow import UnitOfWork
 from invenio_records_resources.records.api import Record
 from invenio_records_resources.services.base.links import LinksTemplate
+from invenio_records_resources.services.base.service import Service
 from invenio_records_resources.services.files.results import (
     FileItem,
     FileList,
@@ -23,7 +24,7 @@ from invenio_records_resources.services.files.results import (
 from invenio_records_resources.services.records.schema import ServiceSchemaWrapper
 from werkzeug.wsgi import LimitedStream
 
-class FileService:
+class FileService(Service):
     def _get_record(
         self,
         id_: str,

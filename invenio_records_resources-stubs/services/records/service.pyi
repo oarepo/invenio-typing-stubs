@@ -17,7 +17,11 @@ from invenio_records_resources.records.api import (
     Record,
 )
 from invenio_records_resources.services.base.links import LinksTemplate
-from invenio_records_resources.services.records.config import SearchOptions
+from invenio_records_resources.services.base.service import Service
+from invenio_records_resources.services.records.config import (
+    RecordServiceConfig,
+    SearchOptions,
+)
 from invenio_records_resources.services.records.results import (
     RecordBulkList,
     RecordItem,
@@ -35,7 +39,8 @@ class RecordIndexerMixin:
     def indexer(self) -> RecordIndexer: ...
     def record_to_index(self, record: Record) -> str: ...
 
-class RecordService:
+class RecordService(Service, RecordIndexerMixin):
+    config: RecordServiceConfig  # keep typing # type: ignore[assignment]
     def _create(
         self,
         record_cls: Type[Record],

@@ -1,13 +1,16 @@
 from typing import Any
 
-class ServiceItemResult:
+class ServiceResult:
+    pass
+
+class ServiceItemResult(ServiceResult):
     def __init__(self, *args: Any, **kwargs: Any) -> None: ...
 
-class ServiceListResult:
+class ServiceListResult(ServiceResult):
     def __init__(self, *args: Any, **kwargs: Any) -> None: ...
 
-class ServiceBulkItemResult:
+class ServiceBulkItemResult(ServiceResult):
     def __init__(self, *args: Any, **kwargs: Any) -> None: ...
 
-class ServiceBulkListResult:
+class ServiceBulkListResult(ServiceResult):
     def __init__(self, *args: Any, **kwargs: Any) -> None: ...

@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from typing import Any, Dict, Iterator, Optional, Self, Type
+from typing import Any, ClassVar, Dict, Iterator, Optional, Self, Type
 from uuid import UUID
 
 from invenio_files_rest.models import (  # type: ignore[import-untyped]
@@ -8,13 +8,17 @@ from invenio_files_rest.models import (  # type: ignore[import-untyped]
 )
 from invenio_records.api import Record as RecordBase
 from invenio_records.systemfields import SystemFieldsMixin
+from invenio_records_resources.records.systemfields import PIDField
 
 class Record(RecordBase, SystemFieldsMixin):
-    send_signals: bool
-    enable_jsonref: bool
-    model_cls: Optional[Type[Any]]
-    dumper: Any
-    metadata: Any
+    send_signals: ClassVar[bool]
+    enable_jsonref: ClassVar[bool]
+    model_cls: ClassVar[Optional[Type[Any]]]
+    dumper: ClassVar[Any]
+    metadata: ClassVar[Any]
+    pid: ClassVar[
+        PIDField
+    ]  # keep typing ; this is not present on the record but is used overall
 
 class File:
     object_model: Optional[ObjectVersion]

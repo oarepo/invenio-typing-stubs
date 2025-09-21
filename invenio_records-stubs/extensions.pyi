@@ -6,16 +6,18 @@ from typing import (
     Union,
 )
 
-from invenio_records.dumpers.search import SearchDumper
+from invenio_records.dumpers import Dumper
 
 class ExtensionMixin:
     def pre_load(
         self,
         data: Dict[str, Optional[Union[str, int]]],
-        loader: Optional[SearchDumper] = ...,
+        loader: Optional[Dumper] = ...,
     ): ...
 
-class RecordMeta:
+class RecordExtension(ExtensionMixin): ...
+
+class RecordMeta(type):
     @staticmethod
     def __new__(
         mcs: Type[RecordMeta],
