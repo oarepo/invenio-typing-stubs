@@ -1,8 +1,11 @@
 from typing import Optional
 
-
 class Pagination:
-    def __init__(self, size: int, page: int, max_results: int): ...
+    size: int
+    page: int
+    max_results: int
+
+    def __init__(self, size: int, page: int, max_results: int) -> None: ...
     @property
     def from_idx(self) -> int: ...
     @property

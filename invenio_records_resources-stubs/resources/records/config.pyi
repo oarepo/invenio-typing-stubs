@@ -1,5 +1,5 @@
 import marshmallow as ma
-from flask_resources import (
+from flask_resources import (  # type: ignore[import-untyped]
     RequestBodyParser,
     ResourceConfig,
     ResponseHandler,

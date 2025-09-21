@@ -6,7 +6,7 @@ from typing import (
 from flask_principal import (
     Identity,
 )
-from invenio_search.api import RecordsSearchV2
+from invenio_search.api import RecordsSearchV2  # type: ignore[import-untyped]
 
 class PaginationParam:
     def apply(

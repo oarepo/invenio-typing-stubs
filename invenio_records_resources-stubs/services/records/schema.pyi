@@ -1,7 +1,9 @@
 from typing import (
     Any,
     Dict,
+    List,
     Optional,
+    Tuple,
 )
 
 import marshmallow as ma
@@ -32,4 +34,4 @@ class ServiceSchemaWrapper:
         schema_args: None = ...,
         context: Optional[Dict[str, Any]] = ...,
         raise_errors: bool = ...,
-    ) -> Any: ...
+    ) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]: ...

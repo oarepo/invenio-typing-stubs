@@ -2,7 +2,7 @@ from contextlib import contextmanager
 from typing import Any, Dict, Iterator, Optional, Self, Type
 from uuid import UUID
 
-from invenio_files_rest.models import (
+from invenio_files_rest.models import (  # type: ignore[import-untyped]
     FileInstance,
     ObjectVersion,
 )

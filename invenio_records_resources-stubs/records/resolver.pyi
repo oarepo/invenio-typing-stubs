@@ -1,7 +1,7 @@
 import uuid
 from typing import Any, Callable, Optional
 
-from invenio_pidstore.models import PersistentIdentifier
+from invenio_pidstore.models import PersistentIdentifier  # type: ignore[import-untyped]
 from invenio_records.api import Record
 
 class UUIDResolver(object):

@@ -1,21 +1,14 @@
-from typing import (
-    Any,
-    Dict,
-    Type,
-)
+from typing import Any, Dict, Type
 
-from invenio_records_resources.records.api import (
-    FileRecord,
-    Record,
-)
+from invenio_records_resources.records.api import FileRecord
 
 class CustomFieldsDumperExt:
     def __init__(self, fields_var: str, key: str = ...): ...
-    def dump(self, record: None, data: Record): ...
-    def load(self, data: Record, record_cls: None): ...
+    def dump(self, record: Any, data: Dict[str, Any]) -> None: ...
+    def load(self, data: Dict[str, Any], record_cls: Type[Any]) -> None: ...
 
 class PartialFileDumper:
-    def dump(self, record: FileRecord, data: Dict[Any, Any]) -> Dict[str, Any]: ...
+    def dump(self, record: FileRecord, data: Dict[str, Any]) -> Dict[str, Any]: ...
     def load(
         self,
         data: Dict[str, Any],

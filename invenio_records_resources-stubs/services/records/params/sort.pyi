@@ -3,7 +3,7 @@ from typing import Any, Dict, List
 from flask_principal import (
     Identity,
 )
-from invenio_search.api import RecordsSearchV2
+from invenio_search.api import RecordsSearchV2  # type: ignore[import-untyped]
 
 class SortParam:
     def _compute_sort_fields(self, params: Dict[str, Any]) -> List[str]: ...

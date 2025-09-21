@@ -5,7 +5,7 @@ from flask_principal import (
 )
 from invenio_records_resources.services.records.config import SearchOptions
 from invenio_records_resources.services.records.facets.facets import TermsFacet
-from invenio_search.api import RecordsSearchV2
+from invenio_search.api import RecordsSearchV2  # type: ignore[import-untyped]
 
 class FacetsParam:
     def __init__(self, config: Type[SearchOptions]): ...

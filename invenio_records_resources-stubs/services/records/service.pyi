@@ -4,6 +4,7 @@ from typing import (
     Iterator,
     List,
     Optional,
+    Tuple,
     Type,
 )
 
@@ -11,23 +12,23 @@ from flask_principal import (
     Identity,
 )
 from invenio_db.uow import UnitOfWork
-from invenio_indexer.api import RecordIndexer
+from invenio_indexer.api import RecordIndexer  # type: ignore[import-untyped]
 from invenio_records_resources.records.api import (
     Record,
 )
 from invenio_records_resources.services.base.links import LinksTemplate
+from invenio_records_resources.services.records.config import SearchOptions
 from invenio_records_resources.services.records.results import (
     RecordBulkList,
     RecordItem,
     RecordList,
 )
 from invenio_records_resources.services.records.schema import ServiceSchemaWrapper
-from invenio_records_resources.services.search import SearchOptions
-from invenio_search.api import RecordsSearchV2
-from opensearch_dsl.query import (
+from invenio_search import RecordsSearchV2  # type: ignore[import-untyped]
+from opensearch_dsl.query import (  # type: ignore[import-untyped]
     Bool,
 )
-from opensearch_dsl.response import Response
+from opensearch_dsl.response import Response  # type: ignore[import-untyped]
 
 class RecordIndexerMixin:
     @property
@@ -87,7 +88,7 @@ class RecordService:
     def create_or_update_many(
         self,
         identity: Identity,
-        data: List[Any],
+        data: List[Tuple[str, Dict[str, Any]]],
         uow: Optional[UnitOfWork] = ...,
     ) -> RecordBulkList: ...
     def create_search(
@@ -106,7 +107,7 @@ class RecordService:
         id_: str,
         revision_id: Optional[int] = ...,
         uow: Optional[UnitOfWork] = ...,
-    ): ...
+    ) -> bool: ...
     @property
     def expandable_fields(self) -> List[Any]: ...
     @property
@@ -122,7 +123,7 @@ class RecordService:
     def read(
         self,
         identity: Identity,
-        id_: Optional[str],
+        id_: str,
         expand: bool = ...,
         action: str = ...,
     ) -> RecordItem: ...
@@ -148,11 +149,11 @@ class RecordService:
         search_query: Optional[Bool] = ...,
         extra_filter: None = ...,
         **kwargs,
-    ): ...
+    ) -> bool: ...
     def scan(
         self,
         identity: Identity,
-        params: None = ...,
+        params: Optional[Dict[str, Any]] = ...,
         search_preference: None = ...,
         expand: bool = ...,
         **kwargs,
@@ -162,7 +163,7 @@ class RecordService:
     def search(
         self,
         identity: Identity,
-        params: Optional[Any] = ...,
+        params: Optional[Dict[str, Any]] = ...,
         search_preference: Optional[str] = ...,
         expand: bool = ...,
         **kwargs,
@@ -187,3 +188,7 @@ class RecordService:
         uow: Optional[UnitOfWork] = ...,
         expand: bool = ...,
     ) -> RecordItem: ...
+    def exists(self, identity: Identity, id_: str) -> bool: ...
+    def rebuild_index(
+        self, identity: Identity, uow: Optional[UnitOfWork] = ...
+    ) -> bool: ...

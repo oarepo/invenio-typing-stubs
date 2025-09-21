@@ -4,7 +4,7 @@ from typing import (
     Optional,
 )
 
-from flask_resources import MultiDictSchema
+from flask_resources import MultiDictSchema  # type: ignore[import-untyped]
 from marshmallow import fields
 from werkzeug.datastructures.structures import ImmutableMultiDict
 

@@ -12,9 +12,11 @@
 from invenio_records_resources.resources.records.args import SearchRequestArgsSchema
 from invenio_records_resources.resources.records.config import RecordResourceConfig
 from invenio_records_resources.resources.records.resource import RecordResource
+from invenio_records_resources.resources.records.utils import search_preference
 
 __all__ = (
     "RecordResource",
     "RecordResourceConfig",
     "SearchRequestArgsSchema",
+    "search_preference",
 )

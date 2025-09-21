@@ -32,10 +32,7 @@ class EndpointLink:
         context: Dict[str, Any],
     ) -> bool: ...
     @staticmethod
-    def vars(
-        obj: Pagination,
-        vars: Dict[str, Any],
-    ): ...
+    def vars(obj: Any, vars: Dict[str, Any]) -> None: ...
 
 class ExternalLink:
     def __init__(
@@ -95,7 +92,7 @@ class NestedLinks:
         key: str | None = None,
         load_key: str | None = None,
         dump_key: str | None = None,
-        context_func: str | None = None,
+        context_func: Any | None = None,
     ): ...
     def context(
         self, identity: Identity, record: Record, key: str, value: Any

@@ -1,9 +1,6 @@
-from typing import (
-    Any,
-    Dict,
-    Optional,
-)
+from typing import Any, Dict, Optional
 
+# type: ignore[import-untyped]
 from invenio_pidstore.models import PIDStatus
 from invenio_records.systemfields import SystemField
 from invenio_records_resources.records.api import (
@@ -16,6 +13,7 @@ class PIDStatusCheckField[R: Record = Record](SystemField[R, bool]):
     ) -> None: ...
     def pre_dump(
         self,
+        record: R,
         data: Dict[Any, Any],
         **kwargs: Any,
     ) -> None: ...
