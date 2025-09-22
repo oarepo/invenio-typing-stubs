@@ -14,7 +14,7 @@ class FileMultipartContentComponent(FileServiceComponent):
     def set_multipart_file_content(
         self,
         identity: Identity,
-        id: str,
+        id_: str,
         file_key: str,
         part: int,
         stream: Union[LimitedStream, BytesIO],

@@ -17,6 +17,27 @@ class RecordTypeFactory:
     _schema_path_template: str
     _index_name_template: str
 
+    # Instance attributes set in constructor
+    record_type_name: str
+    record_name_lower: str
+    name_plural: str
+    pid_field_cls: Type[PIDField]
+    pid_field_kwargs: dict[str, Any]
+    schema_version: str
+    record_dumper: Optional[Any]
+    record_relations: Optional[Any]
+    schema_path: str
+    index_name: str
+    model_cls_attrs: dict[str, Any]
+    record_cls_attrs: dict[str, Any]
+    resource_cls_attrs: dict[str, Any]
+    endpoint_route: Optional[str]
+    service_id: Optional[str]
+    service_schema: Type[ma.Schema]
+    search_options: Type[SearchOptions]
+    service_components: Optional[list[Type[Any]]]
+    permission_policy_cls: Optional[Type[RecordPermissionPolicy]]
+
     # Constructor
     def __init__(
         self,

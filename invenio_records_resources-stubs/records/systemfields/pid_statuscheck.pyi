@@ -1,20 +1,17 @@
-from typing import Any, Dict, Optional
+from typing import Any, List, Union
 
-# type: ignore[import-untyped]
-from invenio_pidstore.models import PIDStatus
+from invenio_pidstore.models import PIDStatus  # type: ignore[import-untyped]
 from invenio_records.systemfields import SystemField
-from invenio_records_resources.records.api import (
-    Record,
-)
+from invenio_records_resources.records.api import Record
 
 class PIDStatusCheckField[R: Record = Record](SystemField[R, bool]):
+    _pid_status: List[PIDStatus]
+    _dump: bool
+
     def __init__(
-        self, key: str = ..., status: Optional[PIDStatus] = ..., dump: bool = ...
-    ) -> None: ...
-    def pre_dump(
         self,
-        record: R,
-        data: Dict[Any, Any],
-        **kwargs: Any,
+        key: str = ...,
+        status: Union[PIDStatus, List[PIDStatus], None] = ...,
+        dump: bool = ...,
     ) -> None: ...
-    def pre_load(self, data: Dict[str, Any], **kwargs: Any) -> None: ...
+    def pre_dump(self, record: Any, data: Any, **kwargs: Any) -> None: ...

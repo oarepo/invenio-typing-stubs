@@ -2,7 +2,6 @@ from typing import Any, Iterator, Optional
 
 from flask import Flask
 from invenio_records_permissions.policies import BasePermissionPolicy
-from invenio_records_resources.services.base.components import BaseServiceComponent
 from invenio_records_resources.services.base.results import (
     ServiceBulkItemResult,
     ServiceBulkListResult,
@@ -17,7 +16,7 @@ class ServiceConfig:
     result_list_cls: type[ServiceListResult]
     result_bulk_item_cls: type[ServiceBulkItemResult]
     result_bulk_list_cls: type[ServiceBulkListResult]
-    components: list[type[BaseServiceComponent]]
+    components: list[type]
 
 def _make_cls(cls: type, attrs: dict[str, Any]) -> type: ...
 

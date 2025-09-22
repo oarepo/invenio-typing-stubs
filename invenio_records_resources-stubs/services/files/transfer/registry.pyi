@@ -1,4 +1,17 @@
-from invenio_records_resources.services.files.transfer.base import Transfer
+from typing import Type, Union
+
+from invenio_records_resources.services.files.transfer.providers.fetch import (
+    FetchTransfer,
+)
+from invenio_records_resources.services.files.transfer.providers.local import (
+    LocalTransfer,
+)
+from invenio_records_resources.services.files.transfer.providers.multipart import (
+    MultipartTransfer,
+)
+from invenio_records_resources.services.files.transfer.providers.remote import (
+    RemoteTransfer,
+)
 
 class TransferRegistry:
     def __init__(self, default_transfer_type: str): ...
@@ -13,9 +26,19 @@ class TransferRegistry:
         transfer_type=...,
         file_record=...,
         uow=...,
-    ) -> Transfer: ...
-    def get_transfer_class(self, transfer_type: str) -> Transfer: ...
+    ) -> Union[MultipartTransfer, RemoteTransfer, LocalTransfer, FetchTransfer]: ...
+    def get_transfer_class(self, transfer_type: str) -> Union[
+        Type[RemoteTransfer],
+        Type[FetchTransfer],
+        Type[LocalTransfer],
+        Type[MultipartTransfer],
+    ]: ...
     def register(
         self,
-        transfer_cls: Transfer,
+        transfer_cls: Union[
+            Type[RemoteTransfer],
+            Type[FetchTransfer],
+            Type[LocalTransfer],
+            Type[MultipartTransfer],
+        ],
     ): ...

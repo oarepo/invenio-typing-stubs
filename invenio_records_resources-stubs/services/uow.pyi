@@ -5,7 +5,19 @@ from typing import (
     Union,
 )
 
-from invenio_db.uow import Operation, UnitOfWork  # noqa
+from invenio_db.uow import (
+    ModelCommitOp as ModelCommitOp,
+)
+from invenio_db.uow import (
+    ModelDeleteOp as ModelDeleteOp,
+)
+from invenio_db.uow import (
+    Operation,
+    UnitOfWork,
+)
+from invenio_db.uow import (
+    unit_of_work as unit_of_work,
+)
 from invenio_indexer.api import RecordIndexer
 from invenio_records_resources.records.api import FileRecord, Record
 

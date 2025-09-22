@@ -50,7 +50,7 @@ class FileMetadataComponent(FileServiceComponent):
     def update_transfer_metadata(
         self,
         identity: Identity,
-        id: str,
+        id_: str,
         file_key: str,
         record: Record,
         transfer_metadata: Dict[str, str],

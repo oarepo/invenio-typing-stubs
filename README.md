@@ -150,43 +150,93 @@ For unknown/missing types, please use _typeshed.Incomplete instead of Any, we wi
 ```
 
 ```text
-Let's have B=invenio_communities.
+Let's have B=invenio_records_resources.
 
-You are a python typing expert. In the $B-stubs directory contains
-automatically generated type stubs using stubgen and monkeytype.
+You are a python typing expert whose task is to make sure that typing information
+in stub files corresponds to the source code. Today you will be working on sources
+from the InvenioRDM project. The codebase uses python 3.13, so that syntax is allowed
+and preferred.
 
-inside the $B-stubs directory, there is file_list.txt, which contains
-files that have already been checked and must not be checked again.
+You are provided with two directories: ${B} which contains the source code and 
+${B}-stubs which contains type stubs for the source code. Your task is to exhaustively
+and methodically go through all files in the source code directory and check that
+the typing information in the corresponding stub file is correct. If not, please
+fix it.
 
-Systematically have a look at each file in the $B-stubs directory
-that is NOT in file_list.txt, and check the following issues:
+To do so, follow these steps:
 
-1. If you see Any to be used as a parameter type/return value type, 
-   please check it with the source code. If they can be more
-   specific, change them to the correct type. NEVER convert into
-   the "object" type.
+1. If there is no all_files.txt file in the ${B}-stubs directory, please create it
+   and add all python files in the source code directory (${B}) to it, one per line. You
+   will use this file to see which files are present in the source code directory.
 
-2. If there are any Incomplete types, please check with the source code
-   if they can be more specific. If they can be more specific, please change them to the correct type. You might also look at similarly named files/classes inside the -stubs directories for reference.
+2. If there is no file_list.txt file in the ${B}-stubs directory, please create it.
+   This file will contain the list of files that have already been checked and NEVER
+   must be checked again.
 
-3. If you find "record: Any" and you do not have a better type, 
-   please change it to invenio_records_resources.records.api.Record.
-   Please use similar transformation for records.api.*, such as request: Any,
-   community: Any
+3. Systematically have a look at each file in the all_files.txt file that is NOT in
+   file_list.txt, and compare it agains the corresponding file in the ${B}-stubs directory.:
+   If there is no corresponding file in the ${B}-stubs directory, please extract typing 
+   information from the source code and create a new stub file.
 
-4. Please also check each .pyi file with the corresponding .py file
-   in the source code, to see if there are any inconsistencies and
-   fix them.
+4. If there are any differences between the source code and the stub file, please
+   fix the stub file to correspond to the source code.
 
-5. Please use other -stubs files as it might contain similar classes/files with patterns to follow.
+During the process, please pay special attention to the following issues:
 
-After you have checked a file, please add its name to file_list.txt,
+0. IMPORTANT: think hard about each file. Gather as much context as possible because
+   sometimes the correct type is not obvious. Do not be rushed by the amount of work
+   or time constraints, we will do it in several passes if needed. It is better to
+   do it slowly and correctly than quickly and incorrectly.
+
+a. Try to avoid using Any. If possible, always use more specific types. 
+   NEVER use the "object" type. Also check the already generated code for Any
+   and try to make it more specific if possible.
+
+b. Words like "record", "request", "community" suggest that the type might be
+   invenio_records_resources.records.api.Record, invenio_requests.records.api.Request,
+   invenio_communities.communities.records.api.Community, respectively. Please check 
+   the source code to confirm.
+
+c. Please consult other -stubs files in the root directory of the project as they are
+   part of the same project and might give you hints about the correct types and the
+   typing conventions used in the project.
+
+d. You might see lines containing python comments with "keep typing" or "ignore typing".
+   These were hand crafted and you must NEVER change or remove these typings and comments.
+
+e. Some imports might have missing type stubs. This is expected, do not try to fix them
+   by using Any or _typeshed.Incomplete, just leave them as is. NEVER do
+   from x import X
+   X: Any
+
+f. Add typing for class properties as well. Always do it with typing.ClassVar[Type].
+
+g. For properties on class instances set within __init__ or other methods of the class,
+   please add them to the class definition as well, with the correct type. If you are not
+   sure what the correct type is, please use _typeshed.Incomplete instead of Any, we will 
+   deal with them later. Add private properties as well (those starting with _).
+
+h. If you see/generate complicated Union types, please simplify them if possible. For example,
+   if there is Union[A, B, None], please change it to Optional[Union[A, B]]. Also, if they
+   need similar types, simplify them even it is not strictly correct. For example, if there
+    is Union[dict[str, A, B, C, D, E, F] | dict[str, G, H]], try to find the base class and 
+    change it just to this. If unable, please change it to dict[str, Any].
+
+i. Always use absolute imports in stubs, NEVER generate relative imports.
+
+j. Do not add a method/property if it is already defined on a parent class.
+
+k. Please also run `.venv/bin/mypy --check-untyped-defs --ignore-missing-imports --follow-imports=silent file.pyi`
+   after each file to make sure that the stubs are ok.
+
+After you have processed a file, please add its name to file_list.txt,
 so that we do not check it again.
 
 If you need to run mypy or similar python programs, run them from venv,
 that is .venv/bin/mypy .
 
-For unknown/missing types, please use _typeshed.Incomplete instead of Any, we will deal with them later.
+For unknown/missing types, please use _typeshed.Incomplete instead of Any, we will 
+deal with them later.
 ```
 
 ### Manual checks

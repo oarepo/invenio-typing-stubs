@@ -64,8 +64,8 @@ class FileServiceComponent(BaseServiceComponent):
     ): ...
     def list_files(
         self,
-        identity: str,
-        id_: Identity,
+        identity: Identity,
+        id_: str,
         record: Record,
     ): ...
     def read_file_metadata(
