@@ -1,24 +1,34 @@
-from typing import Any, Dict, List, Optional
+from __future__ import annotations
 
-from flask_principal import Identity
+from functools import partial
+from typing import Optional
+
+from _typeshed import Incomplete
 from invenio_records_resources.services.records.queryparser.query import QueryParser
-from opensearch_dsl.query import MultiMatch  # type: ignore[import-untyped]
 
 class SuggestQueryParser(QueryParser):
     def __init__(
         self,
-        identity: Optional[Identity] = ...,
-        extra_params: Optional[Dict[str, List[str]]] = ...,
+        identity: Optional[Incomplete] = ...,
+        extra_params: Optional[dict[str, Incomplete]] = ...,
         **kwargs,
     ): ...
-    def parse(self, query_str: str) -> MultiMatch: ...
+    def parse(self, query_str: str) -> Incomplete: ...
 
 class CompositeSuggestQueryParser(QueryParser):
     def __init__(
         self,
-        identity: Optional[Identity] = None,
-        extra_params: Optional[Dict[str, List[str]]] = None,
-        clauses: Optional[List[Dict[str, Any]]] = None,
-        **kwargs: Any,
+        identity: Optional[Incomplete] = None,
+        extra_params: Optional[dict[str, Incomplete]] = None,
+        clauses: Optional[list[dict[str, Incomplete]]] = None,
+        **kwargs: Incomplete,
     ): ...
-    def extract_subtypes(self, query_str: str) -> tuple[Any, str]: ...
+    @classmethod
+    def factory(
+        cls,
+        tree_transformer_cls: Optional[type] = ...,
+        clauses: Optional[list[dict[str, Incomplete]]] = ...,
+        filter_field: Optional[str] = ...,
+        **extra_params,
+    ) -> partial: ...
+    def extract_subtypes(self, query_str: str) -> tuple[Incomplete, str]: ...

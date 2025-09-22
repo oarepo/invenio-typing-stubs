@@ -1,5 +1,4 @@
 from functools import cached_property
-from typing import Optional
 
 from flask.app import Flask
 from invenio_records_resources.registry import NotificationRegistry, ServiceRegistry
@@ -12,7 +11,7 @@ class InvenioRecordsResources:
     registry: ServiceRegistry
     notification_registry: NotificationRegistry
 
-    def __init__(self, app: Optional[Flask] = ...): ...
+    def __init__(self, app: Flask | None = ...): ...
     def init_app(self, app: Flask) -> None: ...
     def init_config(self, app: Flask) -> None: ...
     @cached_property

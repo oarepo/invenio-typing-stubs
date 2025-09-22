@@ -1,19 +1,20 @@
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, ClassVar, List, Optional, TypedDict
 
 from flask_principal import PermissionDenied
+from invenio_records_resources.records.api import Record
 from marshmallow import ValidationError
 
 class RecordPermissionDeniedError(PermissionDenied):
     """Record permission denied error."""
 
-    description: str
-    record: Any
+    description: ClassVar[str]
+    record: Optional[Record]
     action_name: Optional[str]
 
     def __init__(
         self,
         action_name: Optional[str] = ...,
-        record: Any = ...,
+        record: Optional[Record] = ...,
         *args: Any,
         **kwargs: Any,
     ) -> None: ...
@@ -42,9 +43,13 @@ class QuerystringValidationError(ValidationError):
 class ValidationErrorGroup(Exception):
     """Error containing multiple validation errors."""
 
-    errors: List[Dict[str, Union[str, List[str]]]]
+    class FieldValidationError(TypedDict):
+        field: str
+        messages: List[str]
 
-    def __init__(self, errors: List[Dict[str, Union[str, List[str]]]]) -> None: ...
+    errors: List[FieldValidationError]
+
+    def __init__(self, errors: List[FieldValidationError]) -> None: ...
 
 class TransferException(Exception):
     """File transfer exception."""
@@ -54,9 +59,9 @@ class TransferException(Exception):
 class FacetNotFoundError(Exception):
     """Facet not found exception."""
 
-    vocabulary_id: Any
+    vocabulary_id: str
 
-    def __init__(self, vocabulary_id: Any) -> None: ...
+    def __init__(self, vocabulary_id: str) -> None: ...
 
 class FileKeyNotFoundError(Exception):
     """Error denoting that a record doesn't have a certain file."""

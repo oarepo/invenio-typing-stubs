@@ -1,15 +1,9 @@
-from functools import partial
-from typing import (
-    Any,
-    List,
-    Optional,
-    Set,
-    Type,
-)
+from __future__ import annotations
 
-from flask_principal import (
-    Identity,
-)
+from functools import partial
+from typing import Optional
+
+from _typeshed import Incomplete
 from invenio_records_resources.services.records.queryparser.transformer import (
     SearchFieldTransformer,
 )
@@ -17,18 +11,18 @@ from invenio_records_resources.services.records.queryparser.transformer import (
 class QueryParser:
     def __init__(
         self,
-        identity: Optional[Identity] = ...,
-        extra_params: Optional[Any] = ...,
-        tree_transformer_cls: Optional[Type[SearchFieldTransformer]] = ...,
+        identity: Optional[Incomplete] = ...,
+        extra_params: Optional[dict[str, Incomplete]] = ...,
+        tree_transformer_cls: Optional[type[SearchFieldTransformer]] = ...,
     ): ...
     @property
-    def allow_list(self) -> Set[str]: ...
+    def allow_list(self) -> set[str]: ...
     @classmethod
     def factory(
         cls,
-        tree_transformer_cls: Optional[Type[SearchFieldTransformer]] = ...,
+        tree_transformer_cls: Optional[type[SearchFieldTransformer]] = ...,
         **extra_params,
     ) -> partial: ...
     @property
-    def fields(self) -> List[Any]: ...
-    def parse(self, query_str: str) -> Any: ...
+    def fields(self) -> list[str]: ...
+    def parse(self, query_str: str) -> Incomplete: ...

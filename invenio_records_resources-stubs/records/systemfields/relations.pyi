@@ -1,16 +1,20 @@
-from typing import Any, Optional
+from typing import Any, Optional, Union
 
+from invenio_pidstore.models import PersistentIdentifier  # type: ignore[import-untyped]
 from invenio_records.systemfields.relations import (
     ListRelation,
     NestedListRelation,
     RelationBase,
 )
 from invenio_records_resources.records.api import Record
+from invenio_records_resources.records.systemfields import PIDField
 
 class PIDRelation[R: Record = Record](RelationBase):
-    def __init__(self, *args: Any, pid_field: Any = ..., **kwargs: Any) -> None: ...
+    def __init__(
+        self, *args: Any, pid_field: Optional[PIDField[R]] = ..., **kwargs: Any
+    ) -> None: ...
     def resolve(self, id_: str) -> Optional[R]: ...
-    def parse_value(self, value: Any) -> str: ...
+    def parse_value(self, value: Union[str, PersistentIdentifier, R]) -> str: ...
 
 class PIDListRelation(ListRelation, PIDRelation):
     """PID list relation type."""

@@ -1,9 +1,16 @@
-from typing import (
-    Dict,
-    Union,
-)
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2020 CERN.
+#
+# Invenio-Records-Resources is free software; you can redistribute it and/or
+# modify it under the terms of the MIT License; see LICENSE file for more
+# details.
 
-from werkzeug.wsgi import LimitedStream
+"""Files request body parser."""
+
+from typing import IO
 
 class RequestStreamParser:
-    def parse(self) -> Dict[str, Union[LimitedStream, int]]: ...
+    """Parse the request body."""
+
+    def parse(self) -> dict[str, int | IO[bytes] | None]: ...

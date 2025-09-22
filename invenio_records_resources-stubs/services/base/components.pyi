@@ -1,13 +1,13 @@
-from typing import Any, Optional, Union
+from typing import Optional
 
-from invenio_records_resources.services.files.service import FileService
-from invenio_records_resources.services.records.service import RecordService
+from invenio_db.uow import UnitOfWork
+from invenio_records_resources.services.base.service import Service
 
 class BaseServiceComponent:
-    service: Union[RecordService, FileService]
-    _uow: Any
-    def __init__(self, service: Union[RecordService, FileService]): ...
+    service: Service
+    _uow: Optional[UnitOfWork]
+    def __init__(self, service: Service): ...
     @property
-    def uow(self) -> Any: ...
+    def uow(self) -> UnitOfWork: ...
     @uow.setter
-    def uow(self, value: Optional[Any]) -> None: ...
+    def uow(self, value: Optional[UnitOfWork]) -> None: ...

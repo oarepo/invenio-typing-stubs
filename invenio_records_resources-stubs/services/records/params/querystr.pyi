@@ -1,17 +1,14 @@
-from typing import (
-    Any,
-    Dict,
-)
+from __future__ import annotations
 
-from flask_principal import (
-    Identity,
-)
-from invenio_search.api import RecordsSearchV2  # type: ignore[import-untyped]
+from typing import Mapping
 
-class QueryStrParam:
+from _typeshed import Incomplete
+from invenio_records_resources.services.records.params.base import ParamInterpreter
+
+class QueryStrParam(ParamInterpreter):
     def apply(
         self,
-        identity: Identity,
-        search: RecordsSearchV2,
-        params: Dict[str, Any],
-    ) -> RecordsSearchV2: ...
+        identity: Incomplete,
+        search: Incomplete,
+        params: Mapping[str, Incomplete],
+    ) -> Incomplete: ...

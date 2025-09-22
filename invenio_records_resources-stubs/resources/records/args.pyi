@@ -1,24 +1,34 @@
-from typing import (
-    Any,
-    Dict,
-    Optional,
-)
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2020 CERN.
+# Copyright (C) 2020 Northwestern University.
+#
+# Invenio-Records-Resources is free software; you can redistribute it and/or
+# modify it under the terms of the MIT License; see LICENSE file for more
+# details.
 
-from flask_resources import MultiDictSchema  # type: ignore[import-untyped]
+"""Schemas for parameter parsing."""
+
+from typing import Any, ClassVar
+
+from flask_resources.parsers import MultiDictSchema
 from marshmallow import fields
-from werkzeug.datastructures.structures import ImmutableMultiDict
+from marshmallow.decorators import post_load
+from werkzeug.datastructures import ImmutableMultiDict
 
 class SearchRequestArgsSchema(MultiDictSchema):
+    """Request URL query string arguments."""
 
-    q: fields.String
-    suggest: fields.String
-    sort: fields.String
-    page: fields.Int
-    size: fields.Int
+    q: ClassVar[fields.String]
+    suggest: ClassVar[fields.String]
+    sort: ClassVar[fields.String]
+    page: ClassVar[fields.Int]
+    size: ClassVar[fields.Int]
 
+    @post_load(pass_original=True)
     def facets(
         self,
-        data: Dict[str, Any],
-        original_data: Optional[ImmutableMultiDict] = ...,
-        **kwargs,
-    ) -> Dict[str, Any]: ...
+        data: dict[str, Any],
+        original_data: ImmutableMultiDict[str, str] | None = None,
+        **kwargs: Any,
+    ) -> dict[str, Any]: ...

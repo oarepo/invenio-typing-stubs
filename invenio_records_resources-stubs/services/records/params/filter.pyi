@@ -1,5 +1,8 @@
-from typing import Any
+from __future__ import annotations
 
+from typing import Mapping
+
+from _typeshed import Incomplete
 from invenio_records_resources.services.records.params import (
     ParamInterpreter as ParamInterpreter,
 )
@@ -7,9 +10,13 @@ from invenio_records_resources.services.records.params import (
 class FilterParam(ParamInterpreter):
     param_name: str
     field_name: str
-    def __init__(self, param_name: str, field_name: str, config: Any) -> None: ...
+    def __init__(
+        self, param_name: str, field_name: str, config: Incomplete
+    ) -> None: ...
     @classmethod
     def factory(
         cls, param: str | None = None, field: str | None = None
-    ) -> type["FilterParam"]: ...
-    def apply(self, identity: Any, search: Any, params: dict[str, Any]) -> Any: ...
+    ) -> Incomplete: ...
+    def apply(
+        self, identity: Incomplete, search: Incomplete, params: Mapping[str, Incomplete]
+    ) -> Incomplete: ...

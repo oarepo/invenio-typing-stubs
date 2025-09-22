@@ -1,25 +1,25 @@
-from typing import Any, Dict, List
+from __future__ import annotations
 
-from flask_principal import (
-    Identity,
-)
-from invenio_search.api import RecordsSearchV2  # type: ignore[import-untyped]
+from typing import Mapping
 
-class SortParam:
-    def _compute_sort_fields(self, params: Dict[str, Any]) -> List[str]: ...
+from _typeshed import Incomplete
+from invenio_records_resources.services.records.params.base import ParamInterpreter
+
+class SortParam(ParamInterpreter):
+    def _compute_sort_fields(self, params: Mapping[str, Incomplete]) -> list[str]: ...
     def _default_sort(
         self,
-        params: Dict[str, Any],
-        options: Dict[str, Any],
+        params: Mapping[str, Incomplete],
+        options: Mapping[str, Incomplete],
     ) -> str: ...
     def _handle_empty_query(
         self,
-        params: Dict[str, Any],
-        options: Dict[str, Any],
+        params: Mapping[str, Incomplete],
+        options: Mapping[str, Incomplete],
     ) -> str: ...
     def apply(
         self,
-        identity: Identity,
-        search: RecordsSearchV2,
-        params: Dict[str, Any],
-    ) -> RecordsSearchV2: ...
+        identity: Incomplete,
+        search: Incomplete,
+        params: Mapping[str, Incomplete],
+    ) -> Incomplete: ...

@@ -1,14 +1,5 @@
-from io import (
-    BufferedReader,
-    BytesIO,
-)
-from typing import (
-    Any,
-    Dict,
-    Optional,
-    Type,
-    Union,
-)
+from io import BufferedReader, BytesIO
+from typing import Any
 
 from flask_principal import (
     Identity,
@@ -30,7 +21,7 @@ class FileService(Service):
         id_: str,
         identity: Identity,
         action: str,
-        file_key: Optional[str] = ...,
+        file_key: str | None = ...,
     ) -> Record: ...
     def check_permission(
         self, identity: Identity, action_name: str, **kwargs
@@ -40,24 +31,24 @@ class FileService(Service):
         identity: Identity,
         id_: str,
         file_key: str,
-        uow: Optional[UnitOfWork] = ...,
+        uow: UnitOfWork | None = ...,
     ) -> FileItem: ...
     def delete_all_files(
-        self, identity: Identity, id_: str, uow: Optional[UnitOfWork] = ...
+        self, identity: Identity, id_: str, uow: UnitOfWork | None = ...
     ) -> FileList: ...
     def delete_file(
         self,
         identity: Identity,
         id_: str,
         file_key: str,
-        uow: Optional[UnitOfWork] = ...,
+        uow: UnitOfWork | None = ...,
     ) -> FileItem: ...
     def extract_file_metadata(
         self,
         identity: Identity,
         id_: str,
         file_key: str,
-        uow: Optional[UnitOfWork] = ...,
+        uow: UnitOfWork | None = ...,
     ) -> FileItem: ...
     def file_links_item_tpl(self, id_: str) -> LinksTemplate: ...
     def file_links_list_tpl(self, id_: str) -> LinksTemplate: ...
@@ -70,13 +61,13 @@ class FileService(Service):
     ) -> FileItem: ...
     def get_transfer_metadata(
         self, identity: Identity, id_: str, file_key: str
-    ) -> Dict[str, str]: ...
+    ) -> dict[str, Any]: ...
     def init_files(
         self,
         identity: Identity,
         id_: str,
-        data: Any,
-        uow: Optional[UnitOfWork] = ...,
+        data: list[dict[str, Any]],
+        uow: UnitOfWork | None = ...,
     ) -> FileList: ...
     @property
     def initial_file_schema(self) -> ServiceSchemaWrapper: ...
@@ -85,15 +76,15 @@ class FileService(Service):
         self, identity: Identity, id_: str, file_key: str
     ) -> FileItem: ...
     @property
-    def record_cls(self) -> Type[Record]: ...
+    def record_cls(self) -> type[Record]: ...
     def set_file_content(
         self,
         identity: Identity,
         id_: str,
         file_key: str,
-        stream: Union[BytesIO, BufferedReader, LimitedStream],
-        content_length: Optional[int] = ...,
-        uow: Optional[UnitOfWork] = ...,
+        stream: BytesIO | BufferedReader | LimitedStream,
+        content_length: int | None = ...,
+        uow: UnitOfWork | None = ...,
     ) -> FileItem: ...
     def set_multipart_file_content(
         self,
@@ -101,23 +92,23 @@ class FileService(Service):
         id_: str,
         file_key: str,
         part: int,
-        stream: Union[BytesIO, LimitedStream],
-        content_length: Optional[int] = ...,
-        uow: Optional[UnitOfWork] = ...,
+        stream: BytesIO | LimitedStream,
+        content_length: int | None = ...,
+        uow: UnitOfWork | None = ...,
     ) -> FileItem: ...
     def update_file_metadata(
         self,
         identity: Identity,
         id_: str,
         file_key: str,
-        data: Dict[str, Dict[str, str]],
-        uow: Optional[UnitOfWork] = ...,
+        data: dict[str, Any],
+        uow: UnitOfWork | None = ...,
     ) -> FileItem: ...
     def update_transfer_metadata(
         self,
         identity: Identity,
         id_: str,
         file_key: str,
-        transfer_metadata: Dict[str, str],
-        uow: Optional[UnitOfWork] = ...,
-    ): ...
+        transfer_metadata: dict[str, Any],
+        uow: UnitOfWork | None = ...,
+    ) -> None: ...

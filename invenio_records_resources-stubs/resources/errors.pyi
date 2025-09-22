@@ -1,22 +1,19 @@
-from typing import Any, Callable, Dict, Type
+from typing import Callable
 
+from flask import Response
 from flask_resources import HTTPJSONException
-from opensearchpy.exceptions import RequestError
+from invenio_records_resources.services.errors import ValidationErrorGroup
+from marshmallow import ValidationError
 
-# Imported in implementation to build handlers; not referenced directly in stubs.
-# from invenio_records_resources.services.errors import (...)
-
-def create_pid_redirected_error_handler() -> Callable[[Exception], Any]: ...
+def create_pid_redirected_error_handler() -> Callable[[Exception], Response]: ...
 
 class HTTPJSONValidationException(HTTPJSONException):
-    description: str | None
-
-    def __init__(self, exception: Exception) -> None: ...
+    def __init__(self, exception: ValidationError | ValidationErrorGroup) -> None: ...
 
 class HTTPJSONSearchRequestError(HTTPJSONException):
-    causes_responses: Dict[str, tuple[int, str]]
+    causes_responses: dict[str, tuple[int, str]]
 
-    def __init__(self, error: RequestError) -> None: ...
+    def __init__(self, error: Exception) -> None: ...
 
 class ErrorHandlersMixin:
-    error_handlers: Dict[Type[BaseException], Callable[..., HTTPJSONException]]
+    error_handlers: dict[type[BaseException], Callable[[BaseException], Response]]

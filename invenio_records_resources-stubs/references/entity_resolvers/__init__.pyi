@@ -20,7 +20,7 @@ from invenio_records_resources.references.entity_resolvers.results import (
     ServiceResultResolver as ServiceResultResolver,
 )
 
-__all__ = [
+__all__ = (
     "EntityProxy",
     "EntityResolver",
     "RecordPKProxy",
@@ -28,4 +28,4 @@ __all__ = [
     "RecordResolver",
     "ServiceResultProxy",
     "ServiceResultResolver",
-]
+)

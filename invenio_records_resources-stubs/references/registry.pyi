@@ -2,6 +2,9 @@ import abc
 from abc import ABC, abstractmethod
 from typing import Any, Iterator
 
+from flask_principal import ItemNeed, Need
+from invenio_records_resources.references.entity_resolvers.base import EntityProxy
+
 class ResolverRegistryBase(ABC, metaclass=abc.ABCMeta):
     @classmethod
     @abstractmethod
@@ -9,7 +12,7 @@ class ResolverRegistryBase(ABC, metaclass=abc.ABCMeta):
     @classmethod
     def resolve_entity_proxy(
         cls, reference_dict: dict[str, Any], raise_: bool = ...
-    ) -> Any | None: ...
+    ) -> EntityProxy | None: ...
     @classmethod
     def resolve_entity(
         cls, reference_dict: dict[str, Any], raise_: bool = ...
@@ -17,7 +20,7 @@ class ResolverRegistryBase(ABC, metaclass=abc.ABCMeta):
     @classmethod
     def resolve_need(
         cls, reference_dict: dict[str, Any], raise_: bool = ..., ctx: Any | None = ...
-    ) -> Any | None: ...
+    ) -> list[Need | ItemNeed] | None: ...
     @classmethod
     def reference_entity(
         cls, entity: Any, raise_: bool = ...

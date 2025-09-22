@@ -9,4 +9,9 @@ from invenio_records_resources.references.registry import (
     ResolverRegistryBase as ResolverRegistryBase,
 )
 
-__all__ = ["EntityGrant", "EntityResolver", "RecordResolver", "ResolverRegistryBase"]
+__all__ = (
+    "EntityGrant",
+    "EntityResolver",
+    "RecordResolver",
+    "ResolverRegistryBase",
+)

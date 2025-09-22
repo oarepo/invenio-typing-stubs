@@ -1,24 +1,32 @@
 import uuid
-from typing import Any, Callable, Optional, Tuple, Union
+from typing import Callable
 
+from _typeshed import Incomplete
 from invenio_pidstore.models import PersistentIdentifier  # type: ignore[import-untyped]
-from invenio_records.api import Record
+from invenio_records_resources.records.api import (
+    PersistentIdentifierWrapper,
+    Record,
+)
 
 class UUIDResolver(object):
-    object_getter: Optional[Callable[[uuid.UUID], Any]]
+    object_getter: Callable[[uuid.UUID], Incomplete] | None
 
     def __init__(
-        self, getter: Optional[Callable[[uuid.UUID], Any]] = None, **kwargs: Any
+        self,
+        getter: Callable[[uuid.UUID], Incomplete] | None = None,
+        **kwargs: Incomplete,
     ) -> None: ...
     def resolve(
-        self, pid_value: Union[str, uuid.UUID]
-    ) -> Tuple[PersistentIdentifier, Any]: ...
+        self, pid_value: str | uuid.UUID
+    ) -> tuple[PersistentIdentifier, Incomplete]: ...
 
 class ModelResolver(object):
     _record_cls: type[Record]
     model_field_name: str
 
     def __init__(
-        self, record_cls: type[Record], model_field_name: str, **kwargs: Any
+        self, record_cls: type[Record], model_field_name: str, **kwargs: Incomplete
     ) -> None: ...
-    def resolve(self, pid_value: str) -> Tuple[Any, Record]: ...
+    def resolve(
+        self, pid_value: str
+    ) -> tuple[PersistentIdentifier | PersistentIdentifierWrapper, Record]: ...

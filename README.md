@@ -184,9 +184,10 @@ To do so, follow these steps:
 During the process, please pay special attention to the following issues:
 
 0. IMPORTANT: think hard about each file. Gather as much context as possible because
-   sometimes the correct type is not obvious. Do not be rushed by the amount of work
-   or time constraints, we will do it in several passes if needed. It is better to
-   do it slowly and correctly than quickly and incorrectly.
+   sometimes the correct type is not obvious. NEVER count on mypy that passing it means
+   that the stubs are correct. ALWAYS check the source code and think hard about it.
+   NEVER do stuff in batches to save time, we need to be thorough.
+   NEVER skip a file without inspecting the source!
 
 a. Try to avoid using Any. If possible, always use more specific types. 
    NEVER use the "object" type. Also check the already generated code for Any
@@ -228,6 +229,12 @@ j. Do not add a method/property if it is already defined on a parent class.
 
 k. Please also run `.venv/bin/mypy --check-untyped-defs --ignore-missing-imports --follow-imports=silent file.pyi`
    after each file to make sure that the stubs are ok.
+
+l. It seems that some tools can not see reexported symbols in __init__.py if they are 
+   correctly imported as from x import y as y. To work around this, please copy the
+   __all__ list from the original module into the stub.
+
+m. To add lines to file_list.txt, do not use bash & echo command, edit the file directly.
 
 After you have processed a file, please add its name to file_list.txt,
 so that we do not check it again.

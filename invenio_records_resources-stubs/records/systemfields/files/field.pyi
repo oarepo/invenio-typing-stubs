@@ -1,10 +1,4 @@
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    Optional,
-    Type,
-)
+from typing import Any, Callable, Type
 
 from invenio_records.systemfields import SystemField
 from invenio_records_resources.records.api import FileRecord, Record
@@ -13,6 +7,16 @@ from invenio_records_resources.records.api import FileRecord, Record
 from invenio_records_resources.records.systemfields.files.manager import FilesManager
 
 class FilesField[R: Record = Record](SystemField[R, FilesManager]):
+    _store: bool
+    _dump: bool
+    _dump_entries: bool | Callable[[R], bool]
+    _enabled: bool
+    _bucket_id_attr: str
+    _bucket_attr: str
+    _bucket_args: dict[str, Any]
+    _create: bool
+    _delete: bool
+    _file_cls: type[FileRecord] | None
     def __init__(
         self,
         key: str = ...,
@@ -20,25 +24,25 @@ class FilesField[R: Record = Record](SystemField[R, FilesManager]):
         bucket_attr: str = ...,
         store: bool = ...,
         dump: bool = ...,
-        dump_entries: Any = ...,
-        file_cls: Optional[Type[FileRecord]] = ...,
+        dump_entries: bool | Callable[[R], bool] = ...,
+        file_cls: Type[FileRecord] | None = ...,
         enabled: bool = ...,
-        bucket_args: Optional[Dict[str, Any] | Callable[..., Dict[str, Any]]] = ...,
+        bucket_args: dict[str, Any] | None = ...,
         create: bool = ...,
         delete: bool = ...,
     ): ...
     @property
-    def _manager_options(self) -> Dict[str, Any]: ...
+    def _manager_options(self) -> dict[str, Any]: ...
     def dump(
         self, record: R, files: FilesManager, include_entries: bool = ...
-    ) -> Dict[str, Any]: ...
+    ) -> dict[str, Any]: ...
     @property
-    def file_cls(self) -> Optional[Type[FileRecord]]: ...
+    def file_cls(self) -> Type[FileRecord] | None: ...
     def load(
         self,
         record: R,
-        data: Dict[str, Any],
+        data: dict[str, Any],
         from_dump: bool = ...,
     ) -> FilesManager: ...
-    def obj(self, record: R) -> Optional[FilesManager]: ...
+    def obj(self, record: R) -> FilesManager | None: ...
     def store(self, record: R, files: FilesManager): ...

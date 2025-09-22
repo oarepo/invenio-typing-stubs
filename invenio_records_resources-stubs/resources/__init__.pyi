@@ -9,5 +9,26 @@
 
 """Invenio Resources module to create REST APIs."""
 
-from invenio_records_resources.resources.files import *
-from invenio_records_resources.resources.records import *
+from invenio_records_resources.resources.files import (
+    FileResource as FileResource,
+)
+from invenio_records_resources.resources.files import (
+    FileResourceConfig as FileResourceConfig,
+)
+from invenio_records_resources.resources.records import (
+    RecordResource as RecordResource,
+)
+from invenio_records_resources.resources.records import (
+    RecordResourceConfig as RecordResourceConfig,
+)
+from invenio_records_resources.resources.records import (
+    SearchRequestArgsSchema as SearchRequestArgsSchema,
+)
+
+__all__ = (
+    "FileResourceConfig",
+    "FileResource",
+    "RecordResource",
+    "RecordResourceConfig",
+    "SearchRequestArgsSchema",
+)
