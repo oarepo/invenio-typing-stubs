@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Any, Callable, ClassVar
 
 from flask import Response
 from flask_resources import HTTPJSONException
@@ -11,9 +11,11 @@ class HTTPJSONValidationException(HTTPJSONException):
     def __init__(self, exception: ValidationError | ValidationErrorGroup) -> None: ...
 
 class HTTPJSONSearchRequestError(HTTPJSONException):
-    causes_responses: dict[str, tuple[int, str]]
+    causes_responses: ClassVar[dict[str, tuple[int, Any]]]
 
     def __init__(self, error: Exception) -> None: ...
 
 class ErrorHandlersMixin:
-    error_handlers: dict[type[BaseException], Callable[[BaseException], Response]]
+    error_handlers: ClassVar[
+        dict[type[BaseException], Callable[[BaseException], Response]]
+    ]

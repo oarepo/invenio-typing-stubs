@@ -10,10 +10,9 @@
 
 """Record type factory."""
 
-from typing import ClassVar
+from typing import Any, ClassVar
 
 import marshmallow as ma
-from _typeshed import Incomplete
 from invenio_records.dumpers import SearchDumper
 from invenio_records.models import RecordMetadataBase
 from invenio_records_permissions import RecordPermissionPolicy
@@ -24,6 +23,7 @@ from invenio_records_resources.resources import (
     RecordResourceConfig,
 )
 from invenio_records_resources.services import RecordService, RecordServiceConfig
+from invenio_records_resources.services.base.components import BaseServiceComponent
 from invenio_records_resources.services.records.config import SearchOptions
 
 class RecordTypeFactory:
@@ -45,20 +45,20 @@ class RecordTypeFactory:
     record_name_lower: str
     name_plural: str
     pid_field_cls: type[PIDField]
-    pid_field_kwargs: dict[str, Incomplete]
+    pid_field_kwargs: dict[str, Any]
     schema_version: str
     record_dumper: SearchDumper | None
-    record_relations: Incomplete | None
+    record_relations: Any
     schema_path: str
     index_name: str
-    model_cls_attrs: dict[str, Incomplete]
-    record_cls_attrs: dict[str, Incomplete]
-    resource_cls_attrs: dict[str, Incomplete]
+    model_cls_attrs: dict[str, Any]
+    record_cls_attrs: dict[str, Any]
+    resource_cls_attrs: dict[str, Any]
     endpoint_route: str | None
     service_id: str | None
     service_schema: type[ma.Schema]
     search_options: type[SearchOptions] | SearchOptions
-    service_components: list[type[Incomplete]] | None
+    service_components: list[type[BaseServiceComponent]] | None
     permission_policy_cls: type[RecordPermissionPolicy] | None
 
     # Constructor
@@ -69,17 +69,17 @@ class RecordTypeFactory:
         schema_version: str = "1.0.0",
         endpoint_route: str | None = None,
         record_dumper: SearchDumper | None = None,
-        record_relations: Incomplete | None = None,
+        record_relations: Any = None,
         schema_path: str | None = None,
         index_name: str | None = None,
         search_options: type[SearchOptions] | SearchOptions | None = None,
-        service_components: list[type[Incomplete]] | None = None,
+        service_components: list[type[BaseServiceComponent]] | None = None,
         permission_policy_cls: type[RecordPermissionPolicy] | None = None,
         pid_field_cls: type[PIDField] = PIDField,
-        pid_field_kwargs: dict[str, Incomplete] | None = None,
-        model_cls_attrs: dict[str, Incomplete] | None = None,
-        record_cls_attrs: dict[str, Incomplete] | None = None,
-        resource_cls_attrs: dict[str, Incomplete] | None = None,
+        pid_field_kwargs: dict[str, Any] | None = None,
+        model_cls_attrs: dict[str, Any] | None = None,
+        record_cls_attrs: dict[str, Any] | None = None,
+        resource_cls_attrs: dict[str, Any] | None = None,
         service_id: str | None = None,
     ) -> None: ...
 

@@ -92,3 +92,19 @@ class FileServiceComponent(BaseServiceComponent):
         record: Record,
         data: Dict[str, Dict[str, str]],
     ): ...
+    def get_file_transfer_metadata(
+        self,
+        identity: Identity,
+        id_: str,
+        file_key: str,
+        record: Record,
+        transfer_metadata: Dict[str, Any],
+    ): ...
+    def update_file_transfer_metadata(
+        self,
+        identity: Identity,
+        id_: str,
+        file_key: str,
+        record: Record,
+        transfer_metadata: Dict[str, Any],
+    ): ...

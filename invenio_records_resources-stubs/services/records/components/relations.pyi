@@ -13,14 +13,25 @@
 from typing import Any
 
 from flask_principal import Identity
+from invenio_db.uow import UnitOfWork
+from invenio_records_resources.records.api import Record
 from invenio_records_resources.services.records.components.base import ServiceComponent
 
 class RelationsComponent(ServiceComponent):
     """Relations service component."""
 
-    def read(self, identity: Identity, **kwargs: Any) -> None: ...
+    def read(
+        self, identity: Identity, record: Record | None = None, **kwargs: Any
+    ) -> None: ...
 
 class ChangeNotificationsComponent(ServiceComponent):
     """Back Relations service component."""
 
-    def update(self, identity: Identity, **kwargs: Any) -> None: ...
+    def update(
+        self,
+        identity: Identity,
+        data: dict[str, Any] | None = None,
+        record: Record | None = None,
+        uow: UnitOfWork | None = None,
+        **kwargs: Any,
+    ) -> None: ...

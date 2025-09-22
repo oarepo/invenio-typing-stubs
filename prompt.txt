@@ -4,9 +4,10 @@ the first one is original python file and the second one is the associated type 
 
 {file_list}
 
-Before making decision what the types should be, always consult {imported_files}
-(reread them as they might have changed).
-Use python3.13 syntax, for example do not use Generic[R].
+Before making decision what the types should be, ALWAYS read {imported_files}
+(reread them every time as they might have changed).
+Use python3.13 syntax. For Generics, use the new class X[A: B=C, ...] syntax,
+not the TypeVar and X(Generic[A]) syntax.
 
 At first, log the files you will be working on.
 
@@ -15,9 +16,10 @@ During the process, please pay special attention to the following issues:
 0. IMPORTANT: think hard about each file. Gather as much context as possible because
    sometimes the correct type is not obvious. NEVER count on mypy that passing it means
    that the stubs are correct. ALWAYS check the source code and think hard about it.
-   NEVER skip a file without inspecting the source! If you see that class inherits from 
+   NEVER skip a file without comparing the source! If you see that class inherits from 
    base classes, try to find the base classes in the -stubs directories in this project 
-   before working on the file.
+   before working on the file. ALWAYS compare the contents of the source file with
+   the stub to see if they match.
 
 1. If the pyi file does not exist, please create it.
 
@@ -58,15 +60,17 @@ During the process, please pay special attention to the following issues:
 
 11. Do not add a method/property if it is already defined on a parent class.
 
-12. Please also run `.venv/bin/mypy --check-untyped-defs --ignore-missing-imports --follow-imports=silent file.pyi`
-   after fixing the file to make sure that the stubs are ok.
+12. Please also run `.venv/bin/mypy --check-untyped-defs --ignore-missing-imports --follow-imports=silent --no-incremental --cache-dir=/dev/null file.pyi`
+   after fixing the file to make sure that the stubs are ok. The --no-incremental is IMPORTANT
+   as mypy has cache problems.
 
 13. It seems that some tools can not see reexported symbols in __init__.py if they are 
    correctly imported as from x import y as y. To work around this, please copy the
    __all__ list from the original module into the stub.
 
 If you need to run mypy or similar python programs, run them from venv,
-that is .venv/bin/mypy, .venv/bin/python and so on.
+that is .venv/bin/mypy, .venv/bin/python and so on. If the mypy fails with
+an internal error, remove the .mypy_cache and try again.
 
 After you are done with this task, do not ask if you should continue but  
 call .venv/bin/python agent_helper.py {package} to get more work.

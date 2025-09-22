@@ -1,34 +1,41 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
+from typing import Any
 
-from _typeshed import Incomplete
 from invenio_records_resources.services.records.queryparser.query import QueryParser
 
 class SuggestQueryParser(QueryParser):
+    """Query parser is useful for search-as-you-type/auto completion features."""
+
     def __init__(
         self,
-        identity: Optional[Incomplete] = ...,
-        extra_params: Optional[dict[str, Incomplete]] = ...,
-        **kwargs,
-    ): ...
-    def parse(self, query_str: str) -> Incomplete: ...
+        identity: Any | None = None,
+        extra_params: dict[str, Any] | None = None,
+        **kwargs: Any,
+    ) -> None: ...
+    def parse(self, query_str: str) -> Any: ...
 
 class CompositeSuggestQueryParser(QueryParser):
+    """Composite query parser for suggestion-style queries."""
+
+    filter_field: str | None
+    clauses: list[dict[str, Any]]
+
     def __init__(
         self,
-        identity: Optional[Incomplete] = None,
-        extra_params: Optional[dict[str, Incomplete]] = None,
-        clauses: Optional[list[dict[str, Incomplete]]] = None,
-        **kwargs: Incomplete,
-    ): ...
+        identity: Any | None = None,
+        extra_params: dict[str, Any] | None = None,
+        clauses: list[dict[str, Any]] | None = None,
+        **kwargs: Any,
+    ) -> None: ...
     @classmethod
-    def factory(
+    def factory(  # type: ignore[override]
         cls,
-        tree_transformer_cls: Optional[type] = ...,
-        clauses: Optional[list[dict[str, Incomplete]]] = ...,
-        filter_field: Optional[str] = ...,
-        **extra_params,
-    ) -> partial: ...
-    def extract_subtypes(self, query_str: str) -> tuple[Incomplete, str]: ...
+        tree_transformer_cls: type[Any] | None = None,
+        clauses: list[dict[str, Any]] | None = None,
+        filter_field: str | None = None,
+        **extra_params: Any,
+    ) -> partial[CompositeSuggestQueryParser]: ...
+    def parse(self, query_str: str) -> Any: ...
+    def extract_subtypes(self, query_str: str) -> tuple[list[str], str]: ...

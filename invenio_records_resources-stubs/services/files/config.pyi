@@ -1,44 +1,26 @@
-from typing import Any, Type
+from typing import Any, ClassVar, Optional, Type
 
-from invenio_records_resources.services.base import ServiceConfig as ServiceConfig
-from invenio_records_resources.services.files.components import (
-    FileContentComponent as FileContentComponent,
-)
-from invenio_records_resources.services.files.components import (
-    FileMetadataComponent as FileMetadataComponent,
-)
-from invenio_records_resources.services.files.components import (
-    FileMultipartContentComponent as FileMultipartContentComponent,
-)
-from invenio_records_resources.services.files.components import (
-    FileProcessorComponent as FileProcessorComponent,
-)
+from invenio_records_resources.services.base import ServiceConfig
 from invenio_records_resources.services.files.processors import (
     FileProcessor,
 )
-from invenio_records_resources.services.files.processors import (
-    ImageMetadataExtractor as ImageMetadataExtractor,
-)
-from invenio_records_resources.services.files.results import FileItem as FileItem
-from invenio_records_resources.services.files.results import FileList as FileList
-from invenio_records_resources.services.files.schema import FileSchema as FileSchema
+from invenio_records_resources.services.files.results import FileItem, FileList
+from invenio_records_resources.services.files.schema import FileSchema
 
 class FileServiceConfig(ServiceConfig):
-    service_id: str | None
-    record_cls: type[Any] | None
-    permission_action_prefix: str
+    record_cls: ClassVar[Optional[Type[Any]]]
+    permission_action_prefix: ClassVar[str]
 
-    file_result_item_cls: Type[FileItem]
-    file_result_list_cls: Type[FileList]
-    file_schema: Type[FileSchema]
+    file_result_item_cls: ClassVar[Type[FileItem]]
+    file_result_list_cls: ClassVar[Type[FileList]]
+    file_schema: ClassVar[Type[FileSchema]]
 
-    max_files_count: int
+    max_files_count: ClassVar[int]
 
-    file_links_list: dict[str, Any]
-    file_links_item: dict[str, Any]
+    file_links_list: ClassVar[dict[str, Any]]
+    file_links_item: ClassVar[dict[str, Any]]
 
-    allow_upload: bool
-    allow_archive_download: bool
+    allow_upload: ClassVar[bool]
+    allow_archive_download: ClassVar[bool]
 
-    components: list[type[Any]]
-    file_processors: list[FileProcessor]
+    file_processors: ClassVar[list[FileProcessor]]

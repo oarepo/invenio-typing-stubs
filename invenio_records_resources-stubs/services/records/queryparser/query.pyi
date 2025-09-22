@@ -1,28 +1,32 @@
 from __future__ import annotations
 
 from functools import partial
-from typing import Optional
-
-from _typeshed import Incomplete
-from invenio_records_resources.services.records.queryparser.transformer import (
-    SearchFieldTransformer,
-)
+from typing import Any
 
 class QueryParser:
+    """Parse a query string into a search engine DSL Q object."""
+
+    identity: Any | None
+    tree_transformer_cls: type[Any] | None
+    extra_params: dict[str, Any]
+    mapping: dict[str, str]
+    _allow_list: list[str] | None
+    _fields: list[str]
+
     def __init__(
         self,
-        identity: Optional[Incomplete] = ...,
-        extra_params: Optional[dict[str, Incomplete]] = ...,
-        tree_transformer_cls: Optional[type[SearchFieldTransformer]] = ...,
-    ): ...
+        identity: Any | None = None,
+        extra_params: dict[str, Any] | None = None,
+        tree_transformer_cls: type[Any] | None = None,
+    ) -> None: ...
     @property
     def allow_list(self) -> set[str]: ...
+    @property
+    def fields(self) -> list[str]: ...
     @classmethod
     def factory(
         cls,
-        tree_transformer_cls: Optional[type[SearchFieldTransformer]] = ...,
-        **extra_params,
-    ) -> partial: ...
-    @property
-    def fields(self) -> list[str]: ...
-    def parse(self, query_str: str) -> Incomplete: ...
+        tree_transformer_cls: type[Any] | None = None,
+        **extra_params: Any,
+    ) -> partial[QueryParser]: ...
+    def parse(self, query_str: str) -> Any: ...

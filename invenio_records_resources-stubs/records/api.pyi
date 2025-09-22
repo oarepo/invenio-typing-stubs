@@ -1,8 +1,7 @@
 from contextlib import contextmanager
-from typing import IO, ClassVar, Generator, Mapping, Self, Type, TypedDict
+from typing import IO, Any, ClassVar, Generator, Mapping, Self, TypedDict
 from uuid import UUID
 
-from _typeshed import Incomplete
 from invenio_files_rest.models import (  # type: ignore[import-untyped]
     FileInstance,
     ObjectVersion,
@@ -18,7 +17,7 @@ from invenio_records_resources.records.transfer import TransferField
 class Record(RecordBase, SystemFieldsMixin):
     send_signals: ClassVar[bool]
     enable_jsonref: ClassVar[bool]
-    model_cls: ClassVar[Type[RecordMetadataBase] | None]
+    model_cls: ClassVar[type[RecordMetadataBase] | None]
     dumper: ClassVar[SearchDumper]
     metadata: ClassVar[DictField]
     pid: ClassVar[
@@ -39,10 +38,10 @@ class FileAccess:
     def hidden(self, value: bool) -> None: ...
 
 class FileAccessField(SystemField["FileRecord", FileAccess]):
-    _access_obj_class: Type[FileAccess]
+    _access_obj_class: type[FileAccess]
 
     def __init__(
-        self, key: str | None = ..., access_obj_class: Type[FileAccess] = ...
+        self, key: str | None = ..., access_obj_class: type[FileAccess] = ...
     ) -> None: ...
     def __set__(
         self, record: "FileRecord", obj: dict[str, bool] | FileAccess
@@ -56,8 +55,8 @@ class FileAccessField(SystemField["FileRecord", FileAccess]):
 class FileRecord(RecordBase, SystemFieldsMixin):
     send_signals: ClassVar[bool]
     enable_jsonref: ClassVar[bool]
-    model_cls: ClassVar[Type[RecordMetadataBase] | None]
-    record_cls: ClassVar[Type["Record"] | None]
+    model_cls: ClassVar[type[RecordMetadataBase] | None]
+    record_cls: ClassVar[type["Record"] | None]
     dumper: ClassVar[SearchDumper]
     metadata: ClassVar[DictField]
     access: ClassVar[FileAccessField]
@@ -88,7 +87,7 @@ class File:
     object_model: ObjectVersion | None
     file_model: FileInstance | None
 
-    def __getattr__(self, name: str) -> Incomplete: ...
+    def __getattr__(self, name: str) -> Any: ...
     def __init__(
         self,
         object_model: ObjectVersion | None = ...,
@@ -107,7 +106,7 @@ class File:
     @property
     def ext(self) -> str | None: ...
     @classmethod
-    def from_dump(cls, data: Mapping[str, Incomplete]) -> Self: ...
+    def from_dump(cls, data: Mapping[str, Any]) -> Self: ...
     @property
     def key(self) -> str: ...
     @property

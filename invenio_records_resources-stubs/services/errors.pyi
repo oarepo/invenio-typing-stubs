@@ -83,4 +83,7 @@ class FailedFileUploadException(Exception):
 class FilesCountExceededException(Exception):
     """Files count is exceeding the max allowed exception."""
 
+    max_files: int
+    resulting_files_count: int
+
     def __init__(self, max_files: int, resulting_files_count: int) -> None: ...
