@@ -1,38 +1,45 @@
-from _typeshed import Incomplete
-from marshmallow import EXCLUDE, Schema, pre_dump, pre_load
+from typing import Any, ClassVar
+
+from marshmallow import EXCLUDE, Schema, fields, pre_dump, pre_load
 
 class ResourceSchema(Schema):
-    type: Incomplete
-    id: Incomplete
+    type: ClassVar[fields.Str]
+    id: ClassVar[fields.Str]
 
 class MetadataSchema(Schema):
     class Meta:
         unknown = EXCLUDE
-    ip_address: Incomplete
-    session: Incomplete
-    request_id: Incomplete
-    parent_pid: Incomplete
-    revision_id: Incomplete
+
+    ip_address: ClassVar[fields.Str]
+    session: ClassVar[fields.Str]
+    request_id: ClassVar[fields.Str]
+    parent_pid: ClassVar[fields.Str]
+    revision_id: ClassVar[fields.Int]
 
 class UserSchema(Schema):
     class Meta:
         unknown = EXCLUDE
-    id: Incomplete
-    username: Incomplete
-    email: Incomplete
+
+    id: ClassVar[fields.Str]
+    username: ClassVar[fields.Str]
+    email: ClassVar[fields.Email]
+
     @pre_load
-    def serialize_user(self, obj, **kwargs): ...
+    def serialize_user(self, obj: Any, **kwargs: Any) -> dict[str, Any]: ...
 
 class AuditLogSchema(Schema):
     class Meta:
         unknown = EXCLUDE
-    id: Incomplete
-    created: Incomplete
-    action: Incomplete
-    resource: Incomplete
-    metadata: Incomplete
-    user: Incomplete
-    user_id: Incomplete
-    resource_type: Incomplete
+
+    id: ClassVar[fields.Str]
+    created: ClassVar[fields.DateTime]
+    action: ClassVar[fields.Str]
+    resource: ClassVar[fields.Nested]
+    metadata: ClassVar[fields.Nested]
+    user: ClassVar[fields.Nested]
+    # Load-only fields for DB insert
+    user_id: ClassVar[fields.Str]
+    resource_type: ClassVar[fields.Str]
+
     @pre_dump
-    def add_timestamp(self, obj, **kwargs): ...
+    def add_timestamp(self, obj: Any, **kwargs: Any) -> Any: ...

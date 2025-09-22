@@ -1,5 +1,8 @@
-from _typeshed import Incomplete
+from typing import Any, Dict
 
-current_audit_logs_service: Incomplete
-current_audit_logs_actions_registry: Incomplete
-current_audit_logs_resolvers: Incomplete
+from invenio_audit_logs.services import AuditLogService
+from werkzeug.local import LocalProxy
+
+current_audit_logs_service: LocalProxy[AuditLogService]
+current_audit_logs_actions_registry: LocalProxy[Dict[str, Any]]
+current_audit_logs_resolvers: LocalProxy[Any]

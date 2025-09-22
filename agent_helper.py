@@ -4,13 +4,23 @@ from pathlib import Path
 
 def get_file_list(package):
     pkg = __import__(package, fromlist=[""])
-    pkg_path = Path(pkg.__path__[0])
-    file_list = []
-    for p in pkg_path.rglob("*.py"):
-        file_list.append(str(p.relative_to(pkg_path)))
-    # sort file list to keep the files in packages together
-    file_list.sort(key=lambda x: (x.count("/"), x))
-    return pkg_path.relative_to(Path.cwd()), file_list
+    # Handle both packages (with __path__) and single-file modules (with __file__ only)
+    if hasattr(pkg, "__path__"):
+        pkg_path = Path(pkg.__path__[0])
+        file_list = []
+        for p in pkg_path.rglob("*.py"):
+            if "alembic" in p.parts:
+                continue
+            file_list.append(str(p.relative_to(pkg_path)))
+        # sort file list to keep the files in packages together
+        file_list.sort(key=lambda x: (x.count("/"), x))
+        return pkg_path.relative_to(Path.cwd()), file_list
+    else:
+        # Single-file module; emulate a one-file "package"
+        pkg_file = Path(pkg.__file__)
+        pkg_path = pkg_file.parent
+        file_list = [pkg_file.name]
+        return pkg_path.relative_to(Path.cwd()), file_list
 
 
 def stubs_path(package):

@@ -1,5 +1,5 @@
-from _typeshed import Incomplete
+from flask import Blueprint, Flask
 
-blueprint: Incomplete
+blueprint: Blueprint
 
-def create_audit_logs_blueprint(app): ...
+def create_audit_logs_blueprint(app: Flask) -> Blueprint: ...
