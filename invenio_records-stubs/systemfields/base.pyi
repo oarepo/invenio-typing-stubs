@@ -10,7 +10,6 @@ from typing import (
 from invenio_records.api import Record
 from invenio_records.dumpers.search import SearchDumper
 from invenio_records.extensions import ExtensionMixin, RecordExtension, RecordMeta
-from invenio_records.systemfields.relatedmodelfield import RelatedModelField
 
 from oarepo_typing.descriptors import Descriptor
 
@@ -35,7 +34,7 @@ class SystemFieldsMixin(metaclass=SystemFieldsMeta):
 
 class SystemFieldContext:
     @property
-    def field(self) -> RelatedModelField: ...
+    def field(self) -> SystemField: ...
 
 class SystemFieldsExt(RecordExtension):
     def __init__(self, declared_fields: Dict[str, SystemField]): ...
