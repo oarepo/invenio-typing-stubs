@@ -1,50 +1,66 @@
-from typing import Generator
+from datetime import timedelta
+from typing import ClassVar, Generator
+from uuid import UUID
 
-from _typeshed import Incomplete
-from invenio_drafts_resources.records.systemfields import ParentField as ParentField
-from invenio_drafts_resources.records.systemfields import VersionsField as VersionsField
+from invenio_drafts_resources.records.systemfields import (
+    ParentField as ParentField,
+)
+from invenio_drafts_resources.records.systemfields import (
+    VersionsField as VersionsField,
+)
+from invenio_pidstore.models import PIDStatus
 from invenio_pidstore.providers.recordid_v2 import RecordIdProviderV2
+from invenio_records.models import RecordMetadataBase
+from invenio_records.systemfields import ModelField
 from invenio_records_resources.records import Record as RecordBase
+from invenio_records_resources.records.systemfields import (
+    PIDField,
+    PIDStatusCheckField,
+)
 
 class DraftRecordIdProviderV2(RecordIdProviderV2):
-    default_status_with_obj: Incomplete
+    default_status_with_obj: ClassVar[PIDStatus]
 
 class ParentRecord(RecordBase):
-    model_cls: Incomplete
-    pid: Incomplete
+    model_cls: ClassVar[type[RecordMetadataBase] | None]
+    pid: ClassVar[PIDField]
 
 class Record(RecordBase):
-    is_draft: bool
-    model_cls: Incomplete
-    versions_model_cls: Incomplete
-    parent_record_cls: Incomplete
-    pid: Incomplete
-    is_published: Incomplete
-    parent: Incomplete
-    versions: Incomplete
+    is_draft: ClassVar[bool]
+    model_cls: ClassVar[type[RecordMetadataBase] | None]
+    versions_model_cls: ClassVar[type | None]
+    parent_record_cls: ClassVar[type["ParentRecord"] | None]
+    pid: ClassVar[PIDField]
+    is_published: ClassVar[PIDStatusCheckField]
+    parent: ClassVar[ParentField]
+    versions: ClassVar[VersionsField]
+
     @classmethod
     def get_records_by_parent(
-        cls, parent, with_deleted: bool = True, ids_only: bool = False
-    ) -> Generator[Record, None, None]: ...
+        cls, parent: "ParentRecord", with_deleted: bool = ..., ids_only: bool = ...
+    ) -> Generator["Record", None, None] | Generator[UUID, None, None]: ...
     @classmethod
-    def get_latest_by_parent(cls, parent, id_only: bool = False) -> Record | None: ...
+    def get_latest_by_parent(
+        cls, parent: "ParentRecord", id_only: bool = ...
+    ) -> "Record" | UUID | None: ...
     @classmethod
-    def publish(cls, draft): ...
+    def publish(cls, draft: "Draft") -> "Record": ...
     def register(self) -> None: ...
 
 class Draft(Record):
-    is_draft: bool
-    model_cls: Incomplete
-    versions_model_cls: Incomplete
-    parent_record_cls: Incomplete
-    pid: Incomplete
-    parent: Incomplete
-    versions: Incomplete
-    expires_at: Incomplete
-    fork_version_id: Incomplete
+    is_draft: ClassVar[bool]
+    model_cls: ClassVar[type[RecordMetadataBase] | None]
+    versions_model_cls: ClassVar[type | None]
+    parent_record_cls: ClassVar[type["ParentRecord"] | None]
+    pid: ClassVar[PIDField]
+    parent: ClassVar[ParentField]
+    versions: ClassVar[VersionsField]
+    expires_at: ClassVar[ModelField]
+    fork_version_id: ClassVar[ModelField]
+
     @classmethod
-    def new_version(cls, record): ...
+    def new_version(cls, record: "Record") -> "Draft": ...
     @classmethod
-    def edit(cls, record): ...
+    def edit(cls, record: "Record") -> "Draft": ...
     @classmethod
-    def cleanup_drafts(cls, td, search_gc_deletes: int = 60) -> None: ...
+    def cleanup_drafts(cls, td: timedelta, search_gc_deletes: int = ...) -> None: ...

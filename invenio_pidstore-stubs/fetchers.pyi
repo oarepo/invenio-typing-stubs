@@ -9,7 +9,7 @@ from typing import Any, Dict, NamedTuple
 class FetchedPID(NamedTuple):
     """A pid fetcher."""
 
-    provider: Any
+    provider: type[Any]
     pid_type: str
     pid_value: str
 

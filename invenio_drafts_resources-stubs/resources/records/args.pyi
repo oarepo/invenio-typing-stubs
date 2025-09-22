@@ -1,6 +1,8 @@
-from _typeshed import Incomplete
-from invenio_records_resources.resources.records.args import SearchRequestArgsSchema as SearchRequestArgsSchemaBase
+from invenio_records_resources.resources.records.args import (
+    SearchRequestArgsSchema as SearchRequestArgsSchemaBase,
+)
+from marshmallow import fields
 
 class SearchRequestArgsSchema(SearchRequestArgsSchemaBase):
-    allversions: Incomplete
-    include_deleted: Incomplete
+    allversions: fields.Boolean
+    include_deleted: fields.Boolean

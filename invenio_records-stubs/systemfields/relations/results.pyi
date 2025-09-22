@@ -1,17 +1,8 @@
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    Iterator,
-    List,
-    Optional,
-)
+from typing import Any, Callable, Dict, Iterator, List, Optional
 
-from invenio_records.api import Record
-
-class RelationResult[R: Record = Record]:
+class RelationResult:
     field: Any
-    record: R
+    record: Any
 
     def __init__(self, field: Any, record: Any) -> None: ...
     def __call__(self, force: bool = ...) -> Any: ...
@@ -35,7 +26,7 @@ class RelationResult[R: Record = Record]:
     ) -> Any: ...
     def validate(self) -> None: ...
 
-class RelationListResult[R: Record = Record](RelationResult[R]):
+class RelationListResult(RelationResult):
     def __call__(self, force: bool = ...) -> Optional[Iterator[Any]]: ...
     def _apply_items(
         self,
@@ -44,5 +35,5 @@ class RelationListResult[R: Record = Record](RelationResult[R]):
         attrs: Optional[List[str]] = ...,
     ) -> List[Any]: ...
 
-class RelationNestedListResult[R: Record = Record](RelationListResult[R]):
+class RelationNestedListResult(RelationListResult):
     def __call__(self, force: bool = ...) -> Optional[Any]: ...

@@ -1,20 +1,5 @@
-from typing import (
-    Any,
-    Dict,
-    List,
-    Union,
-)
+from typing import Any
 
-from invenio_records.api import Record
-
-class Dumper[R: Record = Record]:
-    def dump(self, record: R, data: Dict[Any, Any]) -> Dict[
-        str,
-        Union[
-            Dict[str, str],
-            str,
-            Dict[str, Union[str, Dict[str, Dict[str, str]], List[str]]],
-            Dict[str, Dict[str, str]],
-            List[str],
-        ],
-    ]: ...
+class Dumper:
+    def dump(self, record: Any, data: dict[str, Any]) -> dict[str, Any]: ...
+    def load(self, data: dict[str, Any], record_cls: type) -> Any: ...

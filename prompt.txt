@@ -68,6 +68,9 @@ During the process, please pay special attention to the following issues:
    correctly imported as from x import y as y. To work around this, please copy the
    __all__ list from the original module into the stub.
 
+14. You might encounter issues with validating db.Model. These are to be expected,
+   make sure that you keep that in pyi if it is used in source code.
+
 If you need to run mypy or similar python programs, run them from venv,
 that is .venv/bin/mypy, .venv/bin/python and so on. If the mypy fails with
 an internal error, remove the .mypy_cache and try again.

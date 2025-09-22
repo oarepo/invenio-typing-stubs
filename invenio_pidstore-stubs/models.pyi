@@ -3,16 +3,18 @@
 Type stubs for invenio_pidstore.models.
 """
 
+import logging
 import uuid
 from enum import Enum
 from typing import ClassVar, Optional, Union
 
+from flask_babel import LazyString
 from invenio_db import db
 from sqlalchemy import Column, Index
 from sqlalchemy_utils.models import Timestamp
 
-PID_STATUS_TITLES: dict[str, str]
-logger: object
+PID_STATUS_TITLES: dict[str, LazyString]
+logger: logging.Logger
 
 class PIDStatus(Enum):
     """Constants for possible status of any given PID."""
@@ -116,4 +118,9 @@ class RecordIdentifier(db.Model):
     @classmethod
     def insert(cls, val: int) -> None: ...
 
-__all__: tuple[str, ...]
+__all__ = (
+    "PersistentIdentifier",
+    "PIDStatus",
+    "RecordIdentifier",
+    "Redirect",
+)

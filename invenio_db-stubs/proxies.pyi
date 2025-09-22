@@ -1,3 +1,4 @@
-from invenio_db.ext import InvenioDB
+from invenio_db.shared import SQLAlchemy
+from werkzeug.local import LocalProxy
 
-current_db: InvenioDB
+current_db: LocalProxy[SQLAlchemy]

@@ -1,8 +1,7 @@
 from typing import Optional
 
 from flask import Flask
-
-from . import config as config
+from invenio_records_permissions import config as config
 
 class InvenioRecordsPermissions:
     def __init__(self, app: Optional[Flask] = None) -> None: ...

@@ -3,11 +3,14 @@
 Type stubs for invenio_pidstore.cli.
 """
 
-from typing import Any, Optional
+from typing import Optional
 
 import click
+from invenio_pidstore.models import PIDStatus as PIDStatus
 
-def process_status(ctx: Any, param: Any, value: Optional[str]) -> Any: ...
+def process_status(
+    ctx: click.Context, param: click.Parameter, value: Optional[str]
+) -> Optional[PIDStatus]: ...
 @click.group()
 def pid() -> None: ...
 @pid.command()
@@ -19,7 +22,7 @@ def pid() -> None: ...
 def create(
     pid_type: str,
     pid_value: str,
-    status: Any,
+    status: PIDStatus,
     object_type: Optional[str],
     object_uuid: Optional[str],
 ) -> None: ...
@@ -33,7 +36,7 @@ def create(
 def assign(
     pid_type: str,
     pid_value: str,
-    status: Any,
+    status: Optional[PIDStatus],
     object_type: str,
     object_uuid: str,
     overwrite: bool,
@@ -53,5 +56,5 @@ def get_object(pid_type: str, pid_value: str) -> None: ...
 def dereference_object(
     object_type: str,
     object_uuid: str,
-    status: Optional[Any],
+    status: Optional[PIDStatus],
 ) -> None: ...

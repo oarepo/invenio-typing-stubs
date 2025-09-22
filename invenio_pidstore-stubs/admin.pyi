@@ -4,9 +4,12 @@ Type stubs for invenio_pidstore.admin.
 """
 
 from typing import Any, Dict, Tuple
+from uuid import UUID as UUID
+
+from markupsafe import Markup as Markup
 
 def _(x: str) -> str: ...
-def object_formatter(v: Any, c: Any, m: Any, p: Any) -> str: ...
+def object_formatter(v: Any, c: Any, m: Any, p: Any) -> Markup | str: ...
 
 class FilterUUID:
     """UUID aware filter."""

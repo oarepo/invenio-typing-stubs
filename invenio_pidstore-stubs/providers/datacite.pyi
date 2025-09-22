@@ -5,7 +5,8 @@ Type stubs for invenio_pidstore.providers.datacite.
 
 from typing import Any, ClassVar, Optional
 
-from invenio_pidstore.models import PIDStatus
+from datacite import DataCiteMDSClient
+from invenio_pidstore.models import PersistentIdentifier, PIDStatus
 from invenio_pidstore.providers.base import BaseProvider
 
 class DataCiteProvider(BaseProvider):
@@ -14,12 +15,12 @@ class DataCiteProvider(BaseProvider):
     pid_type: ClassVar[str]  # type: ignore[assignment]
     pid_provider: ClassVar[str]  # type: ignore[assignment]
     default_status: ClassVar[PIDStatus]
-    api: Any
+    api: DataCiteMDSClient
 
     def __init__(
         self,
-        pid: Any,
-        client: Optional[Any] = None,
+        pid: PersistentIdentifier,
+        client: Optional[DataCiteMDSClient] = None,
         **kwargs: Any,
     ) -> None: ...
     def reserve(self, doc: str) -> bool: ...

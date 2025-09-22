@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Sequence, Type
 
 from invenio_records_permissions.generators import Generator
 from invenio_records_permissions.policies.base import BasePermissionPolicy
@@ -12,5 +12,6 @@ class RecordPermissionPolicy(BasePermissionPolicy):
     can_read_deleted_files: Sequence[Generator]
     can_create_or_update_many: Sequence[Generator]
     original_action: str
+    def __init__(self, action: str, **over) -> None: ...
 
-def get_record_permission_policy() -> type[RecordPermissionPolicy]: ...
+def get_record_permission_policy() -> Type[RecordPermissionPolicy]: ...

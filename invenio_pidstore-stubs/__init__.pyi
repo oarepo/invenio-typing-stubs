@@ -8,4 +8,5 @@ from invenio_pidstore.proxies import current_pidstore as current_pidstore
 
 __version__: str
 
-__all__: tuple[str, ...]
+# Workaround for tools that don't see reexports: copy __all__ from source
+__all__ = ("__version__", "InvenioPIDStore", "current_pidstore")
