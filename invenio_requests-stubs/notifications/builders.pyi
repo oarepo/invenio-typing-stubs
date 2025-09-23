@@ -1,23 +1,20 @@
-from typing import Any, List
+from typing import List
 
 from invenio_notifications.models import Notification
-from invenio_requests.notifications.filters import (
-    UserRecipientFilter as UserRecipientFilter,
-)
-from invenio_requests.notifications.generators import (
-    RequestParticipantsRecipient as RequestParticipantsRecipient,
-)
-from invenio_requests.records.api import (
-    Request,
-    RequestEvent,
+from invenio_notifications.services.builders import NotificationBuilder
+from invenio_notifications.services.filters import RecipientFilter
+from invenio_notifications.services.generators import (
+    ContextGenerator,
+    RecipientBackendGenerator,
+    RecipientGenerator,
 )
 
-class CommentRequestEventCreateNotificationBuilder:
+class CommentRequestEventCreateNotificationBuilder(NotificationBuilder):
     type: str
-    context: List[Any]  # EntityResolve generators
-    recipients: List[Any]  # Recipient generators
-    recipient_filters: List[Any]  # Recipient filters
-    recipient_backends: List[Any]  # Backend processors
+    context: List[ContextGenerator]
+    recipients: List[RecipientGenerator]
+    recipient_filters: List[RecipientFilter]
+    recipient_backends: List[RecipientBackendGenerator]
 
     @classmethod
-    def build(cls, request: Request, request_event: RequestEvent) -> Notification: ...
+    def build(cls, **kwargs: object) -> Notification: ...

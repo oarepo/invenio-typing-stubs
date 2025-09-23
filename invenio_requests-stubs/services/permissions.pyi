@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import ClassVar, Collection
 
 from invenio_records_permissions import RecordPermissionPolicy
 from invenio_records_permissions.generators import Generator
@@ -10,19 +10,19 @@ from invenio_requests.services.generators import Status as Status
 from invenio_requests.services.generators import Topic as Topic
 
 class PermissionPolicy(RecordPermissionPolicy):
-    can_create: Sequence[Generator]
-    can_search: Sequence[Generator]
+    can_create: ClassVar[Collection[Generator]]
+    can_search: ClassVar[Collection[Generator]]
     can_search_user_requests = can_search
-    can_read: Sequence[Generator]
-    can_update: Sequence[Generator]
-    can_manage_access_options: Sequence[Generator]
-    can_action_delete: Sequence[Generator]
-    can_action_submit: Sequence[Generator]
-    can_action_cancel: Sequence[Generator]
-    can_action_expire: Sequence[Generator]
-    can_action_accept: Sequence[Generator]
-    can_action_decline: Sequence[Generator]
-    can_update_comment: Sequence[Generator]
-    can_delete_comment: Sequence[Generator]
+    can_read: ClassVar[Collection[Generator]]
+    can_update: ClassVar[Collection[Generator]]
+    can_manage_access_options: ClassVar[Collection[Generator]]
+    can_action_delete: ClassVar[Collection[Generator]]
+    can_action_submit: ClassVar[Collection[Generator]]
+    can_action_cancel: ClassVar[Collection[Generator]]
+    can_action_expire: ClassVar[Collection[Generator]]
+    can_action_accept: ClassVar[Collection[Generator]]
+    can_action_decline: ClassVar[Collection[Generator]]
+    can_update_comment: ClassVar[Collection[Generator]]
+    can_delete_comment: ClassVar[Collection[Generator]]
     can_create_comment = can_read
-    can_unused: Sequence[Generator]
+    can_unused: ClassVar[Collection[Generator]]

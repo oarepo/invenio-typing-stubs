@@ -1,7 +1,8 @@
-from typing import List, Optional
+from typing import List, Optional, Type
 
 from flask_principal import Identity
 from invenio_db.uow import UnitOfWork
+from invenio_requests.customizations.event_types import EventType as EventType
 from invenio_requests.customizations.event_types import LogEventType as LogEventType
 from invenio_requests.errors import NoSuchActionError as NoSuchActionError
 from invenio_requests.proxies import current_events_service as current_events_service
@@ -10,7 +11,7 @@ from invenio_requests.records.api import Request
 class RequestAction:
     status_from: Optional[List[str]]
     status_to: str
-    event_type: Optional[str]
+    event_type: Optional[Type[EventType]]
     log_event: bool
     request: Request
     def __init__(self, request: Request) -> None: ...
@@ -25,7 +26,7 @@ class RequestActions:
     @classmethod
     def execute(
         cls, identity: Identity, request: Request, action_name: str, uow: UnitOfWork
-    ): ...
+    ) -> None: ...
 
 class CreateAction(RequestAction):
     status_from: Optional[List[str]]

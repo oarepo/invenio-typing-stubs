@@ -1,6 +1,5 @@
 from typing import Any, Dict, List
 
-from _typeshed import Incomplete
 from invenio_records_resources.references.entity_resolvers.base import EntityResolver
 from invenio_requests.customizations import CommentEventType as CommentEventType
 from invenio_requests.customizations import LogEventType as LogEventType
@@ -17,11 +16,11 @@ REQUESTS_ENTITY_RESOLVERS: List[type[EntityResolver] | EntityResolver]
 REQUESTS_ROUTES: Dict[str, str]
 REQUESTS_SEARCH: Dict[str, List[str]]
 REQUESTS_SORT_OPTIONS: Dict[str, Dict[str, Any]]
-REQUESTS_FACETS: Dict[str, Dict[str, Any] | Incomplete]
+REQUESTS_FACETS: Dict[str, Dict[str, Any]]
 REQUESTS_TIMELINE_PAGE_SIZE: int
 REQUESTS_MODERATION_ROLE: str
 REQUESTS_USER_MODERATION_SEARCH: Dict[str, List[str]]
 REQUESTS_USER_MODERATION_SORT_OPTIONS: Dict[str, Dict[str, Any]]
-REQUESTS_USER_MODERATION_FACETS: Dict[str, Dict[str, Any] | Incomplete]
+REQUESTS_USER_MODERATION_FACETS: Dict[str, Dict[str, Any]]
 REQUESTS_REVIEWERS_ENABLED: bool
 REQUESTS_REVIEWERS_MAX_NUMBER: int

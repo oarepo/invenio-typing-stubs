@@ -1,13 +1,15 @@
 from enum import Enum
-from typing import Any, Callable
+from typing import Any, Callable, ClassVar
 
 from invenio_records.dumpers import SearchDumper
 from invenio_records.systemfields import ConstantField, DictField, ModelField
 from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField
 from invenio_records_resources.records.systemfields.entity_reference import (
-    MultiReferenceEntityField,
-    ReferencedEntityField,
+    MultiReferenceEntityField as MultiReferenceEntityField,
+)
+from invenio_records_resources.records.systemfields.entity_reference import (
+    ReferencedEntityField as ReferencedEntityField,
 )
 from invenio_requests.records.dumpers import (
     CalculatedFieldDumperExt as CalculatedFieldDumperExt,
@@ -17,9 +19,6 @@ from invenio_requests.records.dumpers import (
 )
 from invenio_requests.records.models import RequestEventModel as RequestEventModel
 from invenio_requests.records.models import RequestMetadata as RequestMetadata
-from invenio_requests.records.systemfields import (
-    EntityReferenceField as EntityReferenceField,
-)
 from invenio_requests.records.systemfields import EventTypeField as EventTypeField
 from invenio_requests.records.systemfields import (
     ExpiredStateCalculatedField as ExpiredStateCalculatedField,
@@ -32,9 +31,6 @@ from invenio_requests.records.systemfields import (
     RequestStatusField as RequestStatusField,
 )
 from invenio_requests.records.systemfields import RequestTypeField as RequestTypeField
-from invenio_requests.records.systemfields.entity_reference import (
-    MultiEntityReferenceField as MultiEntityReferenceField,
-)
 from invenio_requests.records.systemfields.entity_reference import (
     check_allowed_creators as check_allowed_creators,
 )
@@ -50,33 +46,30 @@ from invenio_requests.records.systemfields.entity_reference import (
 
 class Request(Record):
     model_cls = RequestMetadata
-    dumper: SearchDumper
-    number: IdentityField
-    metadata: None
-    index: IndexField
-    schema: ConstantField
-    type: RequestTypeField
-    topic: ReferencedEntityField
-    created_by: ReferencedEntityField
-    receiver: ReferencedEntityField
-    reviewers: MultiReferenceEntityField
-    status: RequestStatusField
-    is_closed: RequestStateCalculatedField
-    is_open: RequestStateCalculatedField
-    expires_at: ModelField
-    is_expired: ExpiredStateCalculatedField
+    dumper: ClassVar[SearchDumper]
+    number: ClassVar[IdentityField]
+    index: ClassVar[IndexField]
+    schema: ClassVar[ConstantField]
+    type: ClassVar[RequestTypeField]
+    topic: ClassVar[ReferencedEntityField]
+    created_by: ClassVar[ReferencedEntityField]
+    receiver: ClassVar[ReferencedEntityField]
+    reviewers: ClassVar[MultiReferenceEntityField]
+    status: ClassVar[RequestStatusField]
+    is_closed: ClassVar[RequestStateCalculatedField]
+    is_open: ClassVar[RequestStateCalculatedField]
+    expires_at: ClassVar[ModelField]
+    is_expired: ClassVar[ExpiredStateCalculatedField]
 
 class RequestEventFormat(Enum):
     HTML = "html"
 
 class RequestEvent(Record):
     model_cls = RequestEventModel
-    metadata: None
-    schema: ConstantField
-    request: ModelField
-    request_id: DictField
-    type: EventTypeField
-    index: IndexField
-    id: ModelField
-    check_referenced: Callable[..., Any]
-    created_by: ReferencedEntityField
+    schema: ClassVar[ConstantField]
+    request: ClassVar[ModelField]
+    request_id: ClassVar[DictField]
+    type: ClassVar[EventTypeField]
+    index: ClassVar[IndexField]
+    check_referenced: ClassVar[Callable[..., Any]]
+    created_by: ClassVar[ReferencedEntityField]

@@ -1,7 +1,9 @@
-from typing import Any, Dict
+from typing import Dict
+
+from invenio_notifications.models import Notification, Recipient
 
 class UserRecipientFilter:
     def __init__(self, key: str) -> None: ...
     def __call__(
-        self, notification: Any, recipients: Dict[str, Any]
-    ) -> Dict[str, Any]: ...
+        self, notification: Notification, recipients: Dict[str, Recipient]
+    ) -> Dict[str, Recipient]: ...

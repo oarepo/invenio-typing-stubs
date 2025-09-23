@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Protocol
 
 from flask.app import Flask
 from invenio_requests import config as config
@@ -21,14 +21,20 @@ from invenio_requests.services import (
     UserModerationRequestService as UserModerationRequestService,
 )
 
+class _ServiceConfigs(Protocol):
+    requests: RequestsServiceConfig
+    request_events: RequestEventsServiceConfig
+
 class InvenioRequests:
     requests_service: Optional[RequestsService]
     requests_resource: Optional[RequestsResource]
-    request_comments_service: Optional[RequestCommentsResource]
+    request_comments_service: Optional[RequestEventsService]
+    _schema_cache: dict[str, object]
+    _events_schema_cache: dict[str, object]
     def __init__(self, app: Optional[Flask] = None) -> None: ...
     def init_app(self, app: Flask) -> None: ...
     def init_config(self, app: Flask) -> None: ...
-    def service_configs(self, app: Flask): ...
+    def service_configs(self, app: Flask) -> _ServiceConfigs: ...
     request_events_service: Optional[RequestEventsService]
     user_moderation_requests_service: Optional[UserModerationRequestService]
     def init_services(self, app: Flask) -> None: ...

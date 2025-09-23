@@ -1,10 +1,4 @@
-from typing import (
-    Any,
-    Dict,
-    List,
-    Optional,
-    Type,
-)
+from typing import Any, Dict, List, Optional, Type
 
 from flask_principal import Need
 from invenio_requests.customizations.actions import AcceptAction as AcceptAction
@@ -22,6 +16,7 @@ from invenio_requests.notifications.builders import (
 from invenio_requests.proxies import current_requests as current_requests
 from invenio_requests.records.api import Request
 from marshmallow import Schema
+from marshmallow.fields import Field
 
 class RequestType:
     type_id: str
@@ -37,11 +32,9 @@ class RequestType:
     allowed_receiver_ref_types: List[str]
     allowed_topic_ref_types: List[str]
     resolve_topic_needs: bool
-    payload_schema: Optional[Dict[str, Schema]]
+    payload_schema: Optional[Dict[str, Field]]
     payload_schema_cls: Optional[Type[Schema]]
-    comment_notification_builder: Type[
-        Any
-    ]  # NotificationBuilder from invenio_notifications
+    comment_notification_builder: type
     needs_context: Optional[str]
 
     @classmethod
@@ -53,9 +46,9 @@ class RequestType:
     @classmethod
     def _create_payload_cls(cls): ...
     @classmethod
-    def _create_marshmallow_schema(cls): ...
+    def _create_marshmallow_schema(cls) -> type[Schema]: ...
     @classmethod
-    def marshmallow_schema(cls): ...
+    def marshmallow_schema(cls) -> type[Schema]: ...
     def _update_link_config(self, **context_values) -> Dict[str, Any]: ...
     def generate_request_number(self, request: Request, **kwargs) -> str: ...
     def __str__(self) -> str: ...
