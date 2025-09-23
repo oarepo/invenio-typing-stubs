@@ -72,8 +72,10 @@ class ConditionalLink:
     def __init__(
         self,
         cond: Optional[Callable] = None,
-        if_: Optional[Link] = None,
-        else_: Optional[Link] = None,
+        if_: Optional[
+            Link | EndpointLink
+        ] = None,  # keep typing as there are two different link classes
+        else_: Optional[Link | EndpointLink] = None,
     ): ...
     def should_render(
         self, obj: Union[Record, FileRecord, Pagination, Any], ctx: Dict[str, Any]
