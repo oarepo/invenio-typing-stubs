@@ -1,14 +1,17 @@
-from typing import Dict
+from typing import Any, ClassVar
 
-from invenio_records_resources.resources.records.resource import request_view_args
-from invenio_vocabularies.contrib.names.names import record_type as record_type
+from invenio_records_resources.resources.records.config import RecordResourceConfig
+from invenio_records_resources.resources.records.resource import (
+    RecordResource,
+    request_view_args,
+)
 from marshmallow import fields
 
-class NamesResourceConfig(record_type.resource_config_cls):
-    routes: Dict[str, str]
-    request_view_args: Dict[str, fields.Field]
+class NamesResourceConfig(RecordResourceConfig):
+    routes: ClassVar[dict[str, str]]
+    request_view_args: ClassVar[dict[str, fields.Field]]
 
-class NamesResource(record_type.resource_cls):
-    def create_url_rules(self): ...
+class NamesResource(RecordResource):
+    def create_url_rules(self) -> list[Any]: ...
     @request_view_args
     def name_resolve_by_id(self): ...

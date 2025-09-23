@@ -1,5 +1,6 @@
-from typing import Any
-
+from invenio_records_resources.factories.factory import (
+    RecordTypeFactory as RecordTypeFactory,
+)
 from invenio_vocabularies.contrib.subjects.config import (
     SubjectsSearchOptions as SubjectsSearchOptions,
 )
@@ -17,4 +18,4 @@ from invenio_vocabularies.services.permissions import (
     PermissionPolicy as PermissionPolicy,
 )
 
-record_type: Any
+record_type: RecordTypeFactory

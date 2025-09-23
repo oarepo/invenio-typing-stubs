@@ -21,7 +21,7 @@ During the process, please pay special attention to the following issues:
    before working on the file. ALWAYS compare the contents of the source file with
    the stub to see if they match.
 
-1. If the pyi file does not exist, please create it.
+1. If the pyi file does not exist, create it.
 
 2. Try to avoid using Any. If possible, always use more specific types. 
    NEVER use the "object" type. Also check the already generated code for Any
@@ -29,10 +29,10 @@ During the process, please pay special attention to the following issues:
 
 3. Words like "record", "request", "community" suggest that the type might be
    invenio_records_resources.records.api.Record, invenio_requests.records.api.Request,
-   invenio_communities.communities.records.api.Community, respectively. Please check 
+   invenio_communities.communities.records.api.Community, respectively. Check 
    the source code to confirm.
 
-4. Please consult other -stubs files in the root directory of the project as they are
+4. Consult other *-stubs files in the root directory of the project as they are
    part of the same project and might give you hints about the correct types and the
    typing conventions used in the project.
 
@@ -47,29 +47,31 @@ During the process, please pay special attention to the following issues:
 7. Add typing for class properties as well. Always do it with typing.ClassVar[Type].
 
 8. For properties on class instances set within __init__ or other methods of the class,
-   please add them to the class definition as well, with the correct type. 
+   add them to the class definition as well, with the correct type. 
    Add private properties as well (those starting with _).
 
-9. If you see/generate complicated Union types, please simplify them if possible. For example,
-   if there is Union[A, B, None], please change it to Optional[Union[A, B]]. Also, if they
+9. If you see/generate complicated Union types, simplify them if possible. For example,
+   if there is Union[A, B, None], change it to Optional[Union[A, B]]. Also, if they
    need similar types, simplify them even it is not strictly correct. For example, if there
     is Union[dict[str, A, B, C, D, E, F] | dict[str, G, H]], try to find the base class and 
-    change it just to this. If unable, please change it to dict[str, Any].
+    change it just to this. If unable, change it to dict[str, Any].
 
 10. Always use absolute imports in stubs, NEVER generate relative imports.
 
 11. Do not add a method/property if it is already defined on a parent class.
 
-12. Please also run `.venv/bin/mypy --check-untyped-defs --ignore-missing-imports --follow-imports=silent --no-incremental --cache-dir=/dev/null file.pyi`
+12. Run `.venv/bin/mypy --check-untyped-defs --ignore-missing-imports --follow-imports=silent --no-incremental --cache-dir=/dev/null file.pyi`
    after fixing the file to make sure that the stubs are ok. The --no-incremental is IMPORTANT
    as mypy has cache problems.
 
-13. It seems that some tools can not see reexported symbols in __init__.py if they are 
-   correctly imported as from x import y as y. To work around this, please copy the
-   __all__ list from the original module into the stub.
+13. in __init__, copy the __all__ from the source code. Do not add __all__: list[str]
 
 14. You might encounter issues with validating db.Model. These are to be expected,
    make sure that you keep that in pyi if it is used in source code.
+
+15. You need to handle SystemField subclasses (mostly contained in systemfields directory) 
+   in a different way. See invenio_records-stubs/systemfields/base.pyi on how to do that.
+
 
 If you need to run mypy or similar python programs, run them from venv,
 that is .venv/bin/mypy, .venv/bin/python and so on. If the mypy fails with

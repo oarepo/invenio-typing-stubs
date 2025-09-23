@@ -7,6 +7,7 @@ from invenio_vocabularies.datastreams.writers import ServiceWriter as ServiceWri
 
 class FundersServiceWriter(ServiceWriter):
     def __init__(self, *args, **kwargs) -> None: ...
+    def _entry_id(self, entry): ...
 
 class FundersRORTransformer(RORTransformer):
     def __init__(

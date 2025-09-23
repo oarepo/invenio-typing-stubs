@@ -2,6 +2,7 @@ from collections.abc import Generator
 from typing import Any, Dict, Optional, Tuple
 
 from invenio_vocabularies.contrib.names.s3client import S3OrcidClient as S3OrcidClient
+from invenio_vocabularies.datastreams import StreamEntry as StreamEntry
 from invenio_vocabularies.datastreams.errors import TransformerError as TransformerError
 from invenio_vocabularies.datastreams.readers import BaseReader as BaseReader
 from invenio_vocabularies.datastreams.readers import (
@@ -19,7 +20,7 @@ class OrcidDataSyncReader(BaseReader):
     def __init__(
         self, origin=None, mode: str = "r", since=None, *args, **kwargs
     ) -> None: ...
-    def read(self, item=None, *args, **kwargs) -> Generator[Any, Any]: ...
+    def read(self, item=None, *args, **kwargs) -> Generator[Any, None, None]: ...
 
 class OrcidHTTPReader(SimpleHTTPReader):
     def __init__(self, *args, test_mode: bool = True, **kwargs) -> None: ...
@@ -41,13 +42,14 @@ class OrcidTransformer(BaseTransformer):
         **kwargs,
     ) -> None: ...
     def org_id_to_affiliation_id(self, org_scheme, org_id): ...
-    def apply(self, stream_entry, **kwargs): ...
+    def apply(self, stream_entry: StreamEntry, **kwargs: Any) -> StreamEntry: ...
 
 class NamesServiceWriter(ServiceWriter):
     def __init__(self, *args, **kwargs) -> None: ...
+    def _entry_id(self, entry: Dict[str, Any]) -> Any: ...
 
 VOCABULARIES_DATASTREAM_READERS: dict[str, type[OrcidHTTPReader | OrcidDataSyncReader]]
 VOCABULARIES_DATASTREAM_TRANSFORMERS: dict[str, type[OrcidTransformer]]
 VOCABULARIES_DATASTREAM_WRITERS: dict[str, type[NamesServiceWriter]]
-DATASTREAM_CONFIG: dict[str, Any]
-ORCID_PRESET_DATASTREAM_CONFIG: dict[str, Any]
+DATASTREAM_CONFIG: Dict[str, Any]
+ORCID_PRESET_DATASTREAM_CONFIG: Dict[str, Any]

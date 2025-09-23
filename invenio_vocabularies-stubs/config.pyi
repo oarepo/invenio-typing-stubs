@@ -1,5 +1,5 @@
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Type
 
 from invenio_vocabularies.datastreams.readers import CSVReader as CSVReader
 from invenio_vocabularies.datastreams.readers import GzipReader as GzipReader
@@ -34,7 +34,7 @@ VOCABULARIES_IDENTIFIER_SCHEMES: Dict[str, Dict[str, Any]]
 edmo_regexp: re.Pattern[str]
 
 def is_pic(val: str) -> bool: ...
-def is_edmo(val): ...
+def is_edmo(val: str) -> re.Match[str] | None: ...
 
 VOCABULARIES_AFFILIATION_SCHEMES: Dict[str, Dict[str, Any]]
 VOCABULARIES_FUNDER_SCHEMES: Dict[str, Dict[str, Any]]
@@ -45,11 +45,11 @@ VOCABULARIES_AWARDS_EC_ROR_ID: str
 VOCABULARIES_NAMES_SCHEMES: Dict[str, Dict[str, Any]]
 VOCABULARIES_SUBJECTS_SCHEMES: Dict[str, Dict[str, Any]]
 VOCABULARIES_CUSTOM_VOCABULARY_TYPES: List[str]
-VOCABULARIES_DATASTREAM_READERS: Dict[str, type]
-VOCABULARIES_DATASTREAM_TRANSFORMERS: Dict[str, type]
-VOCABULARIES_DATASTREAM_WRITERS: Dict[str, type]
+VOCABULARIES_DATASTREAM_READERS: Dict[str, Type[Any]]
+VOCABULARIES_DATASTREAM_TRANSFORMERS: Dict[str, Type[Any]]
+VOCABULARIES_DATASTREAM_WRITERS: Dict[str, Type[Any]]
 VOCABULARIES_TYPES_SORT_OPTIONS: Dict[str, Dict[str, Any]]
-VOCABULARIES_TYPES_SEARCH: Dict[str, List[str]]
+VOCABULARIES_TYPES_SEARCH: Dict[str, Any]
 VOCABULARIES_SUBJECTS_EUROSCIVOC_FILE_URL: str
 VOCABULARIES_SUBJECTS_GEMET_FILE_URL: str
 VOCABULARIES_SUBJECTS_NVS_FILE_URL: str

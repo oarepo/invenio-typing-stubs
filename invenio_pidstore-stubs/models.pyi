@@ -9,7 +9,6 @@ from enum import Enum
 from typing import ClassVar, Optional, Union
 
 from flask_babel import LazyString
-from invenio_db import db
 from sqlalchemy import Column, Index
 from sqlalchemy_utils.models import Timestamp
 
@@ -31,7 +30,9 @@ class PIDStatus(Enum):
     @property
     def title(self) -> str: ...
 
-class PersistentIdentifier(db.Model, Timestamp):
+class _Model: ...
+
+class PersistentIdentifier(_Model, Timestamp):
     """Store and register persistent identifiers."""
 
     __tablename__: ClassVar[str]
@@ -93,7 +94,7 @@ class PersistentIdentifier(db.Model, Timestamp):
     def is_reserved(self) -> bool: ...
     def __repr__(self) -> str: ...
 
-class Redirect(db.Model, Timestamp):
+class Redirect(_Model, Timestamp):
     """Redirect for a persistent identifier."""
 
     __tablename__: ClassVar[str]
@@ -102,7 +103,7 @@ class Redirect(db.Model, Timestamp):
     pid_id: Column[int]
     pid: PersistentIdentifier
 
-class RecordIdentifier(db.Model):
+class RecordIdentifier(_Model):
     """Sequence generator for integer record identifiers."""
 
     __tablename__: ClassVar[str]

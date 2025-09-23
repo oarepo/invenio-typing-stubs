@@ -7,3 +7,6 @@ __all__ = (
     "db",
     "InvenioDB",
 )
+
+# Note: the precise type of ``db`` is defined in invenio_db.shared as SQLAlchemy,
+# which exposes ``Model`` as a type usable as a base class.

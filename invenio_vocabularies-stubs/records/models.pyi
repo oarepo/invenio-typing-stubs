@@ -1,6 +1,8 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, ClassVar, Optional
 
-from invenio_db import db
+# Note: db.Model is used as a base class in the source. We intentionally
+# avoid importing a specific db type here and instead declare a loose name
+# so type checkers don't error on the base class while preserving the API shape.
 from invenio_records.models import RecordMetadataBase
 from sqlalchemy import Column
 
@@ -8,10 +10,17 @@ if TYPE_CHECKING:
     from invenio_records.systemfields.relatedmodelfield import RelatedModelField
     from invenio_vocabularies.records.api import Vocabulary
 
-class VocabularyType(db.Model):
-    __tablename__: str
-    id: Column[str]
-    pid_type: Column[str]
+# Note: db.Model base comes from invenio_db.shared.SQLAlchemy.Model
+
+class _Model:
+    """Placeholder SQLAlchemy model base for stubs."""
+
+    ...
+
+class VocabularyType(_Model):
+    __tablename__: ClassVar[str]
+    id: Column
+    pid_type: Column
     @classmethod
     def create(cls, **data) -> VocabularyType: ...
     @classmethod
@@ -23,14 +32,14 @@ class VocabularyType(db.Model):
         cls, field: RelatedModelField, record: Vocabulary
     ) -> Optional[VocabularyType]: ...
 
-class VocabularyMetadata(db.Model, RecordMetadataBase):
-    __tablename__: str
+class VocabularyMetadata(RecordMetadataBase):
+    __tablename__: ClassVar[str]
 
-class VocabularyScheme(db.Model):
-    __tablename__: str
-    id: Column[str]
-    parent_id: Column[str]
-    name: Column[str]
-    uri: Column[str]
+class VocabularyScheme(_Model):
+    __tablename__: ClassVar[str]
+    id: Column
+    parent_id: Column
+    name: Column
+    uri: Column
     @classmethod
     def create(cls, **data) -> VocabularyScheme: ...

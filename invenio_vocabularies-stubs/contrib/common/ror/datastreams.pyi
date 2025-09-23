@@ -1,3 +1,4 @@
+import io
 from collections.abc import Generator
 from typing import Any
 
@@ -10,9 +11,14 @@ from invenio_vocabularies.datastreams.transformers import (
 
 class RORHTTPReader(BaseReader):
     def __init__(
-        self, origin=None, mode: str = "r", since=None, *args, **kwargs
+        self,
+        origin: str | None = None,
+        mode: str = "r",
+        since: str | None = None,
+        *args,
+        **kwargs,
     ) -> None: ...
-    def read(self, item=None, *args, **kwargs) -> Generator[Any]: ...
+    def read(self, item=None, *args, **kwargs) -> Generator[io.BytesIO, None, None]: ...
 
 VOCABULARIES_DATASTREAM_READERS: dict[str, type[RORHTTPReader]]
 

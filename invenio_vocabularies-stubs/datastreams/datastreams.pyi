@@ -1,5 +1,5 @@
 from collections.abc import Generator
-from typing import Any, List, Optional
+from typing import Any
 
 from invenio_records_resources.records.api import Record
 from invenio_vocabularies.datastreams.errors import ReaderError as ReaderError
@@ -11,18 +11,18 @@ from invenio_vocabularies.datastreams.writers import BaseWriter
 
 class StreamEntry:
     entry: Any
-    record: Optional[Record]
+    record: Record | None
     filtered: bool
-    errors: Optional[List[str]]
-    op_type: Optional[str]
-    exc: Optional[Exception]
+    errors: list[str]
+    op_type: str | None
+    exc: Exception | None
     def __init__(
         self,
         entry: Any,
-        record=None,
-        errors: Optional[List[str]] = None,
-        op_type=None,
-        exc=None,
+        record: Record | None = None,
+        errors: list[str] | None = None,
+        op_type: str | None = None,
+        exc: Exception | None = None,
     ) -> None: ...
     def log_errors(self, logger=None) -> None: ...
 
@@ -31,9 +31,9 @@ class DataStream:
     write_many: bool
     def __init__(
         self,
-        readers: List[BaseReader],
-        writers: List[BaseWriter],
-        transformers: Optional[List[BaseTransformer]] = None,
+        readers: list[BaseReader],
+        writers: list[BaseWriter],
+        transformers: list[BaseTransformer] | None = None,
         batch_size: int = 100,
         write_many: bool = False,
         *args,
@@ -41,13 +41,13 @@ class DataStream:
     ) -> None: ...
     def filter(self, stream_entry: StreamEntry, *args, **kwargs) -> bool: ...
     def process_batch(
-        self, batch: List[StreamEntry]
+        self, batch: list[StreamEntry]
     ) -> Generator[StreamEntry, None, None]: ...
     def process(self, *args, **kwargs) -> Generator[StreamEntry, None, None]: ...
     def read(self) -> Generator[StreamEntry, None, None]: ...
     def transform(self, stream_entry: StreamEntry, *args, **kwargs) -> StreamEntry: ...
     def write(self, stream_entry: StreamEntry, *args, **kwargs) -> StreamEntry: ...
     def batch_write(
-        self, stream_entries, *args, **kwargs
+        self, stream_entries: list[StreamEntry], *args, **kwargs
     ) -> Generator[StreamEntry, None, None]: ...
     def total(self, *args, **kwargs) -> int: ...

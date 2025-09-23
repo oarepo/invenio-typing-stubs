@@ -65,7 +65,7 @@ class CSVReader(BaseReader):
 class XMLReader(BaseReader):
     root_element: Optional[str]
     def __init__(
-        self, root_element: Optional[etree.Element] = None, *args: Any, **kwargs: Any
+        self, root_element: Optional[etree._Element] = None, *args: Any, **kwargs: Any
     ) -> None: ...
 
 class OAIPMHReader(BaseReader):

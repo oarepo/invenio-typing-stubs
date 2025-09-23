@@ -20,7 +20,30 @@ def _get_inherited_fields(
     class_: Type[SystemFieldsMixin], field_class: Type[SystemField]
 ) -> Dict[Any, Any]: ...
 
-class SystemField[R: Record, V: Any](Descriptor[R, V], ExtensionMixin):
+#
+# How to type SystemField
+#
+# SystemField is a Descriptor, so it needs to be typed as such. A descriptor returns
+# a different value for __get__(instance=None, owner=clz) (usually itself but can be
+# something else) and for __get__(instance=instance, owner=clz) (usually some kind of
+# context or a manager, but for example, for ConstantField actually the value itself).
+#
+# To capture this, a Descriptor and a GenericDescriptor is defined in oarepo_typing/descriptors.py \
+# that allows to specify the different return types.
+#
+# SystemField is also a generic class, with two type parameters:
+#  - R - the type of the Record it is attached to (usually a subclass of Record)
+#  - V - the type of the value it holds
+#
+# Usage:
+#  class PIDField(SystemField[Record, PIDFieldContext]): ...
+#
+# TODO: we do not have a good way of handling special SystemField that return something
+# else than themselves when accessed on class. For these, add a GenericDescriptor mixin
+# to override this behaviour.
+#
+
+class SystemField[R: Record = Record, V: Any = Any](Descriptor[R, V], ExtensionMixin):
     def __init__(self, key: Optional[str] = ...): ...
     @property
     def attr_name(self) -> str: ...

@@ -1,5 +1,3 @@
-from typing import Any
-
 from invenio_vocabularies.contrib.affiliations.config import (
     affiliation_schemes as affiliation_schemes,
 )
@@ -12,21 +10,23 @@ from invenio_vocabularies.services.schema import (
 from invenio_vocabularies.services.schema import (
     ModePIDFieldVocabularyMixin as ModePIDFieldVocabularyMixin,
 )
+from marshmallow import fields
+from marshmallow_utils.fields import IdentifierSet, SanitizedUnicode
 
 class AffiliationSchema(BaseVocabularySchema, ModePIDFieldVocabularyMixin):
-    acronym: Any
-    identifiers: Any
-    name: Any
-    country: Any
-    country_name: Any
-    location_name: Any
-    id: Any
-    aliases: Any
-    status: Any
-    types: Any
+    acronym: SanitizedUnicode
+    identifiers: IdentifierSet
+    name: SanitizedUnicode
+    country: SanitizedUnicode
+    country_name: SanitizedUnicode
+    location_name: SanitizedUnicode
+    id: SanitizedUnicode
+    aliases: fields.List
+    status: SanitizedUnicode
+    types: fields.List
 
 class AffiliationRelationSchema(ContribVocabularyRelationSchema):
-    ftf_name: str
-    parent_field_name: str
-    name: Any
-    identifiers: Any
+    ftf_name: str | None
+    parent_field_name: str | None
+    name: SanitizedUnicode
+    identifiers: IdentifierSet

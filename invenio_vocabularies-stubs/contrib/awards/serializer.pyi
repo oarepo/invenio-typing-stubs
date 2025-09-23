@@ -1,3 +1,5 @@
+from typing import Any
+
 from invenio_vocabularies.contrib.awards.schema import (
     AwardOrganizationRelationSchema as AwardOrganizationRelationSchema,
 )
@@ -5,7 +7,6 @@ from invenio_vocabularies.contrib.subjects.schema import (
     SubjectRelationSchema as SubjectRelationSchema,
 )
 from marshmallow import Schema, fields
-from marshmallow_utils.fields import BabelGettextDictField
 
 class IdentifierSchema(Schema):
     identifier: fields.String
@@ -17,8 +18,8 @@ class FunderRelationSchema(Schema):
 
 class AwardL10NItemSchema(Schema):
     id: fields.String
-    title: BabelGettextDictField
-    description: BabelGettextDictField
+    title: Any
+    description: Any
     number: fields.String
     acronym: fields.String
     program: fields.String

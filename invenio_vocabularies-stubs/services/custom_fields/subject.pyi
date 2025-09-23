@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Set
+from typing import Any
 
 from invenio_vocabularies.contrib.subjects.api import Subject as Subject
 from invenio_vocabularies.contrib.subjects.schema import (
@@ -10,5 +10,5 @@ from invenio_vocabularies.services.custom_fields.vocabulary import (
 
 class SubjectCF(VocabularyCF): ...
 
-SUBJECT_FIELDS_UI: List[Dict[str, Any]]
-SUBJECT_FIELDS: Set[SubjectCF]
+SUBJECT_FIELDS_UI: list[dict[str, Any]]
+SUBJECT_FIELDS: set[SubjectCF]

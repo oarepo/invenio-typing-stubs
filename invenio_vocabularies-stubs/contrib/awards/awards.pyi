@@ -1,5 +1,7 @@
-from typing import Any
-
+from invenio_records.systemfields import MultiRelationsField as MultiRelationsField
+from invenio_records_resources.factories.factory import (
+    RecordTypeFactory as RecordTypeFactory,
+)
 from invenio_vocabularies.contrib.awards.config import (
     AwardsSearchOptions as AwardsSearchOptions,
 )
@@ -16,5 +18,5 @@ from invenio_vocabularies.services.permissions import (
     PermissionPolicy as PermissionPolicy,
 )
 
-award_relations: Any
-record_type: Any
+award_relations: MultiRelationsField
+record_type: RecordTypeFactory

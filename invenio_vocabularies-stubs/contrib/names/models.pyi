@@ -1,6 +1,4 @@
-from typing import Type
-
 from invenio_vocabularies.contrib.names.names import record_type as record_type
 from invenio_vocabularies.records.models import VocabularyMetadata
 
-NamesMetadata: Type[VocabularyMetadata]
+NamesMetadata: type[VocabularyMetadata]

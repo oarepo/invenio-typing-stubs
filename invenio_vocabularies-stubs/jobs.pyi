@@ -14,32 +14,32 @@ class ProcessRORAffiliationsJob(ProcessDataStreamJob):
     title: Any
     id: str
     @classmethod
-    def build_task_arguments(cls, job_obj, since=None, **kwargs): ...
+    def build_task_arguments(cls, job_obj, since=None, **kwargs) -> dict[str, Any]: ...
 
 class ProcessRORFundersJob(ProcessDataStreamJob):
     description: Any
     title: Any
     id: str
     @classmethod
-    def build_task_arguments(cls, job_obj, since=None, **kwargs): ...
+    def build_task_arguments(cls, job_obj, since=None, **kwargs) -> dict[str, Any]: ...
 
 class ImportAwardsOpenAIREJob(ProcessDataStreamJob):
     description: Any
     title: Any
     id: str
     @classmethod
-    def build_task_arguments(cls, job_obj, since=None, **kwargs): ...
+    def build_task_arguments(cls, job_obj, since=None, **kwargs) -> dict[str, Any]: ...
 
 class UpdateAwardsCordisJob(ProcessDataStreamJob):
     description: Any
     title: Any
     id: str
     @classmethod
-    def build_task_arguments(cls, job_obj, since=None, **kwargs): ...
+    def build_task_arguments(cls, job_obj, since=None, **kwargs) -> dict[str, Any]: ...
 
 class ImportORCIDJob(ProcessDataStreamJob):
     description: Any
     title: Any
     id: str
     @classmethod
-    def build_task_arguments(cls, job_obj, since=None, **kwargs): ...
+    def build_task_arguments(cls, job_obj, since=None, **kwargs) -> dict[str, Any]: ...

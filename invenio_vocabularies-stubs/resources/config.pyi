@@ -1,4 +1,4 @@
-from typing import Any, Dict, Type
+from typing import Any, ClassVar, Dict, Type
 
 import marshmallow as ma
 from flask_resources import HTTPJSONException as HTTPJSONException
@@ -18,19 +18,19 @@ class VocabularySearchRequestArgsSchema(SearchRequestArgsSchema):
     status: ma.fields.Boolean
 
 class VocabulariesResourceConfig(RecordResourceConfig):
-    blueprint_name: str | None
-    url_prefix: str
-    routes: Dict[str, str]
-    request_view_args: Dict[str, ma.fields.Field]
+    blueprint_name: ClassVar[None]
+    url_prefix: ClassVar[str]
+    routes: ClassVar[Dict[str, str]]
+    request_view_args: ClassVar[Dict[str, ma.fields.Field]]
     request_search_args = VocabularySearchRequestArgsSchema
-    response_handlers: Dict[str, Any]
+    response_handlers: ClassVar[Dict[str, Any]]
 
 class VocabularyTypeResourceConfig(ResourceConfig, ConfiguratorMixin):
-    blueprint_name: str | None
-    url_prefix: str
-    routes: Dict[str, str]
-    request_read_args: Dict[str, Any]
-    request_view_args: Dict[str, ma.fields.Field]
+    blueprint_name: ClassVar[str]
+    url_prefix: ClassVar[str]
+    routes: ClassVar[Dict[str, str]]
+    request_read_args: ClassVar[Dict[str, Any]]
+    request_view_args: ClassVar[Dict[str, ma.fields.Field]]
     request_search_args = VocabularySearchRequestArgsSchema
-    error_handlers: Dict[Type[Exception], Any]
-    response_handlers: Dict[str, Any]
+    error_handlers: ClassVar[Dict[Type[Exception], Any]]
+    response_handlers: ClassVar[Dict[str, Any]]
