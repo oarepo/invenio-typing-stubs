@@ -1,5 +1,23 @@
-from .components import DefaultCommunityComponents as DefaultCommunityComponents
-from .config import CommunityFileServiceConfig as CommunityFileServiceConfig, CommunityServiceConfig as CommunityServiceConfig, SearchOptions as SearchOptions
-from .service import CommunityService as CommunityService
+from invenio_communities.communities.services.components import (
+    DefaultCommunityComponents as DefaultCommunityComponents,
+)
+from invenio_communities.communities.services.config import (
+    CommunityFileServiceConfig as CommunityFileServiceConfig,
+)
+from invenio_communities.communities.services.config import (
+    CommunityServiceConfig as CommunityServiceConfig,
+)
+from invenio_communities.communities.services.config import (
+    SearchOptions as SearchOptions,
+)
+from invenio_communities.communities.services.service import (
+    CommunityService as CommunityService,
+)
 
-__all__ = ['CommunityService', 'CommunityServiceConfig', 'CommunityFileServiceConfig', 'SearchOptions', 'DefaultCommunityComponents']
+__all__ = (
+    "CommunityService",
+    "CommunityServiceConfig",
+    "CommunityFileServiceConfig",
+    "SearchOptions",
+    "DefaultCommunityComponents",
+)

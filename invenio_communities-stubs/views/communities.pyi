@@ -1,12 +1,13 @@
 from typing import Any, Dict, List, Optional, Set
 
 from flask_login import login_required
+from invenio_communities.communities.resources.ui_schema import (
+    TypesSchema as TypesSchema,
+)
+from invenio_communities.errors import LogoNotFoundError as LogoNotFoundError
 from invenio_communities.proxies import current_communities as current_communities
-
-from ..communities.resources.ui_schema import TypesSchema as TypesSchema
-from ..errors import LogoNotFoundError as LogoNotFoundError
-from .decorators import pass_community as pass_community
-from .template_loader import (
+from invenio_communities.views.decorators import pass_community as pass_community
+from invenio_communities.views.template_loader import (
     CommunityThemeChoiceJinjaLoader as CommunityThemeChoiceJinjaLoader,
 )
 
@@ -24,7 +25,9 @@ PRIVATE_PERMISSIONS: Set[str]  # Set of permission strings
 MEMBERS_PERMISSIONS: Set[str]  # Set of permission strings
 
 def render_community_theme_template(
-    template_name_or_list: str, theme: Optional[Dict[str, Any]] = ..., **context: Any
+    template_name_or_list: str | List[str],
+    theme: Optional[Dict[str, Any]] = ...,
+    **context: Any,
 ) -> str: ...
 def communities_frontpage(): ...
 def communities_search(): ...
@@ -43,4 +46,6 @@ def members(pid_value, community, community_ui): ...
 def invitations(pid_value, community, community_ui): ...
 def communities_about(pid_value, community, community_ui): ...
 def communities_curation_policy(pid_value, community, community_ui): ...
-def community_theme_css_config(pid_value, revision, community): ...
+def community_theme_css_config(
+    pid_value, revision, community
+) -> tuple[str, int, Dict[str, str]]: ...

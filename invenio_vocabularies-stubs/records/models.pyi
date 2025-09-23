@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, ClassVar, Optional
 # Note: db.Model is used as a base class in the source. We intentionally
 # avoid importing a specific db type here and instead declare a loose name
 # so type checkers don't error on the base class while preserving the API shape.
-from invenio_records.models import RecordMetadataBase
+from invenio_records.models import RecordMetadata
 from sqlalchemy import Column
 
 if TYPE_CHECKING:
@@ -32,8 +32,8 @@ class VocabularyType(_Model):
         cls, field: RelatedModelField, record: Vocabulary
     ) -> Optional[VocabularyType]: ...
 
-class VocabularyMetadata(RecordMetadataBase):
-    __tablename__: ClassVar[str]
+class VocabularyMetadata(RecordMetadata):
+    ...
 
 class VocabularyScheme(_Model):
     __tablename__: ClassVar[str]

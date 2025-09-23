@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Mapping
 
 from flask_principal import Identity
 from invenio_records_resources.services.records.params.sort import SortParam
@@ -9,5 +9,5 @@ class CommunitiesSortParam(SortParam):
         self,
         identity: Identity,
         search: RecordsSearchV2,
-        params: Dict[str, Any],
+        params: Mapping[str, Any],
     ) -> RecordsSearchV2: ...

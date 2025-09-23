@@ -1,5 +1,7 @@
-from typing import Any, Dict
+from typing import Any, ClassVar
 
+import marshmallow as ma
+from flask_resources import ResponseHandler
 from invenio_communities.communities.resources.args import (
     CommunitiesSearchRequestArgsSchema as CommunitiesSearchRequestArgsSchema,
 )
@@ -18,18 +20,22 @@ from invenio_communities.errors import (
 from invenio_communities.errors import (
     SetDefaultCommunityError as SetDefaultCommunityError,
 )
-from invenio_records_resources.resources import RecordResourceConfig
+from invenio_records_resources.resources import (
+    RecordResourceConfig,
+    SearchRequestArgsSchema,
+)
 from invenio_records_resources.services.base.config import ConfiguratorMixin
 from invenio_requests.resources.requests.config import RequestSearchRequestArgsSchema
 
 community_error_handlers: dict[type, Any]
 
 class CommunityResourceConfig(RecordResourceConfig, ConfiguratorMixin):
-    blueprint_name: Any
-    url_prefix: Any
-    routes: Dict[str, str]
-    request_search_args = CommunitiesSearchRequestArgsSchema
-    request_view_args: dict[str, Any]
+    url_prefix: ClassVar[str]
+    routes: ClassVar[dict[str, str]]
+    request_search_args: ClassVar[type[SearchRequestArgsSchema]]
+    request_view_args: ClassVar[dict[str, ma.fields.Field]]
     error_handlers: Any
-    request_community_requests_search_args = RequestSearchRequestArgsSchema
-    response_handlers: dict[str, Any]
+    request_community_requests_search_args: ClassVar[
+        type[RequestSearchRequestArgsSchema]
+    ]
+    response_handlers: ClassVar[dict[str, ResponseHandler]]

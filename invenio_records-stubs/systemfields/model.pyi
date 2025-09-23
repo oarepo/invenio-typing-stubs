@@ -27,7 +27,7 @@ class ModelField[R: Record = Record, T = Any](SystemField[R, T]):
     def post_init(
         self,
         record: R,
-        data: Optional[dict[str, Any]],
-        model: Any = ...,
-        field_data: Any = ...,
+        data: dict[str, Any],
+        model: Any | None = ...,
+        **kwargs: Any,
     ) -> None: ...

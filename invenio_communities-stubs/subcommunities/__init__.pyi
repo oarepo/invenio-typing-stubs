@@ -1,4 +1,19 @@
-from .resources import SubCommunityResource as SubCommunityResource, SubCommunityResourceConfig as SubCommunityResourceConfig
-from .services import SubCommunityService as SubCommunityService, SubCommunityServiceConfig as SubCommunityServiceConfig
+from invenio_communities.subcommunities.resources import (
+    SubCommunityResource as SubCommunityResource,
+)
+from invenio_communities.subcommunities.resources import (
+    SubCommunityResourceConfig as SubCommunityResourceConfig,
+)
+from invenio_communities.subcommunities.services import (
+    SubCommunityService as SubCommunityService,
+)
+from invenio_communities.subcommunities.services import (
+    SubCommunityServiceConfig as SubCommunityServiceConfig,
+)
 
-__all__ = ['SubCommunityResource', 'SubCommunityResourceConfig', 'SubCommunityService', 'SubCommunityServiceConfig']
+__all__ = (
+    "SubCommunityResource",
+    "SubCommunityResourceConfig",
+    "SubCommunityService",
+    "SubCommunityServiceConfig",
+)

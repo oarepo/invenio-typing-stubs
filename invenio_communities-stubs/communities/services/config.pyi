@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, ClassVar
 
 from _typeshed import Incomplete
 from invenio_communities.communities.records.api import Community as Community
@@ -56,35 +56,35 @@ from invenio_records_resources.services.records.config import (
 
 class SearchOptions(SearchOptionsBase, SearchOptionsMixin):
     sort_featured: dict[str, Any]
-    facets: dict[str, Any]
-    params_interpreters_cls: Any
+    facets: ClassVar[dict[str, Any]]
+    params_interpreters_cls: ClassVar[Any]
 
 def children_allowed(record: Community | Incomplete, _: Any) -> bool: ...
 
 class CommunityServiceConfig(RecordServiceConfig, ConfiguratorMixin):
-    service_id: Any
+    service_id = "communities"
     permission_policy_cls: Any
     record_cls = Community
     result_item_cls = CommunityItem
     result_list_cls = CommunityListResult
-    indexer_queue_name: str
-    search: Any
-    schema: Any = CommunitySchema
+    indexer_queue_name: ClassVar[str]
+    search: ClassVar[Any]
+    schema: ClassVar[Any]
     schema_featured: Any = CommunityFeaturedSchema
     schema_tombstone: Any = TombstoneSchema
     result_list_cls_featured = CommunityFeaturedList
     result_item_cls_featured = FeaturedCommunityItem
-    links_item: dict[str, Any]
-    action_link: Any
-    links_search: Any
-    links_featured_search: Any
-    links_user_search: Any
-    links_community_requests_search: Any
-    links_subcommunities_search: Any
+    links_item: ClassVar[dict[str, Any]]
+    action_link: ClassVar[Any]
+    links_search: ClassVar[Any]
+    links_featured_search: ClassVar[Any]
+    links_user_search: ClassVar[Any]
+    links_community_requests_search: ClassVar[Any]
+    links_subcommunities_search: ClassVar[Any]
     available_actions: list[dict[str, str]]
     components: Any
 
 class CommunityFileServiceConfig(FileServiceConfig, ConfiguratorMixin):
     record_cls = Community
     permission_policy_cls: Any
-    file_links_item: dict[str, Any]
+    file_links_item: ClassVar[dict[str, Any]]

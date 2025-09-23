@@ -1,15 +1,20 @@
-from typing import Any
+from typing import Any, ClassVar
 
+import marshmallow as ma
+from flask_resources import ResponseHandler
+from invenio_communities.errors import CommunityDeletedError as CommunityDeletedError
+from invenio_communities.members.errors import (
+    AlreadyMemberError as AlreadyMemberError,
+)
+from invenio_communities.members.errors import (
+    InvalidMemberError as InvalidMemberError,
+)
 from invenio_records_resources.resources import RecordResourceConfig
 
-from ...errors import CommunityDeletedError as CommunityDeletedError
-from ..errors import AlreadyMemberError as AlreadyMemberError
-from ..errors import InvalidMemberError as InvalidMemberError
-
 class MemberResourceConfig(RecordResourceConfig):
-    blueprint_name: str
-    url_prefix: str
-    routes: dict[str, str]
-    request_view_args: dict[str, Any]
-    error_handlers: dict[type, Any]
-    response_handlers: dict[str, Any]
+    url_prefix: ClassVar[str]
+    routes: ClassVar[dict[str, str]]
+    request_view_args: ClassVar[dict[str, ma.fields.Field]]
+    # Mapping from exception type to an error handler (callable or factory)
+    error_handlers: Any
+    response_handlers: ClassVar[dict[str, ResponseHandler]]

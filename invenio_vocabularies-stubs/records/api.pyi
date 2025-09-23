@@ -1,7 +1,7 @@
 from typing import ClassVar
 
-from invenio_records.dumpers import SearchDumper
-from invenio_records.models import RecordMetadataBase
+from invenio_records.dumpers import Dumper
+from invenio_records.models import RecordMetadata
 from invenio_records.systemfields import ConstantField, DictField, RelatedModelField
 from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField, PIDField
@@ -15,10 +15,10 @@ from invenio_vocabularies.records.systemfields import (
 )
 
 class Vocabulary(Record):
-    model_cls: ClassVar[type[RecordMetadataBase] | None]
+    model_cls: ClassVar[type[RecordMetadata]]
     schema: ClassVar[ConstantField]
     index: ClassVar[IndexField]
     metadata: ClassVar[DictField]
     type: ClassVar[RelatedModelField]
-    pid: ClassVar[PIDField[Vocabulary, VocabularyPIDFieldContext]]
-    dumper: ClassVar[SearchDumper]
+    pid: ClassVar[PIDField[Vocabulary, VocabularyPIDFieldContext]]  # type: ignore[type-var]
+    dumper: ClassVar[Dumper]

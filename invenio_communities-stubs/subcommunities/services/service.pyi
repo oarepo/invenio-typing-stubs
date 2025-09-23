@@ -10,13 +10,10 @@ from invenio_records_resources.services.records.schema import ServiceSchemaWrapp
 from invenio_requests.services.requests.results import RequestItem
 from werkzeug.local import LocalProxy
 
-from .errors import ParentChildrenNotAllowed as ParentChildrenNotAllowed
-from .request import SubCommunityInvitationRequest as SubCommunityInvitationRequest
-
 community_service: LocalProxy  # LocalProxy to current_communities.service
 
 class SubCommunityService(Service):
-    def _is_owner_of(self, identity: Identity, community: str) -> None: ...
+    def _is_owner_of(self, identity: Identity, community: str) -> Any: ...
     @property
     def request_cls(self) -> Type[SubCommunityRequest]: ...
     @property

@@ -2,19 +2,21 @@ from datetime import datetime
 from typing import Optional
 from uuid import UUID
 
-from invenio_db import db
-from invenio_records.models import RecordMetadataBase
+from invenio_records.models import RecordMetadata
 from sqlalchemy import Column
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import Mapped
 
-class RequestMetadata(db.Model, RecordMetadataBase):
+# Note: db.Model base comes from invenio_db; use a local placeholder to avoid dependency typing issues.
+class _Model: ...
+
+class RequestMetadata(_Model, RecordMetadata):
     __tablename__: str
     id: Mapped[UUID]
     number: Optional[str]
     expires_at: Optional[datetime]
 
-class RequestEventModel(db.Model, RecordMetadataBase):
+class RequestEventModel(_Model, RecordMetadata):
     __tablename__: str
     type: str
     request_id: UUID
@@ -32,5 +34,5 @@ class SequenceMixin:
     @classmethod
     def next(cls) -> int: ...
 
-class RequestNumber(db.Model, SequenceMixin):
+class RequestNumber(_Model, SequenceMixin):
     __tablename__: str

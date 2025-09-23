@@ -1,9 +1,8 @@
 from typing import Any, Mapping, Optional
 
+from invenio_communities.proxies import current_roles as current_roles
 from invenio_communities.roles import Role
 from marshmallow import fields
-
-from ...proxies import current_roles as current_roles
 
 class RoleField(fields.Str):
     default_error_messages: dict[str, str]
@@ -16,3 +15,10 @@ class RoleField(fields.Str):
         data: Optional[Mapping[str, Any]],
         **kwargs,
     ) -> Role: ...
+    def _serialize(
+        self,
+        value: Role | str | None,
+        attr: Optional[str],
+        obj: Any,
+        **kwargs,
+    ) -> str | None: ...

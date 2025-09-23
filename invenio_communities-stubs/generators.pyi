@@ -4,11 +4,10 @@ from flask_principal import Identity, Need
 from invenio_communities.communities.records.systemfields.deletion_status import (
     CommunityDeletionStatusEnum as CommunityDeletionStatusEnum,
 )
+from invenio_communities.members.records.api import Member
 from invenio_communities.proxies import current_roles as current_roles
 from invenio_records_permissions.generators import Generator
 from invenio_search.engine import dsl
-
-from .members.records.api import Member
 
 class _Need(NamedTuple):
     method: str

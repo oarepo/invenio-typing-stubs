@@ -1,3 +1,5 @@
+from typing import Any
+
 from flask_principal import Identity
 from invenio_communities.members.services.service import MemberService
 from invenio_communities.notifications.builders import (
@@ -12,10 +14,9 @@ from invenio_communities.notifications.builders import (
 from invenio_communities.notifications.builders import (
     CommunityInvitationExpireNotificationBuilder as CommunityInvitationExpireNotificationBuilder,
 )
+from invenio_communities.proxies import current_communities as current_communities
 from invenio_db.uow import UnitOfWork
 from invenio_requests.customizations import RequestType, actions
-
-from ...proxies import current_communities as current_communities
 
 def service() -> MemberService: ...
 
@@ -41,7 +42,7 @@ class CommunityInvitation(RequestType):
     allowed_creator_ref_types: list[str]
     allowed_receiver_ref_types: list[str]
     allowed_topic_ref_types: list[str]
-    needs_context: str | None
+    needs_context: Any
 
 class CancelMembershipRequestAction(actions.CancelAction):
     def execute(self, identity: Identity, uow: UnitOfWork) -> None: ...

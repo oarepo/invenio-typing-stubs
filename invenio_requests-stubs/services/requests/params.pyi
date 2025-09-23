@@ -1,5 +1,5 @@
 from functools import partial
-from typing import Any, Dict
+from typing import Any, Dict, Mapping
 
 from flask_principal import Identity
 from invenio_records_resources.services.records.params import (
@@ -16,7 +16,7 @@ class ReferenceFilterParam(FilterParam):
     ) -> None: ...
     def _is_valid(self, ref_type: str, ref_id: str) -> bool: ...
     def apply(
-        self, identity: Identity, search: RecordsSearchV2, params: Dict[str, Any]
+        self, identity: Identity, search: RecordsSearchV2, params: Mapping[str, Any]
     ) -> RecordsSearchV2: ...
 
 class IsOpenParam(ParamInterpreter):
@@ -25,11 +25,11 @@ class IsOpenParam(ParamInterpreter):
     @classmethod
     def factory(cls, field: str) -> partial: ...
     def apply(
-        self, identity: Identity, search: RecordsSearchV2, params: Dict[str, Any]
+        self, identity: Identity, search: RecordsSearchV2, params: Mapping[str, Any]
     ) -> RecordsSearchV2: ...
 
 class SharedOrMyRequestsParam(ParamInterpreter):
     def _generate_my_requests_query(self, identity: Identity) -> Bool: ...
     def apply(
-        self, identity: Identity, search: RecordsSearchV2, params: Dict[str, Any]
+        self, identity: Identity, search: RecordsSearchV2, params: Mapping[str, Any]
     ) -> RecordsSearchV2: ...

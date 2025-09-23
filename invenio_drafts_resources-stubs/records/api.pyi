@@ -10,7 +10,7 @@ from invenio_drafts_resources.records.systemfields import (
 )
 from invenio_pidstore.models import PIDStatus
 from invenio_pidstore.providers.recordid_v2 import RecordIdProviderV2
-from invenio_records.models import RecordMetadataBase
+from invenio_records.models import RecordMetadata
 from invenio_records.systemfields import ModelField
 from invenio_records_resources.records import Record as RecordBase
 from invenio_records_resources.records.systemfields import (
@@ -22,12 +22,12 @@ class DraftRecordIdProviderV2(RecordIdProviderV2):
     default_status_with_obj: ClassVar[PIDStatus]
 
 class ParentRecord(RecordBase):
-    model_cls: ClassVar[type[RecordMetadataBase] | None]
+    model_cls: ClassVar[type[RecordMetadata]]
     pid: ClassVar[PIDField]
 
 class Record(RecordBase):
     is_draft: ClassVar[bool]
-    model_cls: ClassVar[type[RecordMetadataBase] | None]
+    model_cls: ClassVar[type[RecordMetadata]]
     versions_model_cls: ClassVar[type | None]
     parent_record_cls: ClassVar[type["ParentRecord"] | None]
     pid: ClassVar[PIDField]
@@ -44,17 +44,17 @@ class Record(RecordBase):
     def get_records_by_parent(
         cls,
         parent: "ParentRecord",
-        with_deleted: bool = True,
-        ids_only: bool = Literal[True],
+        with_deleted: bool,
+        ids_only: Literal[True],
     ) -> Generator[UUID, None, None]: ...  # keep typing as there are two branches
     @overload
     @classmethod
     def get_records_by_parent(
         cls,
         parent: "ParentRecord",
-        with_deleted: bool = True,
-        ids_only: bool = Literal[False],
-    ) -> Generator["Record", None, None]: ...  # keep typing as there are two branches
+        with_deleted: bool,
+        ids_only: Literal[False],
+    ) -> Generator["Record", None, None]: ...
     @classmethod
     def get_latest_by_parent(
         cls, parent: "ParentRecord", id_only: bool = ...
@@ -65,7 +65,7 @@ class Record(RecordBase):
 
 class Draft(Record):
     is_draft: ClassVar[bool]
-    model_cls: ClassVar[type[RecordMetadataBase] | None]
+    model_cls: ClassVar[type[RecordMetadata]]
     versions_model_cls: ClassVar[type | None]
     parent_record_cls: ClassVar[type["ParentRecord"] | None]
     pid: ClassVar[PIDField]

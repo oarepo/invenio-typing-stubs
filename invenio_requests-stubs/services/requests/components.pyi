@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 from flask_principal import Identity
 from invenio_db.uow import UnitOfWork
+from invenio_records_resources.records.api import Record as BaseRecord
 from invenio_records_resources.services.records.components import (
     DataComponent,
     ServiceComponent,
@@ -37,7 +38,7 @@ class RequestDataComponent(DataComponent):
         self,
         identity: Identity,
         data: Optional[Dict[str, Any]] = None,
-        record: Optional["Request"] = None,
+        record: BaseRecord | None = None,
         **kwargs: Any,
     ) -> None: ...
 
@@ -51,7 +52,7 @@ class RequestReviewersComponent(ServiceComponent):
         self,
         identity: Identity,
         data: Optional[Dict[str, Any]] = None,
-        record: Optional["Request"] = None,
+        record: BaseRecord | None = None,
         uow: Optional[UnitOfWork] = None,
         **kwargs: Any,
     ) -> None: ...
@@ -61,6 +62,6 @@ class RequestPayloadComponent(DataComponent):
         self,
         identity: Identity,
         data: Optional[Dict[str, Any]] = None,
-        record: Optional["Request"] = None,
+        record: BaseRecord | None = None,
         **kwargs: Any,
     ) -> None: ...

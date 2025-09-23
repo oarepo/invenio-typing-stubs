@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Dict, Optional, Type
 
 from invenio_records.systemfields import SystemField
 from invenio_records_resources.records.api import Record
@@ -17,8 +17,8 @@ class Children:
 class ChildrenField(SystemField[Record, Children]):
     children_obj_class = Children
     def __init__(
-        self, key: str = "children", children_obj_class: Optional[type] = None
+        self, key: str = "children", children_obj_class: Optional[Type[Children]] = None
     ) -> None: ...
     def obj(self, instance: Record) -> Children: ...
-    def set_obj(self, record: Record, obj: Children) -> None: ...
+    def set_obj(self, record: Record, obj: Children | Dict[str, bool]) -> None: ...
     def pre_commit(self, record: Record) -> None: ...

@@ -1,12 +1,13 @@
-from typing import Any, Type
+from typing import Any, ClassVar, Type
 
+from invenio_communities.communities.records.models import (
+    CommunityMetadata as CommunityMetadata,
+)
 from sqlalchemy.ext.declarative import declared_attr
 
-from ...communities.records.models import CommunityMetadata as CommunityMetadata
-
 class CommunityRelationMixin:
-    __record_model__: Type[Any]
-    __request_model__: Type[Any]
+    __record_model__: ClassVar[Type[Any] | None]
+    __request_model__: ClassVar[Type[Any] | None]
     @declared_attr
     def community_id(cls): ...
     @declared_attr

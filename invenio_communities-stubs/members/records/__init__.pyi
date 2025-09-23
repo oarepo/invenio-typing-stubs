@@ -1,4 +1,7 @@
-from .api import Member as Member
-from .models import MemberModel as MemberModel
+from invenio_communities.members.records.api import Member as Member
+from invenio_communities.members.records.models import MemberModel as MemberModel
 
-__all__ = ['Member', 'MemberModel']
+__all__ = (
+    "Member",
+    "MemberModel",
+)

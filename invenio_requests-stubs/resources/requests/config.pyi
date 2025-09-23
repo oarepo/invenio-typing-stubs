@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, ClassVar, Dict
 
 from _typeshed import Incomplete
 from invenio_records_resources.resources import (
@@ -23,10 +23,11 @@ class RequestSearchRequestArgsSchema(SearchRequestArgsSchema):
 request_error_handlers: Dict[type, Any]
 
 class RequestsResourceConfig(RecordResourceConfig, ConfiguratorMixin):
-    blueprint_name: Optional[str]
-    url_prefix: str
-    routes: Dict[str, str]
-    request_view_args: Dict[str, Any]
-    request_search_args = RequestSearchRequestArgsSchema
-    error_handlers: Any
-    response_handlers: Dict[str, Incomplete]
+    # Do not redeclare blueprint_name to avoid incompatible narrowing (base is None)
+    # Match exact base types for overrides where needed
+    url_prefix: ClassVar[str]
+    routes: ClassVar[Dict[str, str]]
+    request_view_args: ClassVar[Dict[str, Any]]
+    request_search_args: ClassVar[type[SearchRequestArgsSchema]]
+    error_handlers: ClassVar[Any]
+    response_handlers: ClassVar[Dict[str, Incomplete]]

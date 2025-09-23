@@ -1,7 +1,8 @@
 from enum import Enum
 from typing import Any, Callable, ClassVar
 
-from invenio_records.dumpers import SearchDumper
+from invenio_records.dumpers import Dumper
+from invenio_records.models import RecordMetadata
 from invenio_records.systemfields import ConstantField, DictField, ModelField
 from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField
@@ -45,8 +46,8 @@ from invenio_requests.records.systemfields.entity_reference import (
 )
 
 class Request(Record):
-    model_cls = RequestMetadata
-    dumper: ClassVar[SearchDumper]
+    model_cls: ClassVar[type[RecordMetadata]]
+    dumper: ClassVar[Dumper]
     number: ClassVar[IdentityField]
     index: ClassVar[IndexField]
     schema: ClassVar[ConstantField]
@@ -65,7 +66,7 @@ class RequestEventFormat(Enum):
     HTML = "html"
 
 class RequestEvent(Record):
-    model_cls = RequestEventModel
+    model_cls: ClassVar[type[RecordMetadata]]
     schema: ClassVar[ConstantField]
     request: ClassVar[ModelField]
     request_id: ClassVar[DictField]

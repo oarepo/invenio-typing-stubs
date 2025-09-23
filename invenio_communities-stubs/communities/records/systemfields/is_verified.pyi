@@ -5,6 +5,6 @@ from invenio_records_resources.records.systemfields.calculated import (
     CalculatedIndexedField,
 )
 
-class IsVerifiedField(CalculatedIndexedField):
+class IsVerifiedField(CalculatedIndexedField[Community, bool]):
     def __init__(self, key: Optional[str] = None, **kwargs: Any) -> None: ...
-    def calculate(self, record: Community) -> bool: ...  # type: ignore[override]
+    def calculate(self, record: Community) -> bool: ...

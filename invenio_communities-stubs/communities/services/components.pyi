@@ -2,16 +2,19 @@ from typing import Any, Dict, List, Optional, Type
 
 from flask_principal import Identity
 from invenio_communities.communities.records.api import Community
-from invenio_oaiserver.models import OAISet
-from invenio_records_resources.services.records.components import ServiceComponent
-
-from ...generators import CommunityRoleNeed as CommunityRoleNeed
-from ...proxies import current_roles as current_roles
-from ...utils import on_user_membership_change as on_user_membership_change
-from ..records.systemfields.access import VisibilityEnum as VisibilityEnum
-from ..records.systemfields.deletion_status import (
+from invenio_communities.communities.records.systemfields.access import (
+    VisibilityEnum as VisibilityEnum,
+)
+from invenio_communities.communities.records.systemfields.deletion_status import (
     CommunityDeletionStatusEnum as CommunityDeletionStatusEnum,
 )
+from invenio_communities.generators import CommunityRoleNeed as CommunityRoleNeed
+from invenio_communities.proxies import current_roles as current_roles
+from invenio_communities.utils import (
+    on_user_membership_change as on_user_membership_change,
+)
+from invenio_oaiserver.models import OAISet
+from invenio_records_resources.services.records.components import ServiceComponent
 
 class PIDComponent(ServiceComponent):
     def set_slug(self, record: Community, slug: str) -> None: ...
@@ -39,7 +42,11 @@ class PIDComponent(ServiceComponent):
 
 class CommunityAccessComponent(ServiceComponent):
     def _populate_access_and_validate(
-        self, identity: Identity, data: Dict[str, Any], record: Community, **kwargs: Any
+        self,
+        identity: Identity,
+        data: Dict[str, Any],
+        record: Optional[Community],
+        **kwargs: Any,
     ) -> None: ...
     def create(
         self,
@@ -176,14 +183,14 @@ class CommunityThemeComponent(ServiceComponent):
         identity: Identity,
         data: Optional[Dict[str, Any]] = None,
         record: Optional[Community] = None,
-        errors: None = None,
+        errors: Optional[List[Any]] = None,
         **kwargs: Any,
     ) -> None: ...
 
 class CommunityParentComponent(ServiceComponent):
     def _validate_and_get_parent(
         self, parent_data: Optional[Dict[str, Any]], child: Community
-    ) -> Community: ...
+    ) -> Optional[Community]: ...
     def create(
         self,
         identity: Identity,

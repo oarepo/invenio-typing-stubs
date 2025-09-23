@@ -1,67 +1,56 @@
-from typing import Dict, List, Optional, Union
+from typing import Any, Dict, Mapping, Optional
 
 from invenio_communities.members.records.api import Member
-from invenio_communities.roles import Role
+from invenio_communities.members.services.fields import RoleField as RoleField
 from marshmallow import Schema, fields, validates_schema
-
-from .fields import RoleField as RoleField
+from marshmallow_utils.fields import TZDateTime
 
 class MemberEntitySchema(Schema):
-    type: fields.Str
-    id: fields.Str
-    is_current_user: fields.Bool
+    type: fields.String
+    id: fields.String
+    is_current_user: fields.Boolean
 
 class MembersSchema(Schema):
     members: fields.List
 
 class RequestSchema(Schema):
-    id: fields.Str
-    status: fields.Str
-    is_open: fields.Bool
-    expires_at: fields.Str
+    id: fields.String
+    status: fields.String
+    is_open: fields.Boolean
+    expires_at: fields.String
 
 class AddBulkSchema(MembersSchema, Schema):
     role: RoleField
-    visible: fields.Bool
+    visible: fields.Boolean
 
 class InviteBulkSchema(AddBulkSchema):
-    message: fields.Str
+    message: fields.String
 
 class UpdateBulkSchema(MembersSchema, Schema):
     role: RoleField
-    visible: fields.Bool
+    visible: fields.Boolean
     @validates_schema
-    def validate_schema(
-        self, data: Dict[str, Union[List[Dict[str, str]], Role, bool]], **kwargs
-    ) -> None: ...
+    def validate_schema(self, data: Mapping[str, Any], **kwargs) -> None: ...
 
 class DeleteBulkSchema(MembersSchema): ...
 
 class RequestMembershipSchema(Schema):
-    message: fields.Str
+    message: fields.String
 
 class PublicDumpSchema(Schema):
-    id: fields.Str
+    id: fields.String
     member: fields.Method
-    def get_member(self, obj: Member) -> Dict[str, str]: ...
-    def get_user_member(
-        self,
-        user: Dict[
-            str,
-            Optional[
-                Union[str, Dict[str, str], Dict[str, Union[str, Dict[str, bool]]], bool]
-            ],
-        ],
-    ) -> Dict[str, str]: ...
-    def get_group_member(self, group: Dict[str, str]) -> Dict[str, str]: ...
+    def get_member(self, obj: Member) -> Optional[Dict[str, str]]: ...
+    def get_user_member(self, user: Mapping[str, Any]) -> Dict[str, str]: ...
+    def get_group_member(self, group: Mapping[str, Any]) -> Dict[str, str]: ...
 
 class MemberDumpSchema(PublicDumpSchema):
-    role: fields.Str
-    visible: fields.Bool
+    role: fields.String
+    visible: fields.Boolean
     is_current_user: fields.Method
     permissions: fields.Method
-    created: fields.DateTime
-    updated: fields.DateTime
+    created: TZDateTime
+    updated: TZDateTime
     revision_id: fields.Int
     def is_self(self, obj: Member) -> bool: ...
     def get_current_user(self, obj: Member) -> bool: ...
@@ -70,4 +59,4 @@ class MemberDumpSchema(PublicDumpSchema):
 class InvitationDumpSchema(MemberDumpSchema):
     request: fields.Nested
     permissions: fields.Method
-    def get_permissions(self, obj: Member) -> Dict[str, bool]: ...
+    def get_permissions(self, obj: Mapping[str, Any]) -> Dict[str, bool]: ...

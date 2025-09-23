@@ -6,9 +6,10 @@ from invenio_communities.records.records.systemfields.communities.context import
 from invenio_communities.records.records.systemfields.communities.manager import (
     CommunitiesRelationManager as CommunitiesRelationManager,
 )
+from invenio_records.api import Record
 from invenio_records.systemfields import SystemField
 
-class CommunitiesField(SystemField):
+class CommunitiesField(SystemField[Record, CommunitiesRelationManager]):
     def __init__(
         self,
         m2m_model_cls: Type[Any],
@@ -16,12 +17,11 @@ class CommunitiesField(SystemField):
         context_cls: Optional[Type[Any]] = None,
         manager_cls: Optional[Type[Any]] = None,
     ) -> None: ...
-    def pre_commit(self, record: Any) -> None: ...
-    def obj(self, record: Any) -> CommunitiesRelationManager: ...
-    def __get__(self, record: Any, owner: Type[Any]) -> Any: ...
+    def pre_commit(self, record: Record) -> None: ...
+    def obj(self, record: Record) -> CommunitiesRelationManager: ...
     def post_dump(
-        self, record: Any, data: Any, dumper: Optional[Any] = None
+        self, record: Record, data: Any, dumper: Optional[Any] = None
     ) -> None: ...
     def post_load(
-        self, record: Any, data: Any, loader: Optional[Any] = None
+        self, record: Record, data: Any, loader: Optional[Any] = None
     ) -> None: ...

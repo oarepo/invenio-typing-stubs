@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Mapping
 
 from flask_principal import Identity
 from invenio_communities.communities.records.systemfields.deletion_status import (
@@ -12,7 +12,7 @@ class StatusParam(ParamInterpreter):
         self,
         identity: Identity,
         search: RecordsSearchV2,
-        params: Dict[str, Any],
+        params: Mapping[str, Any],
     ) -> RecordsSearchV2: ...
 
 class IncludeDeletedCommunitiesParam(ParamInterpreter):
@@ -20,5 +20,5 @@ class IncludeDeletedCommunitiesParam(ParamInterpreter):
         self,
         identity: Identity,
         search: RecordsSearchV2,
-        params: Dict[str, Any],
+        params: Mapping[str, Any],
     ) -> RecordsSearchV2: ...

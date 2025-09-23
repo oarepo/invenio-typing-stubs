@@ -1,4 +1,4 @@
-from typing import Any, Optional, Type
+from typing import ClassVar
 
 from invenio_communities.communities.records import models as models
 from invenio_communities.communities.records.systemfields.access import (
@@ -22,29 +22,34 @@ from invenio_communities.communities.records.systemfields.pidslug import (
 from invenio_communities.communities.records.systemfields.tombstone import (
     TombstoneField as TombstoneField,
 )
+from invenio_records.dumpers import Dumper
+from invenio_records.models import RecordMetadata
+from invenio_records.systemfields import ConstantField, DictField, ModelField
+from invenio_records.systemfields.relations import MultiRelationsField
 from invenio_records_resources.records.api import FileRecord, Record
+from invenio_records_resources.records.systemfields import PIDField
+from invenio_records_resources.records.systemfields.files.field import FilesField
+from invenio_records_resources.records.systemfields.index import IndexField
 
 class CommunityFile(FileRecord):
-    model_cls: Optional[Type[Any]]
-    record_cls: Optional[Type[Any]]
+    model_cls: ClassVar[type[RecordMetadata]]
+    record_cls: ClassVar[type[Record]]
 
 class Community(Record):
-    id: Any
-    slug: Any
-    pid: PIDSlugField
+    pid: ClassVar[PIDField]
     parent: ParentCommunityField
     children: ChildrenField
-    schema: Any
-    model_cls: Optional[Type[Any]]
-    dumper: Any
-    index: Any
-    access: CommunityAccessField
-    custom_fields: Any
-    theme: Any
-    bucket_id: Any
-    bucket: Any
-    files: Any
-    relations: Any
-    is_verified: IsVerifiedField
-    deletion_status: CommunityDeletionStatusField
-    tombstone: TombstoneField
+    schema: ClassVar[ConstantField]
+    model_cls: ClassVar[type[RecordMetadata]]
+    dumper: ClassVar[Dumper]
+    index: ClassVar[IndexField]
+    access: ClassVar[CommunityAccessField]
+    custom_fields: ClassVar[DictField]
+    theme: ClassVar[DictField]
+    bucket_id: ClassVar[ModelField]
+    bucket: ClassVar[ModelField]
+    files: ClassVar[FilesField]
+    relations: ClassVar[MultiRelationsField]
+    is_verified: ClassVar[IsVerifiedField]
+    deletion_status: ClassVar[CommunityDeletionStatusField]
+    tombstone: ClassVar[TombstoneField]

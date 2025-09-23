@@ -1,12 +1,15 @@
-from typing import Any, List, Optional, Union
+from typing import Any, ClassVar, List, Optional, Union
 from uuid import UUID
 
 from flask_sqlalchemy.query import Query
-from invenio_db import db
+from invenio_communities.communities.records.models import (
+    CommunityMetadata as CommunityMetadata,
+)
 from invenio_records.models import RecordMetadataBase
 from sqlalchemy.ext.declarative import declared_attr
 
-from ...communities.records.models import CommunityMetadata as CommunityMetadata
+# Note: db.Model base comes from invenio_db; use a local placeholder to avoid dependency typing issues.
+class _Model: ...
 
 class BaseMemberModel(RecordMetadataBase):
     id: Any
@@ -33,12 +36,12 @@ class BaseMemberModel(RecordMetadataBase):
         cls, community_id: UUID, role: Optional[str] = None, active: bool = True
     ) -> int: ...
 
-class MemberModel(db.Model, BaseMemberModel):
-    __tablename__: str
-    __table_args__: tuple[Any, ...]
+class MemberModel(_Model, BaseMemberModel):
+    __tablename__: ClassVar[str]
+    __table_args__: ClassVar[tuple[Any, ...]]
 
-class ArchivedInvitationModel(db.Model, BaseMemberModel):
-    __tablename__: str
+class ArchivedInvitationModel(_Model, BaseMemberModel):
+    __tablename__: ClassVar[str]
     @classmethod
     def from_member_model(
         cls, member_model: MemberModel

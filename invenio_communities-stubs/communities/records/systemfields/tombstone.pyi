@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Type
+from typing import Any, Dict, Optional
 
 from invenio_communities.communities.records.api import Community
 from invenio_records.systemfields import SystemField
@@ -34,9 +34,6 @@ class Tombstone:
     def removed_by_proxy(self) -> UserProxy: ...
     def dump(self) -> Dict[str, Any]: ...
 
-class TombstoneField(SystemField):
-    def __get__(
-        self, record: Optional[Community], owner: Optional[Type[Community]] = None
-    ) -> Any: ...
-    def __set__(self, record: Community, value: Optional[Any]) -> None: ...
+class TombstoneField(SystemField[Community, Optional[Tombstone]]):
+    pass
     def pre_commit(self, record: Community) -> None: ...
