@@ -1,13 +1,15 @@
 from __future__ import annotations
 
-from typing import Mapping
+from typing import Any
 
 from _typeshed import Incomplete
+from flask_principal import Identity
 from invenio_records_resources.services.records.config import SearchOptions
 from invenio_records_resources.services.records.params.base import ParamInterpreter
+from invenio_search import RecordsSearchV2
 
 class FacetsParam(ParamInterpreter):
-    selected_values: dict[str, Incomplete]
+    selected_values: dict[str, Any]
     _filters: dict[str, Incomplete]
 
     def __init__(self, config: type[SearchOptions]) -> None: ...
@@ -15,10 +17,10 @@ class FacetsParam(ParamInterpreter):
     def aggregate(self, search: Incomplete) -> Incomplete: ...
     def apply(
         self,
-        identity: Incomplete,
-        search: Incomplete,
-        params: Mapping[str, Incomplete],
-    ) -> Incomplete: ...
+        identity: Identity,
+        search: RecordsSearchV2,
+        params: dict[str, Any],
+    ) -> RecordsSearchV2: ...
     @property
-    def facets(self) -> dict[str, Incomplete]: ...
-    def filter(self, search: Incomplete) -> Incomplete: ...
+    def facets(self) -> dict[str, Any]: ...
+    def filter(self, search: RecordsSearchV2) -> RecordsSearchV2: ...

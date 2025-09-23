@@ -1,5 +1,5 @@
 from datetime import timedelta
-from typing import ClassVar, Generator
+from typing import ClassVar, Generator, Literal, overload
 from uuid import UUID
 
 from invenio_drafts_resources.records.systemfields import (
@@ -34,11 +34,27 @@ class Record(RecordBase):
     is_published: ClassVar[PIDStatusCheckField]
     parent: ClassVar[ParentField]
     versions: ClassVar[VersionsField]
-
+    @overload
     @classmethod
     def get_records_by_parent(
-        cls, parent: "ParentRecord", with_deleted: bool = ..., ids_only: bool = ...
-    ) -> Generator["Record", None, None] | Generator[UUID, None, None]: ...
+        cls, parent: "ParentRecord", with_deleted: bool = True
+    ) -> Generator["Record", None, None]: ...  # keep typing as there are two branches
+    @overload
+    @classmethod
+    def get_records_by_parent(
+        cls,
+        parent: "ParentRecord",
+        with_deleted: bool = True,
+        ids_only: bool = Literal[True],
+    ) -> Generator[UUID, None, None]: ...  # keep typing as there are two branches
+    @overload
+    @classmethod
+    def get_records_by_parent(
+        cls,
+        parent: "ParentRecord",
+        with_deleted: bool = True,
+        ids_only: bool = Literal[False],
+    ) -> Generator["Record", None, None]: ...  # keep typing as there are two branches
     @classmethod
     def get_latest_by_parent(
         cls, parent: "ParentRecord", id_only: bool = ...

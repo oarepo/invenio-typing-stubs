@@ -9,14 +9,15 @@
 
 from __future__ import annotations
 
-from typing import Mapping
+from typing import Any
 
-from _typeshed import Incomplete
+from flask_principal import Identity
 from invenio_records_resources.services.records.config import SearchOptions
+from invenio_search import RecordsSearchV2
 
 class ParamInterpreter:
     config: type[SearchOptions]
     def __init__(self, config: type[SearchOptions]) -> None: ...
     def apply(
-        self, identity: Incomplete, search: Incomplete, params: Mapping[str, Incomplete]
-    ) -> Incomplete: ...
+        self, identity: Identity, search: RecordsSearchV2, params: dict[str, Any]
+    ) -> RecordsSearchV2: ...

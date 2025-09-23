@@ -1,8 +1,9 @@
 import abc
-from typing import Any, ClassVar, Collection, Mapping, Optional, Sequence
+from typing import Any, ClassVar, Collection, Optional, Sequence
 
 from flask_principal import ActionNeed as ActionNeed
 from flask_principal import Identity, Need
+from invenio_records.api import Record
 from invenio_search.engine import dsl
 
 class Generator:
@@ -30,7 +31,7 @@ class Disable(Generator):
 
 class RecordOwners(Generator):
     def needs(
-        self, record: Optional[Mapping[str, Any]] = ..., **kwargs: Any
+        self, record: Optional[Record] = ..., **kwargs: Any
     ) -> Collection[Need]: ...
     def query_filter(
         self, identity: Optional[Identity] = ..., **kwargs: Any
@@ -38,10 +39,10 @@ class RecordOwners(Generator):
 
 class AnyUserIfPublic(Generator):
     def needs(
-        self, record: Optional[Mapping[str, Any]] = ..., **kwargs: Any
+        self, record: Optional[Record] = ..., **kwargs: Any
     ) -> Collection[Need]: ...
     def excludes(
-        self, record: Optional[Mapping[str, Any]] = ..., **kwargs: Any
+        self, record: Optional[Record] = ..., **kwargs: Any
     ) -> Collection[Need]: ...
     def query_filter(self, **kwargs: Any) -> dsl.query.Query: ...
 
@@ -54,7 +55,7 @@ class AllowedByAccessLevel(Generator):
     action: str
     def __init__(self, action: str = "read") -> None: ...
     def needs(
-        self, record: Optional[Mapping[str, Any]] = ..., **kwargs: Any
+        self, record: Optional[Record] = ..., **kwargs: Any
     ) -> Collection[Need]: ...
     def query_filter(
         self, identity: Optional[Identity] = ..., **kwargs: Any
@@ -77,13 +78,13 @@ class ConditionalGenerator(Generator, metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def _condition(self, **kwargs: Any) -> bool: ...
     def _generators(
-        self, record: Optional[Mapping[str, Any]] = ..., **kwargs: Any
+        self, record: Optional[Record] = ..., **kwargs: Any
     ) -> Sequence[Generator]: ...
     def needs(
-        self, record: Optional[Mapping[str, Any]] = ..., **kwargs: Any
+        self, record: Optional[Record] = ..., **kwargs: Any
     ) -> Collection[Need]: ...
     def excludes(
-        self, record: Optional[Mapping[str, Any]] = ..., **kwargs: Any
+        self, record: Optional[Record] = ..., **kwargs: Any
     ) -> Collection[Need]: ...
     @staticmethod
     def _make_query(
