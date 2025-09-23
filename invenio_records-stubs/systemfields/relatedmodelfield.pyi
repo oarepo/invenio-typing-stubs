@@ -8,7 +8,7 @@ class RelatedModelFieldContext[R: Record = Record](SystemFieldContext):
 
 class RelatedModelField[
     R: Record = Record,
-    C: RelatedModelFieldContext = RelatedModelFieldContext[R],
+    C: RelatedModelFieldContext = RelatedModelFieldContext,
     M: Any = Any,
 ](SystemField[R, Optional[M]]):
     _model: Type[M]
