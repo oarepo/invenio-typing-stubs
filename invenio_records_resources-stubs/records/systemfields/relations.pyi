@@ -7,11 +7,11 @@ from invenio_records.systemfields.relations import (
     RelationBase,
 )
 from invenio_records_resources.records.api import Record
-from invenio_records_resources.records.systemfields import PIDField
+from invenio_records_resources.records.systemfields.pid import PIDFieldContext
 
 class PIDRelation[R: Record = Record](RelationBase):
     def __init__(
-        self, *args: Any, pid_field: Optional[PIDField[R]] = ..., **kwargs: Any
+        self, *args: Any, pid_field: Optional[PIDFieldContext[R]] = ..., **kwargs: Any
     ) -> None: ...
     def resolve(self, id_: str) -> Optional[R]: ...
     def parse_value(self, value: Union[str, PersistentIdentifier, R]) -> str: ...

@@ -7,7 +7,9 @@ def obj_or_import_string(value, default=None): ...
 
 class RecordPermissionPolicy(BasePermissionPolicy):
     NEED_LABEL_TO_ACTION: dict[str, str]
-    can_read_files: ClassVar[Collection[Generator]]
+    can_read_files: ClassVar[
+        Collection[Generator]
+    ]  # keep typing to ClassVar[Collection[Generator]] be consistent with invenio-records-permissions
     can_update_files: ClassVar[Collection[Generator]]
     can_read_deleted_files: ClassVar[Collection[Generator]]
     can_create_or_update_many: ClassVar[Collection[Generator]]

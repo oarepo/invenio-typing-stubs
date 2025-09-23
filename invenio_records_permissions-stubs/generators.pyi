@@ -6,6 +6,9 @@ from flask_principal import Identity, Need
 from invenio_records.api import Record
 from invenio_search.engine import dsl
 
+# keep typing: using record: Record here instead of dict to be consistent with the usage
+# in invenio_records_resources and elsewhere.
+
 class Generator:
     def needs(self, **kwargs: Any) -> Collection[Need]: ...
     def excludes(self, **kwargs: Any) -> Collection[Need]: ...
