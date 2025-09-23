@@ -23,7 +23,7 @@ class PIDFieldContext[R: Record = Record](RelatedModelFieldContext[R]):
         with_deleted: bool = ...,
     ) -> R: ...
 
-class PIDField[R: Record = Record](RelatedModelField[R, PIDFieldContext[R], PersistentIdentifier]):  # type: ignore[type-var]
+class PIDField[R: Record = Record, C: PIDFieldContext = PIDFieldContext[Record]](RelatedModelField[R, C, PersistentIdentifier]):  # type: ignore[type-var]
     def __init__(
         self,
         key: str = ...,
