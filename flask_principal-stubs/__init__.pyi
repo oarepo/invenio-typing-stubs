@@ -54,8 +54,8 @@ class IdentityContext:
     def __exit__(self, *args: Any) -> bool: ...
 
 class Permission:
-    needs: set[Need | ItemNeed]
-    excludes: set[Need | ItemNeed]
+    needs: set[tuple]  # keep typing as we want to add many types of needs here
+    excludes: set[tuple]  # keep typing as we want to add many types of needs here
 
     def __init__(self, *needs: Need | ItemNeed) -> None: ...
     def _bool(self) -> bool: ...

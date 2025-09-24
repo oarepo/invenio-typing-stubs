@@ -10,7 +10,7 @@
 
 """Record Service API."""
 
-from typing import Any, Callable, ClassVar
+from typing import Any, Callable, ClassVar, Sequence
 
 import marshmallow as ma
 from invenio_indexer.api import RecordIndexer
@@ -18,6 +18,7 @@ from invenio_records.dumpers import Dumper
 from invenio_records_resources.records import Record
 from invenio_records_resources.services.base import ServiceConfig
 from invenio_records_resources.services.base.links import Link
+from invenio_records_resources.services.records.components.base import ServiceComponent
 from invenio_records_resources.services.records.params import ParamInterpreter
 from invenio_records_resources.services.records.queryparser import QueryParser
 from invenio_search import RecordsSearchV2
@@ -53,5 +54,20 @@ class RecordServiceConfig(ServiceConfig):
     schema: ClassVar[type[ma.Schema] | None]
 
     # Definition of those is left up to implementations
-    links_item: ClassVar[dict[str, Callable[..., Any] | Link]]
-    links_search: ClassVar[dict[str, Callable[..., Any] | Link]]
+
+    @property
+    def links_item(
+        self,
+    ) -> dict[
+        str, Callable[..., Any] | Link
+    ]: ...  # keep typing to be able to use property
+    @property
+    def links_search(
+        self,
+    ) -> dict[
+        str, Callable[..., Any] | Link
+    ]: ...  # keep typing to be able to use property
+    @property
+    def components(
+        self,
+    ) -> Sequence[type[ServiceComponent]]: ...  # keep typing to be able to use property

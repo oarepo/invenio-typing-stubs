@@ -1,5 +1,4 @@
 import click
-from flask.cli import with_appcontext
 from invenio_communities.fixtures.demo import (
     create_fake_community as create_fake_community,
 )
@@ -13,18 +12,12 @@ from invenio_communities.proxies import (
     current_identities_cache as current_identities_cache,
 )
 
-def communities() -> None: ...
-def identity_cache() -> None: ...
-@with_appcontext
-def clear() -> None: ...
-@with_appcontext
-def demo() -> None: ...
-@with_appcontext
-def rebuild_index() -> None: ...
-def custom_fields() -> None: ...
-@with_appcontext
-@click.option("-f", "--field-name", type=str, required=False, multiple=True)
-def create_communities_custom_field(field_name: tuple[str, ...]) -> None: ...
-@with_appcontext
-@click.option("-f", "--field-name", type=str, required=True, multiple=False)
-def custom_field_exists_in_communities(field_name: str) -> None: ...
+# keep typing of these objects. They are functions but at the same time click commands/groups
+communities: click.Group
+identity_cache: click.Group
+clear: click.Command
+demo: click.Command
+rebuild_index: click.Command
+custom_fields: click.Group
+create_communities_custom_field: click.Command
+custom_field_exists_in_communities: click.Command

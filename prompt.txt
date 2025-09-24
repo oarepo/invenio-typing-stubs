@@ -4,8 +4,7 @@ the first one is original python file and the second one is the associated type 
 
 {file_list}
 
-Before making decision what the types should be, ALWAYS read {imported_files}
-(reread them every time as they might have changed).
+ALWAYS read {imported_files} to get a better context.
 Use python3.13 syntax. For Generics, use the new class X[A: B=C, ...] syntax,
 not the TypeVar and X(Generic[A]) syntax.
 
@@ -56,7 +55,7 @@ During the process, please pay special attention to the following issues:
     is Union[dict[str, A, B, C, D, E, F] | dict[str, G, H]], try to find the base class and 
     change it just to this. If unable, change it to dict[str, Any].
 
-10. Always use absolute imports in stubs, NEVER generate relative imports.
+10. Always use absolute imports in stubs.
 
 11. Do not add a method/property if it is already defined on a parent class.
 

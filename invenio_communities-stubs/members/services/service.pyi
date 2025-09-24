@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import Any, Dict, Optional, Type
+from uuid import UUID
 
 from flask_principal import Identity
 from invenio_communities.communities.records.api import Community
@@ -127,7 +128,7 @@ class MemberService(RecordService):
     def add(
         self,
         identity: Identity,
-        community_id: str,
+        community_id: str | UUID,
         data: Dict[str, Any],
         uow: Optional[UnitOfWork] = ...,
     ) -> bool: ...
@@ -138,7 +139,7 @@ class MemberService(RecordService):
     def invite(
         self,
         identity: Identity,
-        community_id: str,
+        community_id: str | UUID,
         data: Dict[str, Any],
         uow: Optional[UnitOfWork] = ...,
     ) -> bool: ...
@@ -146,7 +147,7 @@ class MemberService(RecordService):
     def request_membership(
         self,
         identity: Identity,
-        community_id: str,
+        community_id: str | UUID,
         data: Dict[str, Any],
         uow: Optional[UnitOfWork] = ...,
     ) -> RequestItem: ...
@@ -155,7 +156,7 @@ class MemberService(RecordService):
     def search_invitations(
         self,
         identity: Identity,
-        community_id: str,
+        community_id: str | UUID,
         params: Optional[Dict[str, Any]] = ...,
         search_preference: Optional[str] = ...,
         **kwargs: Any,
@@ -163,19 +164,27 @@ class MemberService(RecordService):
     def search_public(
         self,
         identity: Identity,
-        community_id: str,
+        community_id: str | UUID,
         params: Optional[Dict[str, Any]] = ...,
         search_preference: Optional[str] = ...,
         **kwargs: Any,
     ) -> RecordList: ...
     def update(self, *args: Any, **kwargs: Any) -> Any: ...
     def update_membership_request(
-        self, identity, community_id, data, uow=None
+        self, identity: Identity, community_id: str | UUID, data, uow=None
     ) -> None: ...
     def search_membership_requests(self) -> None: ...
-    def accept_membership_request(self, identity, request_id, uow=None) -> None: ...
+    def accept_membership_request(
+        self,
+        identity: Identity,
+        request_id: str | UUID,
+        uow: Optional[UnitOfWork] = ...,
+    ) -> None: ...
     def close_membership_request(
-        self, identity: Identity, request_id: str, uow: Optional[UnitOfWork] = ...
+        self,
+        identity: Identity,
+        request_id: str | UUID,
+        uow: Optional[UnitOfWork] = ...,
     ) -> None: ...
     def rebuild_index(
         self, identity: Identity, uow: Optional[UnitOfWork] = ...

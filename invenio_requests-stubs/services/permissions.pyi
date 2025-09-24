@@ -24,5 +24,5 @@ class PermissionPolicy(RecordPermissionPolicy):
     can_action_decline: ClassVar[Collection[Generator]]
     can_update_comment: ClassVar[Collection[Generator]]
     can_delete_comment: ClassVar[Collection[Generator]]
-    can_create_comment = can_read
+    can_create_comment: ClassVar[Collection[Generator]]
     can_unused: ClassVar[Collection[Generator]]

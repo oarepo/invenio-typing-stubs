@@ -16,7 +16,6 @@ class ServiceConfig:
     result_list_cls: type[ServiceListResult]
     result_bulk_item_cls: type[ServiceBulkItemResult]
     result_bulk_list_cls: type[ServiceBulkListResult]
-    components: list[type]
 
 def _make_cls(cls: type, attrs: dict[str, Any]) -> type: ...
 
