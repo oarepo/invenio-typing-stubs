@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 from marshmallow import Schema
+from marshmallow import fields as fields
 
 class RecordSchema(Schema):
-    id: Any
+    id: fields.Str
 
 class CommunityRecordsSchema(Schema):
-    records: Any
+    records: fields.List
     def validate_records(self, value): ...

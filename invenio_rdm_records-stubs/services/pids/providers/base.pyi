@@ -1,6 +1,8 @@
 from typing import Any, Optional, Sequence
 
+from flask import Flask
 from invenio_pidstore.models import PersistentIdentifier, PIDStatus
+from invenio_rdm_records.records.api import RDMDraft, RDMRecord
 
 class PIDProvider:
     """Base class for PID providers."""
@@ -22,9 +24,11 @@ class PIDProvider:
         label: Optional[str] = ...,
         *kwargs: Any,
     ) -> None: ...
-    def generate_id(self, record: Any, **kwargs: Any) -> str: ...
+    def generate_id(
+        self, record: RDMRecord | RDMDraft | dict[str, Any], **kwargs: Any
+    ) -> str: ...
     @classmethod
-    def is_enabled(cls, app: Any | None = ...) -> bool: ...
+    def is_enabled(cls, app: Flask | None = ...) -> bool: ...
     def is_managed(self) -> bool: ...
     def can_modify(self, pid: PersistentIdentifier, **kwargs: Any) -> bool: ...
     def get(
@@ -38,15 +42,21 @@ class PIDProvider:
         **kwargs: Any,
     ) -> PersistentIdentifier: ...
     def reserve(
-        self, pid: PersistentIdentifier, record: Any | None = ..., **kwargs: Any
+        self,
+        pid: PersistentIdentifier,
+        record: RDMRecord | RDMDraft | dict[str, Any] | None = ...,
+        **kwargs: Any,
     ) -> bool: ...
     def register(
-        self, pid: PersistentIdentifier, record: Any | None = ..., **kwargs: Any
+        self,
+        pid: PersistentIdentifier,
+        record: RDMRecord | RDMDraft | dict[str, Any] | None = ...,
+        **kwargs: Any,
     ) -> bool: ...
     def update(
         self,
         pid: PersistentIdentifier,
-        record: Any | None = ...,
+        record: RDMRecord | RDMDraft | dict[str, Any] | None = ...,
         url: Optional[str] = ...,
         **kwargs: Any,
     ) -> bool | None: ...
@@ -59,7 +69,7 @@ class PIDProvider:
     ) -> Optional[bool]: ...
     def validate(
         self,
-        record: Any,
+        record: RDMRecord | RDMDraft | dict[str, Any],
         identifier: Optional[str] = ...,
         provider: Optional[str] = ...,
         **kwargs: Any,
@@ -68,6 +78,11 @@ class PIDProvider:
         self, errors: list[dict[str, Any]], error_msg: str | Sequence[str]
     ) -> None: ...
     def validate_restriction_level(
-        self, record: Any, identifier: Optional[str], **kwargs: Any
+        self,
+        record: RDMRecord | RDMDraft | dict[str, Any],
+        identifier: Optional[str],
+        **kwargs: Any,
     ) -> None: ...
-    def create_and_reserve(self, record: Any, **kwargs: Any) -> None: ...
+    def create_and_reserve(
+        self, record: RDMRecord | RDMDraft | dict[str, Any], **kwargs: Any
+    ) -> None: ...

@@ -1,12 +1,13 @@
 from typing import Any, Iterator
 
+from flask_principal import Identity
 from invenio_records_resources.services.base.results import (
     ServiceItemResult,
     ServiceListResult,
 )
 
 class BaseServiceItemResult(ServiceItemResult):
-    _identity: Any
+    _identity: Identity
     _item: Any
     _schema: Any
     _links_tpl: Any
@@ -19,7 +20,7 @@ class BaseServiceItemResult(ServiceItemResult):
     def to_dict(self) -> dict[str, Any]: ...
 
 class BaseServiceListResult(ServiceListResult):
-    _identity: Any
+    _identity: Identity
     _results: Any
     _service: Any
     _schema: Any

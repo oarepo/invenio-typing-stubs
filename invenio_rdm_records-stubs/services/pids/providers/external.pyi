@@ -1,6 +1,8 @@
 from typing import Any, Optional, Sequence
 
+from flask import Flask
 from invenio_pidstore.models import PersistentIdentifier
+from invenio_rdm_records.records.api import RDMDraft, RDMRecord
 
 from .base import PIDProvider
 
@@ -25,10 +27,10 @@ class ExternalPIDProvider(PIDProvider):
         **kwargs: Any,
     ) -> None: ...
     @classmethod
-    def is_enabled(cls, app: Any | None = ...) -> Any: ...
+    def is_enabled(cls, app: Flask | None = ...) -> bool: ...
     def validate(
         self,
-        record: Any,
+        record: RDMRecord | RDMDraft | dict[str, Any],
         identifier: Optional[str] = ...,
         provider: Optional[str] = ...,
         client: Any | None = ...,

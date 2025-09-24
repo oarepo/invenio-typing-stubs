@@ -1,109 +1,110 @@
 from __future__ import annotations
 
 from marshmallow import Schema
+from marshmallow import fields as fields
 
 class PersonOrOrganizationSchema(Schema):
     NAMES: list[str]
-    type: Any
-    name: Any
-    given_name: Any
-    family_name: Any
-    identifiers: Any
+    type: fields.Str
+    name: fields.Str
+    given_name: fields.Str
+    family_name: fields.Str
+    identifiers: fields.List
     def validate_names(self, data, **kwargs): ...
     def update_names(self, data, **kwargs): ...
 
 def validate_affiliations_data(data) -> None: ...
 
 class CreatorSchema(Schema):
-    person_or_org: Any
-    role: Any
-    affiliations: Any
+    person_or_org: fields.Nested
+    role: fields.Dict
+    affiliations: fields.List
     def validate_affiliations(self, data, **kwargs): ...
 
 class ContributorSchema(Schema):
-    person_or_org: Any
-    role: Any
-    affiliations: Any
+    person_or_org: fields.Nested
+    role: fields.Dict
+    affiliations: fields.List
     def validate_affiliations(self, data, **kwargs): ...
 
 class TitleSchema(Schema):
-    title: Any
-    type: Any
-    lang: Any
+    title: fields.Str
+    type: fields.Str
+    lang: fields.Str
 
 class DescriptionSchema(Schema):
-    description: Any
-    type: Any
-    lang: Any
+    description: fields.Str
+    type: fields.Str
+    lang: fields.Str
 
 def _is_uri(uri) -> bool: ...
 
 class PropsSchema(Schema):
-    url: Any
-    scheme: Any
+    url: fields.Str
+    scheme: fields.Str
 
 class RightsSchema(Schema):
-    id: Any
-    title: Any
-    description: Any
-    icon: Any
-    props: Any
-    link: Any
+    id: fields.Str
+    title: fields.Dict
+    description: fields.Dict
+    icon: fields.Str
+    props: fields.Dict
+    link: fields.Str
     def validate_title(self, value): ...
     def validate_description(self, value): ...
     def validate_rights(self, data, **kwargs): ...
 
 class DateSchema(Schema):
-    date: Any
-    type: Any
-    description: Any
+    date: fields.Str
+    type: fields.Str
+    description: fields.Str
 
 class RelatedIdentifierSchema(Schema):
-    relation_type: Any
-    resource_type: Any
+    relation_type: fields.Str
+    resource_type: fields.Str
     def validate_related_identifier(self, data, **kwargs): ...
 
 class FundingSchema(Schema):
-    funder: Any
-    award: Any
+    funder: fields.Dict
+    award: fields.Dict
 
 class ReferenceSchema(Schema):
-    reference: Any
+    reference: fields.Str
 
 class PointSchema(Schema):
-    lat: Any
-    lon: Any
+    lat: fields.Float
+    lon: fields.Float
 
 class LocationSchema(Schema):
-    geometry: Any
-    place: Any
-    identifiers: Any
-    description: Any
+    geometry: fields.Dict
+    place: fields.Dict
+    identifiers: fields.List
+    description: fields.Str
     def validate_data(self, data, **kwargs): ...
 
 class FeatureSchema(Schema):
-    features: Any
+    features: fields.List
 
 class MetadataSchema(Schema):
-    resource_type: Any
-    creators: Any
-    title: Any
-    additional_titles: Any
-    publisher: Any
-    publication_date: Any
-    subjects: Any
-    contributors: Any
-    dates: Any
-    languages: Any
-    identifiers: Any
-    related_identifiers: Any
-    sizes: Any
-    formats: Any
-    version: Any
-    rights: Any
-    copyright: Any
-    description: Any
-    additional_descriptions: Any
-    locations: Any
-    funding: Any
-    references: Any
+    resource_type: fields.Dict
+    creators: fields.List
+    title: fields.Str
+    additional_titles: fields.List
+    publisher: fields.Str
+    publication_date: fields.Str
+    subjects: fields.List
+    contributors: fields.List
+    dates: fields.List
+    languages: fields.List
+    identifiers: fields.List
+    related_identifiers: fields.List
+    sizes: fields.List
+    formats: fields.List
+    version: fields.Str
+    rights: fields.List
+    copyright: fields.Str
+    description: fields.Str
+    additional_descriptions: fields.List
+    locations: fields.Dict
+    funding: fields.List
+    references: fields.List

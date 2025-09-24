@@ -1,7 +1,9 @@
 from typing import Any, Iterable
 
+from flask import Flask
+
 class _SearchState:
-    app: Any
+    app: Flask
     mappings: dict[str, str]
     aliases: dict[str, dict[str, str]]
     templates: dict[str, str]
@@ -52,10 +54,10 @@ class _SearchState:
 class InvenioSearch:
     _state: _SearchState
 
-    def __init__(self, app: Any | None = None, **kwargs: Any) -> None: ...
+    def __init__(self, app: Flask | None = None, **kwargs: Any) -> None: ...
     def init_app(
         self,
-        app: Any,
+        app: Flask,
         entry_point_group_mappings: str = ...,
         entry_point_group_templates: str = ...,
         entry_point_group_component_templates: str = ...,
@@ -63,5 +65,5 @@ class InvenioSearch:
         **kwargs: Any,
     ) -> None: ...
     @staticmethod
-    def init_config(app: Any) -> None: ...
+    def init_config(app: Flask) -> None: ...
     def __getattr__(self, name: str) -> Any: ...

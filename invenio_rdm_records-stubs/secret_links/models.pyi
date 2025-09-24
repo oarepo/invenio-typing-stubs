@@ -3,6 +3,8 @@ from __future__ import annotations
 from datetime import date, datetime
 from typing import Any
 
+from flask_principal import Need
+
 SUPPORTED_DIGEST_ALGORITHMS: tuple[str, ...]
 
 class _Model: ...  # keep typing base for SQLAlchemy models
@@ -19,7 +21,7 @@ class SecretLink(_Model):
     def revoke(self) -> None: ...
     def to_dict(self) -> dict[str, Any]: ...
     @property
-    def need(self) -> Any: ...
+    def need(self) -> Need: ...
     @property
     def extra_data(self) -> dict[str, Any] | None: ...
     @property
