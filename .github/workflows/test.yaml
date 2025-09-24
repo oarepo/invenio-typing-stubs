@@ -16,5 +16,5 @@ jobs:
     uses: oarepo/oarepo/.github/workflows/test.yaml@main
     secrets: inherit
     with:
-      enable_tests: false
-      enable_lint: false
+      tests_enabled: false
+      lint_enabled: false
