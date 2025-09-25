@@ -58,7 +58,7 @@ patched manually to ensure correct typing.
 
 ### Problems
 
-Typing for SQL Alchemy & invenio mostly does not work.
+Typing for SQL Alchemy mostly does not work with invenio_db.
 
 ### Final checks
 
