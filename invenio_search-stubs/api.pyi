@@ -75,6 +75,7 @@ class RecordsSearchV2(PrefixedSearchMixin, BaseRecordsSearchV2):
     filter: Callable[[Any], Self]
     post_filter: Callable[[Any], Self]
     sort: Callable[[Any], Self]
+    response_class: type
 
     def __init__(self, **kwargs: Any) -> None: ...
 
