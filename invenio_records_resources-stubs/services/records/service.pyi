@@ -29,9 +29,6 @@ from invenio_records_resources.services.records.results import (
 )
 from invenio_records_resources.services.records.schema import ServiceSchemaWrapper
 from invenio_search import RecordsSearchV2  # type: ignore[import-untyped]
-from opensearch_dsl.query import (  # type: ignore[import-untyped]
-    Bool,
-)
 from opensearch_dsl.response import Response  # type: ignore[import-untyped]
 
 class RecordIndexerMixin:
@@ -69,9 +66,9 @@ class RecordService(Service, RecordIndexerMixin):
         identity: Identity,
         params: Dict[str, Any],
         search_preference: Optional[str],
-        record_cls: None = ...,
-        search_opts: None = ...,
-        extra_filter: None = ...,
+        record_cls: type[RecordItem] | None = ...,
+        search_opts: type[SearchOptions] | None = ...,
+        extra_filter: Any | None = ...,
         permission_action: str = ...,
         versioning: bool = ...,
         **kwargs,
@@ -149,10 +146,10 @@ class RecordService(Service, RecordIndexerMixin):
     def reindex(
         self,
         identity: Identity,
-        params: None = ...,
-        search_preference: None = ...,
-        search_query: Optional[Bool] = ...,
-        extra_filter: None = ...,
+        params: dict[str, Any] | None = ...,
+        search_preference: str | None = ...,
+        search_query: Optional[Any] = ...,
+        extra_filter: Any | None = ...,
         **kwargs,
     ) -> bool: ...
     def scan(

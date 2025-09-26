@@ -1,4 +1,4 @@
-from typing import Any, Callable, Iterable
+from typing import Any, Callable, Iterable, Self
 
 class DefaultFilter:
     def __init__(
@@ -48,7 +48,7 @@ class PrefixedSearchMixin:
     def _clone(self) -> Any: ...
 
 class BaseRecordsSearchV2:
-    query: Any
+    query: Callable[[Any], Self]
 
     def __init__(
         self,
@@ -61,11 +61,21 @@ class BaseRecordsSearchV2:
     def with_preference_param(
         self, preference: str | None = ...
     ) -> "BaseRecordsSearchV2": ...
+    def to_dict(self) -> dict[str, Any]: ...
 
 class RecordsSearch(PrefixedSearchMixin, BaseRecordsSearch):
     def __init__(self, **kwargs: Any) -> None: ...
 
+class Aggs[T]:
+    def bucket(self, *args: Any) -> T: ...
+
 class RecordsSearchV2(PrefixedSearchMixin, BaseRecordsSearchV2):
+    query: Callable[[Any], Self]
+    aggs: Aggs[Self]
+    filter: Callable[[Any], Self]
+    post_filter: Callable[[Any], Self]
+    sort: Callable[[Any], Self]
+
     def __init__(self, **kwargs: Any) -> None: ...
 
 UnPrefixedRecordsSearch = BaseRecordsSearch
