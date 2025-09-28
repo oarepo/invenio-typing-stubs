@@ -4,13 +4,22 @@ from invenio_records_resources.services import SearchOptions
 from invenio_records_resources.services.records.components import ServiceComponent
 from invenio_records_resources.services.records.queryparser import QueryParser
 from invenio_vocabularies.services.components import PIDComponent as PIDComponent
-from werkzeug.local import LocalProxy
 
-subject_schemes: LocalProxy[Dict[str, Dict[str, Any]]]
-localized_title: LocalProxy[str]
-gemet_file_url: LocalProxy[str]
-euroscivoc_file_url: LocalProxy[str]
-nvs_file_url: LocalProxy[str]
+subject_schemes: Dict[
+    str, Dict[str, Any]
+]  # intentionally not using a LocalProxy[Dict[str, Dict[str, Any]]] here as mypy does not understand it
+localized_title: (
+    str  # intentionally not using a LocalProxy[str] here as mypy does not understand it
+)
+gemet_file_url: (
+    str  # intentionally not using a LocalProxy[str] here as mypy does not understand it
+)
+euroscivoc_file_url: (
+    str  # intentionally not using a LocalProxy[str] here as mypy does not understand it
+)
+nvs_file_url: (
+    str  # intentionally not using a LocalProxy[str] here as mypy does not understand it
+)
 
 class SubjectsSearchOptions(SearchOptions):
     suggest_parser_cls: ClassVar[type[QueryParser] | None]

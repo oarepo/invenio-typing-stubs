@@ -6,12 +6,11 @@ from invenio_requests.services import (
     RequestsService,
     UserModerationRequestService,
 )
-from werkzeug.local import LocalProxy
 
-current_requests: LocalProxy[InvenioRequests]
-current_request_type_registry: LocalProxy[TypeRegistry]
-current_event_type_registry: LocalProxy[TypeRegistry]
-current_requests_service: LocalProxy[RequestsService]
-current_events_service: LocalProxy[RequestEventsService]
-current_requests_resource: LocalProxy[RequestsResource]
-current_user_moderation_service: LocalProxy[UserModerationRequestService]
+current_requests: InvenioRequests  # intentionally not using a LocalProxy[InvenioRequests] here as mypy does not understand it
+current_request_type_registry: TypeRegistry  # intentionally not using a LocalProxy[TypeRegistry] here as mypy does not understand it
+current_event_type_registry: TypeRegistry  # intentionally not using a LocalProxy[TypeRegistry] here as mypy does not understand it
+current_requests_service: RequestsService  # intentionally not using a LocalProxy[RequestsService] here as mypy does not understand it
+current_events_service: RequestEventsService  # intentionally not using a LocalProxy[RequestEventsService] here as mypy does not understand it
+current_requests_resource: RequestsResource  # intentionally not using a LocalProxy[RequestsResource] here as mypy does not understand it
+current_user_moderation_service: UserModerationRequestService  # intentionally not using a LocalProxy[UserModerationRequestService] here as mypy does not understand it

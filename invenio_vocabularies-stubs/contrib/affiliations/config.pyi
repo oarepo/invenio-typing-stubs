@@ -4,11 +4,16 @@ from invenio_records_resources.services import SearchOptions
 from invenio_records_resources.services.records.components import ServiceComponent
 from invenio_records_resources.services.records.queryparser import QueryParser
 from invenio_vocabularies.services.components import PIDComponent as PIDComponent
-from werkzeug.local import LocalProxy
 
-affiliation_schemes: LocalProxy[Dict[str, Dict[str, Any]]]
-affiliation_edmo_country_mappings: LocalProxy[Dict[str, str]]
-localized_title: LocalProxy[str]
+affiliation_schemes: Dict[
+    str, Dict[str, Any]
+]  # intentionally not using a LocalProxy[Dict[str, Dict[str, Any]]] here as mypy does not understand it
+affiliation_edmo_country_mappings: Dict[
+    str, str
+]  # intentionally not using a LocalProxy[Dict[str, str]] here as mypy does not understand it
+localized_title: (
+    str  # intentionally not using a LocalProxy[str] here as mypy does not understand it
+)
 
 class AffiliationsSearchOptions(SearchOptions):
     suggest_parser_cls: ClassVar[type[QueryParser] | None]

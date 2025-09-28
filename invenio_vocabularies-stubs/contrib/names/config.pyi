@@ -7,9 +7,10 @@ from invenio_vocabularies.contrib.names.components import (
     InternalIDComponent as InternalIDComponent,
 )
 from invenio_vocabularies.services.components import PIDComponent as PIDComponent
-from werkzeug.local import LocalProxy
 
-names_schemes: LocalProxy[Dict[str, Dict[str, Any]]]
+names_schemes: Dict[
+    str, Dict[str, Any]
+]  # intentionally not using a LocalProxy[Dict[str, Dict[str, Any]]] here as mypy does not understand it
 
 class NamesSearchOptions(SearchOptions):
     suggest_parser_cls: ClassVar[type[QueryParser] | None]

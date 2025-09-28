@@ -2,7 +2,6 @@ from invenio_vocabularies.resources import VocabulariesResource as VocabulariesR
 from invenio_vocabularies.services.service import (
     VocabulariesService as VocabulariesService,
 )
-from werkzeug.local import LocalProxy
 
-current_service: LocalProxy[VocabulariesService]
-current_resource: LocalProxy[VocabulariesResource]
+current_service: VocabulariesService  # intentionally not using a LocalProxy[VocabulariesService] here as mypy does not understand it
+current_resource: VocabulariesResource  # intentionally not using a LocalProxy[VocabulariesResource] here as mypy does not understand it

@@ -2,14 +2,9 @@ from __future__ import annotations
 
 from collections.abc import Callable, Mapping
 from types import TracebackType
-from typing import TYPE_CHECKING, Any, Protocol
+from typing import Any, Protocol
 
 from flask import Response
-from werkzeug.local import LocalProxy
-
-if TYPE_CHECKING:
-    # mypy does not understand LocalProxy[ABC], so this is a workaround
-    resource_requestctx: "ResourceRequestCtx"  # type: ignore
 
 class ResponseHandlerProtocol(Protocol):
     def make_response(
@@ -46,4 +41,4 @@ class ResourceRequestCtx:
 
 def _get_context() -> ResourceRequestCtx: ...
 
-resource_requestctx: LocalProxy[ResourceRequestCtx]  # type: ignore
+resource_requestctx: ResourceRequestCtx  # intentionally not using a LocalProxy[ResourceRequestCtx] here as mypy does not understand it

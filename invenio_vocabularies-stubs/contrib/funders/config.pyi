@@ -6,11 +6,16 @@ from invenio_records_resources.services.records.queryparser import QueryParser
 from invenio_vocabularies.services.components import (
     ModelPIDComponent as ModelPIDComponent,
 )
-from werkzeug.local import LocalProxy
 
-funder_schemes: LocalProxy[Dict[str, Dict[str, Any]]]
-funder_fundref_doi_prefix: LocalProxy[str]
-localized_title: LocalProxy[str]
+funder_schemes: Dict[
+    str, Dict[str, Any]
+]  # intentionally not using a LocalProxy[Dict[str, Dict[str, Any]]] here as mypy does not understand it
+funder_fundref_doi_prefix: (
+    str  # intentionally not using a LocalProxy[str] here as mypy does not understand it
+)
+localized_title: (
+    str  # intentionally not using a LocalProxy[str] here as mypy does not understand it
+)
 
 class FundersSearchOptions(SearchOptions):
     suggest_parser_cls: ClassVar[type[QueryParser] | None]
