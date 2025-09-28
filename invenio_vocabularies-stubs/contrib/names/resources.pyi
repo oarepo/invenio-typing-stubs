@@ -1,4 +1,5 @@
-from typing import Any, ClassVar
+from collections.abc import Mapping
+from typing import Any
 
 from invenio_records_resources.resources.records.config import RecordResourceConfig
 from invenio_records_resources.resources.records.resource import (
@@ -8,8 +9,10 @@ from invenio_records_resources.resources.records.resource import (
 from marshmallow import fields
 
 class NamesResourceConfig(RecordResourceConfig):
-    routes: ClassVar[dict[str, str]]
-    request_view_args: ClassVar[dict[str, fields.Field]]
+    # NOTE: configs expose immutable defaults so subclasses override instead of
+    # mutating shared state.
+    routes: Mapping[str, str]
+    request_view_args: Mapping[str, fields.Field]
 
 class NamesResource(RecordResource):
     def create_url_rules(self) -> list[Any]: ...

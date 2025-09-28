@@ -1,4 +1,4 @@
-from typing import Any, ClassVar, Dict, List, Type
+from typing import Any, Dict, Mapping, Type
 
 from invenio_records_resources.services import SearchOptions
 from invenio_records_resources.services.records.components import (
@@ -19,7 +19,8 @@ awards_ec_ror_id: (
 )
 
 class AwardsSearchOptions(SearchOptions):
-    suggest_parser_cls: ClassVar[type[QueryParser] | None]
-    facets: ClassVar[Dict[str, TermsFacet]]
+    # NOTE: immutable annotations prevent shared mutable defaults.
+    suggest_parser_cls: type[QueryParser] | None
+    facets: Mapping[str, TermsFacet]
 
-service_components: List[Type[ServiceComponent]]
+service_components: tuple[Type[ServiceComponent], ...]

@@ -1,5 +1,5 @@
 from collections.abc import Callable, Mapping
-from typing import Any, ClassVar
+from typing import Any
 
 import marshmallow as ma
 from flask import Response
@@ -13,20 +13,20 @@ from werkzeug.exceptions import HTTPException
 json_response_handler: ResponseHandler
 
 class SubCommunityResourceConfig(ConfiguratorMixin, ResourceConfig):
-    blueprint_name: ClassVar[str | None]
-    url_prefix: ClassVar[str | None]
-    routes: ClassVar[dict[str, str]]
-    request_view_args: ClassVar[dict[str, ma.fields.Field]]
-    request_read_args: ClassVar[dict[str, Any]]
-    request_extra_args: ClassVar[dict[str, ma.fields.Field]]
-    request_body_parsers: ClassVar[Mapping[str, RequestBodyParser]]
-    default_content_type: ClassVar[str | None]
-    request_search_args: ClassVar[type[CommunitiesSearchRequestArgsSchema]]
-    response_handlers: ClassVar[Mapping[str, ResponseHandler]]
-    default_accept_mimetype: ClassVar[str | None]
-    error_handlers: ClassVar[
-        dict[
-            int | type[HTTPException] | type[BaseException],
-            Callable[[Exception], Response],
-        ]
+    # NOTE: annotate with immutable-friendly defaults to prevent shared mutable
+    # state while still allowing subclass overrides.
+    blueprint_name: str | None
+    url_prefix: str | None
+    routes: Mapping[str, str]
+    request_view_args: Mapping[str, ma.fields.Field]
+    request_read_args: Mapping[str, Any]
+    request_extra_args: Mapping[str, ma.fields.Field]
+    request_body_parsers: Mapping[str, RequestBodyParser]
+    default_content_type: str | None
+    request_search_args: type[CommunitiesSearchRequestArgsSchema]
+    response_handlers: Mapping[str, ResponseHandler]
+    default_accept_mimetype: str | None
+    error_handlers: Mapping[
+        int | type[HTTPException] | type[BaseException],
+        Callable[[Exception], Response],
     ]

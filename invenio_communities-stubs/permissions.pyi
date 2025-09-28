@@ -1,4 +1,4 @@
-from typing import ClassVar, Collection, Optional, TypedDict
+from typing import Optional, TypedDict
 
 from flask_principal import Identity
 from invenio_communities.communities.records.api import Community
@@ -27,42 +27,44 @@ from invenio_records_permissions.policies import BasePermissionPolicy
 class CommunityPermissionPolicy(BasePermissionPolicy):
     """Permissions for Community CRUD operations."""
 
-    can_create: ClassVar[Collection[Generator]]
-    can_read: ClassVar[Collection[Generator]]
-    can_read_deleted: ClassVar[Collection[Generator]]
-    can_update: ClassVar[Collection[Generator]]
-    can_delete: ClassVar[Collection[Generator]]
-    can_purge: ClassVar[Collection[Generator]]
-    can_manage_access: ClassVar[Collection[Generator]]
-    can_create_restricted: ClassVar[Collection[Generator]]
-    can_search: ClassVar[Collection[Generator]]
-    can_search_user_communities: ClassVar[Collection[Generator]]
-    can_search_invites: ClassVar[Collection[Generator]]
-    can_search_requests: ClassVar[Collection[Generator]]
-    can_rename: ClassVar[Collection[Generator]]
-    can_submit_record: ClassVar[Collection[Generator]]
-    can_include_directly: ClassVar[Collection[Generator]]
-    can_members_add: ClassVar[Collection[Generator]]
-    can_members_invite: ClassVar[Collection[Generator]]
-    can_members_manage: ClassVar[Collection[Generator]]
-    can_members_search: ClassVar[Collection[Generator]]
-    can_members_search_public: ClassVar[Collection[Generator]]
-    can_members_bulk_update: ClassVar[Collection[Generator]]
+    # NOTE: tuples keep the default generator sequences immutable here while
+    # still letting subclasses provide their own overrides.
+    can_create: tuple[Generator, ...]
+    can_read: tuple[Generator, ...]
+    can_read_deleted: tuple[Generator, ...]
+    can_update: tuple[Generator, ...]
+    can_delete: tuple[Generator, ...]
+    can_purge: tuple[Generator, ...]
+    can_manage_access: tuple[Generator, ...]
+    can_create_restricted: tuple[Generator, ...]
+    can_search: tuple[Generator, ...]
+    can_search_user_communities: tuple[Generator, ...]
+    can_search_invites: tuple[Generator, ...]
+    can_search_requests: tuple[Generator, ...]
+    can_rename: tuple[Generator, ...]
+    can_submit_record: tuple[Generator, ...]
+    can_include_directly: tuple[Generator, ...]
+    can_members_add: tuple[Generator, ...]
+    can_members_invite: tuple[Generator, ...]
+    can_members_manage: tuple[Generator, ...]
+    can_members_search: tuple[Generator, ...]
+    can_members_search_public: tuple[Generator, ...]
+    can_members_bulk_update: tuple[Generator, ...]
     can_members_bulk_delete = can_members_bulk_update
-    can_members_update: ClassVar[Collection[Generator]]
+    can_members_update: tuple[Generator, ...]
     can_members_delete = can_members_update
-    can_invite_owners: ClassVar[Collection[Generator]]
-    can_featured_search: ClassVar[Collection[Generator]]
-    can_featured_list: ClassVar[Collection[Generator]]
-    can_featured_create: ClassVar[Collection[Generator]]
-    can_featured_update: ClassVar[Collection[Generator]]
-    can_featured_delete: ClassVar[Collection[Generator]]
-    can_moderate: ClassVar[Collection[Generator]]
-    can_set_theme: ClassVar[Collection[Generator]]
+    can_invite_owners: tuple[Generator, ...]
+    can_featured_search: tuple[Generator, ...]
+    can_featured_list: tuple[Generator, ...]
+    can_featured_create: tuple[Generator, ...]
+    can_featured_update: tuple[Generator, ...]
+    can_featured_delete: tuple[Generator, ...]
+    can_moderate: tuple[Generator, ...]
+    can_set_theme: tuple[Generator, ...]
     can_delete_theme = can_set_theme
-    can_manage_children: ClassVar[Collection[Generator]]
-    can_manage_parent: ClassVar[Collection[Generator]]
-    can_request_membership: ClassVar[Collection[Generator]]
+    can_manage_children: tuple[Generator, ...]
+    can_manage_parent: tuple[Generator, ...]
+    can_request_membership: tuple[Generator, ...]
 
 class PermissionContext(TypedDict, total=False):
     action: str

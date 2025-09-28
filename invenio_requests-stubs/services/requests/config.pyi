@@ -1,4 +1,5 @@
-from typing import Any, Callable, ClassVar, Dict
+from collections.abc import Mapping
+from typing import Any, Callable, Dict
 
 from invenio_records_resources.services import RecordServiceConfig, SearchOptions
 from invenio_records_resources.services.base.config import (
@@ -38,13 +39,14 @@ from invenio_requests.services.requests.results import RequestList as RequestLis
 def _is_action_available(request: Request, context: Dict[str, Any]) -> bool: ...
 
 class RequestSearchOptions(SearchOptions, SearchOptionsMixin):
-    facets: ClassVar[Dict[str, Any]]
+    # NOTE: immutable defaults prevent shared-state mutation across configs.
+    facets: Mapping[str, Any]
 
 class UserRequestSearchOptions(RequestSearchOptions): ...
 
 class RequestsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     # Only declare attributes that don't conflict with base invariants here
-    search_user_requests: ClassVar[type[UserRequestSearchOptions]]
-    links_user_requests_search: ClassVar[Dict[str, Callable[..., Any]]]
-    action_link: ClassVar[Any]
-    payload_schema_cls: ClassVar[type]
+    search_user_requests: type[UserRequestSearchOptions]
+    links_user_requests_search: Mapping[str, Callable[..., Any]]
+    action_link: Any
+    payload_schema_cls: type

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Mapping
-from typing import Any, ClassVar
+from typing import Any
 
 import marshmallow as ma
 from flask import Response
@@ -17,20 +17,20 @@ from werkzeug.exceptions import HTTPException
 from werkzeug.utils import cached_property
 
 class IIIFResourceConfig(ResourceConfig, ConfiguratorMixin):
-    blueprint_name: ClassVar[str | None]
-    url_prefix: ClassVar[str | None]
-    routes: ClassVar[dict[str, str]]
-    request_view_args: ClassVar[dict[str, ma.fields.Field]]
-    request_read_args: ClassVar[dict[str, ma.fields.Field]]
-    request_headers: ClassVar[dict[str, ma.fields.Field]]
-    response_handler: ClassVar[Mapping[str, ResponseHandler]]
-    supported_formats: ClassVar[Any]
-    proxy_cls: ClassVar[Any]
-    error_handlers: ClassVar[
-        dict[
-            int | type[HTTPException] | type[BaseException],
-            Callable[[Exception], Response],
-        ]
+    # NOTE: annotate with immutable-friendly defaults so overrides replace them
+    # rather than mutating shared state.
+    blueprint_name: str | None
+    url_prefix: str | None
+    routes: Mapping[str, str]
+    request_view_args: Mapping[str, ma.fields.Field]
+    request_read_args: Mapping[str, ma.fields.Field]
+    request_headers: Mapping[str, ma.fields.Field]
+    response_handler: Mapping[str, ResponseHandler]
+    supported_formats: Any
+    proxy_cls: Any
+    error_handlers: Mapping[
+        int | type[HTTPException] | type[BaseException],
+        Callable[[Exception], Response],
     ]
 
 def with_iiif_content_negotiation(

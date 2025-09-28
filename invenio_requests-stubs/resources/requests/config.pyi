@@ -1,6 +1,8 @@
-from typing import Any, ClassVar, Dict
+from collections.abc import Callable, Mapping
+from typing import Any
 
-from _typeshed import Incomplete
+from flask import Response
+from flask_resources.responses import ResponseHandler
 from invenio_records_resources.resources import (
     RecordResourceConfig,
     SearchRequestArgsSchema,
@@ -12,6 +14,7 @@ from invenio_requests.resources.requests.fields import (
     ReferenceString as ReferenceString,
 )
 from marshmallow import fields
+from werkzeug.exceptions import HTTPException
 
 class RequestSearchRequestArgsSchema(SearchRequestArgsSchema):
     created_by: ReferenceString
@@ -20,14 +23,18 @@ class RequestSearchRequestArgsSchema(SearchRequestArgsSchema):
     is_open: fields.Boolean
     shared_with_me: fields.Boolean
 
-request_error_handlers: Dict[type, Any]
+request_error_handlers: Mapping[type, Any]
 
 class RequestsResourceConfig(RecordResourceConfig, ConfiguratorMixin):
     # Do not redeclare blueprint_name to avoid incompatible narrowing (base is None)
-    # Match exact base types for overrides where needed
-    url_prefix: ClassVar[str]
-    routes: ClassVar[Dict[str, str]]
-    request_view_args: ClassVar[Dict[str, Any]]
-    request_search_args: ClassVar[type[SearchRequestArgsSchema]]
-    error_handlers: ClassVar[Any]
-    response_handlers: ClassVar[Dict[str, Incomplete]]
+    # NOTE: configs expose immutable defaults so overrides replace the values
+    # rather than mutating shared state.
+    url_prefix: str | None
+    routes: Mapping[str, str]
+    request_view_args: Mapping[str, Any]
+    request_search_args: type[SearchRequestArgsSchema]
+    error_handlers: Mapping[
+        int | type[HTTPException] | type[BaseException],
+        Callable[[Exception], Response],
+    ]
+    response_handlers: Mapping[str, ResponseHandler]

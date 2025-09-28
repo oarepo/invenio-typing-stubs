@@ -10,7 +10,7 @@
 
 """Record Service API."""
 
-from typing import Any, Callable, ClassVar, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import marshmallow as ma
 from invenio_indexer.api import RecordIndexer
@@ -26,32 +26,35 @@ from invenio_search import RecordsSearchV2
 class SearchOptions:
     """Search options."""
 
-    search_cls: ClassVar[type[RecordsSearchV2]]
-    query_parser_cls: ClassVar[type[QueryParser]]
-    suggest_parser_cls: ClassVar[type[QueryParser] | None]
-    sort_default: ClassVar[str] = "bestmatch"
-    sort_default_no_query: ClassVar[str] = "newest"
-    sort_options: ClassVar[dict[str, dict[str, Any]]]
-    facets: ClassVar[dict[str, Any]]
-    pagination_options: ClassVar[dict[str, int]]
-    params_interpreters_cls: ClassVar[list[type[ParamInterpreter]]]
+    # NOTE: configs expose immutable defaults so subclasses can override
+    # without mutating shared state.
+    search_cls: type[RecordsSearchV2]
+    query_parser_cls: type[QueryParser]
+    suggest_parser_cls: type[QueryParser] | None
+    sort_default: str = "bestmatch"
+    sort_default_no_query: str = "newest"
+    sort_options: Mapping[str, Mapping[str, Any]]
+    facets: Mapping[str, Any]
+    pagination_options: Mapping[str, int]
+    params_interpreters_cls: tuple[type[ParamInterpreter], ...]
 
 class RecordServiceConfig(ServiceConfig):
     """Service factory configuration."""
 
     # Record specific configuration
-    record_cls: ClassVar[type[Record]]
-    indexer_cls: ClassVar[type[RecordIndexer]]
-    indexer_queue_name: ClassVar[str]
-    index_dumper: ClassVar[Dumper | None]
+    # NOTE: defaults are immutable here as well to prevent runtime mutation.
+    record_cls: type[Record]
+    indexer_cls: type[RecordIndexer]
+    indexer_queue_name: str
+    index_dumper: Dumper | None
     # inverse relation mapping, stores which fields relate to which record type
-    relations: ClassVar[dict[str, Any]]
+    relations: Mapping[str, Any]
 
     # Search configuration
-    search: ClassVar[type[SearchOptions]]
+    search: type[SearchOptions]
 
     # Service schema
-    schema: ClassVar[type[ma.Schema] | None]
+    schema: type[ma.Schema] | None
 
     # Definition of those is left up to implementations
 

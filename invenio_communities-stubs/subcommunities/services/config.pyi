@@ -1,4 +1,4 @@
-from typing import Any, ClassVar, Collection
+from typing import Any
 
 from invenio_communities.generators import CommunityOwners as CommunityOwners
 from invenio_communities.subcommunities.services.request import (
@@ -14,12 +14,14 @@ from invenio_records_resources.services.base.config import (
 from invenio_records_resources.services.base.results import ServiceItemResult
 
 class SubCommunityPermissionPolicy(BasePermissionPolicy):
-    can_request_join: ClassVar[Collection[Generator]]
-    can_read: ClassVar[Collection[Generator]]
-    can_create: ClassVar[Collection[Generator]]
-    can_search: ClassVar[Collection[Generator]]
-    can_update: ClassVar[Collection[Generator]]
-    can_delete: ClassVar[Collection[Generator]]
+    # NOTE: tuples make the defaults immutable while allowing subclasses to
+    # redefine them with their own generator tuples.
+    can_request_join: tuple[Generator, ...]
+    can_read: tuple[Generator, ...]
+    can_create: tuple[Generator, ...]
+    can_search: tuple[Generator, ...]
+    can_update: tuple[Generator, ...]
+    can_delete: tuple[Generator, ...]
 
 class SubCommunityServiceConfig(ServiceConfig, ConfiguratorMixin):
     service_id = "subcommunities"

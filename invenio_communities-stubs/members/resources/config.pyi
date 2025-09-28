@@ -1,5 +1,4 @@
-from collections.abc import Callable
-from typing import ClassVar
+from collections.abc import Callable, Mapping
 
 import marshmallow as ma
 from flask import Response
@@ -15,14 +14,14 @@ from invenio_records_resources.resources import RecordResourceConfig
 from werkzeug.exceptions import HTTPException
 
 class MemberResourceConfig(RecordResourceConfig):
-    url_prefix: ClassVar[str]
-    routes: ClassVar[dict[str, str]]
-    request_view_args: ClassVar[dict[str, ma.fields.Field]]
+    # NOTE: configs expose immutable defaults so overrides replace values
+    # instead of mutating shared state.
+    url_prefix: str | None
+    routes: Mapping[str, str]
+    request_view_args: Mapping[str, ma.fields.Field]
     # Mapping from exception type to an error handler (callable or factory)
-    error_handlers: ClassVar[
-        dict[
-            int | type[HTTPException] | type[BaseException],
-            Callable[[Exception], Response],
-        ]
+    error_handlers: Mapping[
+        int | type[HTTPException] | type[BaseException],
+        Callable[[Exception], Response],
     ]
-    response_handlers: ClassVar[dict[str, ResponseHandler]]
+    response_handlers: Mapping[str, ResponseHandler]

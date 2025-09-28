@@ -1,5 +1,5 @@
 from collections.abc import Callable, Mapping
-from typing import Any, ClassVar
+from typing import Any
 
 import marshmallow as ma
 from flask import Response
@@ -9,31 +9,31 @@ from invenio_records_resources.resources.records.args import SearchRequestArgsSc
 from invenio_records_resources.services.base.config import ConfiguratorMixin
 from werkzeug.exceptions import HTTPException
 
-oaipmh_error_handlers: dict[
+oaipmh_error_handlers: Mapping[
     int | type[HTTPException] | type[BaseException],
     Callable[[Exception], Response],
 ]
 
 class OAIPMHServerSearchRequestArgsSchema(SearchRequestArgsSchema):
-    managed: ClassVar[ma.fields.Boolean]
-    sort_direction: ClassVar[ma.fields.Str]
+    managed: ma.fields.Boolean
+    sort_direction: ma.fields.Str
 
 class OAIPMHServerResourceConfig(ResourceConfig, ConfiguratorMixin):
-    blueprint_name: ClassVar[str | None]
-    url_prefix: ClassVar[str | None]
-    routes: ClassVar[dict[str, str]]
+    # NOTE: configs expose immutable defaults so overrides replace them instead
+    # of mutating shared state.
+    blueprint_name: str | None
+    url_prefix: str | None
+    routes: Mapping[str, str]
 
-    request_read_args: ClassVar[dict[str, Any]]
-    request_view_args: ClassVar[dict[str, ma.fields.Field]]
-    request_search_args: ClassVar[
+    request_read_args: Mapping[str, Any]
+    request_view_args: Mapping[str, ma.fields.Field]
+    request_search_args: (
         type[SearchRequestArgsSchema] | type[OAIPMHServerSearchRequestArgsSchema]
+    )
+
+    error_handlers: Mapping[
+        int | type[HTTPException] | type[BaseException],
+        Callable[[Exception], Response],
     ]
 
-    error_handlers: ClassVar[
-        dict[
-            int | type[HTTPException] | type[BaseException],
-            Callable[[Exception], Response],
-        ]
-    ]
-
-    response_handlers: ClassVar[Mapping[str, ResponseHandler]]
+    response_handlers: Mapping[str, ResponseHandler]

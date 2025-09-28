@@ -1,4 +1,4 @@
-from typing import Any, ClassVar, Dict, List, Type
+from typing import Any, Dict, Mapping, Type
 
 from invenio_records_resources.services import SearchOptions
 from invenio_records_resources.services.records.components import ServiceComponent
@@ -22,9 +22,10 @@ nvs_file_url: (
 )
 
 class SubjectsSearchOptions(SearchOptions):
-    suggest_parser_cls: ClassVar[type[QueryParser] | None]
-    sort_default: ClassVar[str]
-    sort_default_no_query: ClassVar[str]
-    sort_options: ClassVar[Dict[str, Dict[str, Any]]]
+    # NOTE: immutable annotations prevent shared mutable defaults.
+    suggest_parser_cls: type[QueryParser] | None
+    sort_default: str
+    sort_default_no_query: str
+    sort_options: Mapping[str, Mapping[str, Any]]
 
-service_components: List[Type[ServiceComponent]]
+service_components: tuple[Type[ServiceComponent], ...]

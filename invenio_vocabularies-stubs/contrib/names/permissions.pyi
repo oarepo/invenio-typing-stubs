@@ -1,5 +1,3 @@
-from typing import ClassVar, Collection
-
 from invenio_records_permissions.generators import Generator as Generator
 from invenio_vocabularies.services.generators import IfTags as IfTags
 from invenio_vocabularies.services.permissions import (
@@ -7,5 +5,7 @@ from invenio_vocabularies.services.permissions import (
 )
 
 class NamesPermissionPolicy(PermissionPolicy):
-    can_search: ClassVar[Collection[Generator] | tuple[Generator, ...]]
-    can_read: ClassVar[Collection[Generator] | tuple[Generator, ...]]
+    # NOTE: tuples keep the defaults immutable in the base policy but subclasses
+    # can still override them with their own generator tuples.
+    can_search: tuple[Generator, ...]
+    can_read: tuple[Generator, ...]

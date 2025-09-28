@@ -1,4 +1,5 @@
-from typing import Any, ClassVar
+from collections.abc import Mapping
+from typing import Any
 
 from invenio_audit_logs.proxies import (
     current_audit_logs_actions_registry as current_audit_logs_actions_registry,
@@ -19,17 +20,19 @@ from invenio_records_resources.services.base.results import (
 from invenio_records_resources.services.records.config import SearchOptions
 
 class AuditLogSearchOptions(SearchOptions):
-    sort_default: ClassVar[str]
-    sort_default_no_query: ClassVar[str]
-    query_parser_cls: ClassVar[Any]
-    sort_options: ClassVar[dict[str, dict[str, Any]]]
-    facets: ClassVar[dict[str, Any]]
-    pagination_options: ClassVar[dict[str, int]]
-    params_interpreters_cls: ClassVar[list[Any]]
+    # NOTE: immutable defaults prevent shared-state mutation across configs.
+    sort_default: str
+    sort_default_no_query: str
+    query_parser_cls: Any
+    sort_options: Mapping[str, Mapping[str, Any]]
+    facets: Mapping[str, Any]
+    pagination_options: Mapping[str, int]
+    params_interpreters_cls: tuple[Any, ...]
 
 def idvar(log, vars) -> None: ...
 
 class AuditLogServiceConfig(ServiceConfig, ConfiguratorMixin):
+    # NOTE: configs expose immutable defaults to keep instances isolated.
     enabled: Any
     service_id: str | None
     permission_policy_cls: Any
@@ -39,8 +42,8 @@ class AuditLogServiceConfig(ServiceConfig, ConfiguratorMixin):
     indexer_cls: type[RecordIndexer]
     indexer_queue_name: str
     index_dumper: Any
-    components: list[type]
-    links_item: dict[str, Any]
-    links_search: dict[str, Any]
+    components: tuple[type, ...]
+    links_item: Mapping[str, Any]
+    links_search: Mapping[str, Any]
     result_item_cls: type[ServiceItemResult]
     result_list_cls: type[ServiceListResult]

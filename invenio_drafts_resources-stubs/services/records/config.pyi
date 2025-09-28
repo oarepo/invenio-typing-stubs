@@ -1,4 +1,5 @@
-from typing import Any, Callable, ClassVar
+from collections.abc import Mapping
+from typing import Any, Callable
 
 from invenio_drafts_resources.records.api import Draft
 from invenio_drafts_resources.services.records.components import (
@@ -30,34 +31,32 @@ def is_record(record, ctx): ...
 def lock_edit_published_files(service, identity, record=None, draft=None): ...
 
 class SearchOptions(SearchOptionsBase):
-    sort_options: ClassVar[dict[str, dict[str, Any]]]
-    params_interpreters_cls: ClassVar[list[type]]
+    # NOTE: immutable defaults ensure overrides swap values without mutating.
+    sort_options: Mapping[str, Mapping[str, Any]]
+    params_interpreters_cls: tuple[type, ...]
 
 class SearchDraftsOptions(SearchOptions):
-    sort_default: ClassVar[str]
-    sort_default_no_query: ClassVar[str]
-    sort_options: ClassVar[dict[str, dict[str, Any]]]
-    params_interpreters_cls: ClassVar[list[type]]
+    sort_default: str
+    sort_default_no_query: str
+    sort_options: Mapping[str, Mapping[str, Any]]
+    params_interpreters_cls: tuple[type, ...]
 
 class SearchVersionsOptions(SearchOptions):
-    sort_default: ClassVar[str]
-    sort_default_no_query: ClassVar[str]
-    sort_options: ClassVar[dict[str, dict[str, Any]]]
-    facets_options: ClassVar[dict[str, Any]]
-    params_interpreters_cls: ClassVar[list[type]]
+    sort_default: str
+    sort_default_no_query: str
+    sort_options: Mapping[str, Mapping[str, Any]]
+    facets_options: Mapping[str, Any]
+    params_interpreters_cls: tuple[type, ...]
 
 class RecordServiceConfig(RecordServiceConfigBase):
-    draft_cls: ClassVar[type[Draft] | None]
-    draft_indexer_cls: ClassVar[type[RecordIndexer]]
-    draft_indexer_queue_name: ClassVar[str]
-    schema_parent: ClassVar[type[ParentSchema]]
-    search: ClassVar
-    search_drafts: ClassVar[type[SearchDraftsOptions]]
-    search_versions: ClassVar[type[SearchVersionsOptions]]
-    default_files_enabled: ClassVar[bool]
-    default_media_files_enabled: ClassVar[bool]
-    lock_edit_published_files: ClassVar[Callable[..., Any]]
-    links_item: ClassVar[dict[str, Any]]
-    links_search: ClassVar
-    links_search_drafts: ClassVar
-    links_search_versions: ClassVar
+    # NOTE: configs expose immutable defaults so subclasses override safely.
+    draft_cls: type[Draft] | None
+    draft_indexer_cls: type[RecordIndexer]
+    draft_indexer_queue_name: str
+    schema_parent: type[ParentSchema]
+    search: type[SearchOptionsBase]
+    search_drafts: type[SearchDraftsOptions]
+    search_versions: type[SearchVersionsOptions]
+    default_files_enabled: bool
+    default_media_files_enabled: bool
+    lock_edit_published_files: Callable[..., Any]

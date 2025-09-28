@@ -1,16 +1,16 @@
-from typing import ClassVar, Collection
-
 from invenio_records_permissions.generators import Generator
 from invenio_records_permissions.policies.records import (
     RecordPermissionPolicy as RecordPermissionPolicyBase,
 )
 
 class RecordPermissionPolicy(RecordPermissionPolicyBase):
-    can_create: ClassVar[Collection[Generator]]
-    can_new_version: ClassVar[Collection[Generator]]
-    can_edit: ClassVar[Collection[Generator]]
-    can_publish: ClassVar[Collection[Generator]]
-    can_read_draft: ClassVar[Collection[Generator]]
-    can_update_draft: ClassVar[Collection[Generator]]
-    can_delete_draft: ClassVar[Collection[Generator]]
-    can_manage_files: ClassVar[Collection[Generator]]
+    # NOTE: tuples keep the defaults immutable at this level while still letting
+    # subclasses replace the attribute with their own generators.
+    can_create: tuple[Generator, ...]
+    can_new_version: tuple[Generator, ...]
+    can_edit: tuple[Generator, ...]
+    can_publish: tuple[Generator, ...]
+    can_read_draft: tuple[Generator, ...]
+    can_update_draft: tuple[Generator, ...]
+    can_delete_draft: tuple[Generator, ...]
+    can_manage_files: tuple[Generator, ...]

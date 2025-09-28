@@ -10,7 +10,7 @@
 
 """File resource configuration."""
 
-from typing import Callable, ClassVar
+from typing import Callable, Mapping
 
 from flask import Response
 from flask_resources import ResourceConfig
@@ -19,12 +19,12 @@ from werkzeug.exceptions import HTTPException
 class FileResourceConfig(ResourceConfig):
     """File resource config."""
 
-    blueprint_name: ClassVar[str | None] = None
-    url_prefix: ClassVar[str | None] = "/records/<pid_value>"
-    routes: ClassVar[dict[str, str]]
-    error_handlers: ClassVar[
-        dict[
-            int | type[HTTPException] | type[BaseException],
-            Callable[[Exception], Response],
-        ]
+    # NOTE: annotate with immutable-friendly types so overriding subclasses
+    # replace defaults instead of mutating shared class state.
+    blueprint_name: str | None = None
+    url_prefix: str | None = "/records/<pid_value>"
+    routes: Mapping[str, str]
+    error_handlers: Mapping[
+        int | type[HTTPException] | type[BaseException],
+        Callable[[Exception], Response],
     ]

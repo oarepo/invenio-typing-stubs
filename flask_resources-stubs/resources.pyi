@@ -22,18 +22,18 @@ def route(
 ) -> dict[str, Any]: ...
 
 class ResourceConfig:
-    blueprint_name: ClassVar[str | None]
-    url_prefix: ClassVar[str | None]
-    error_handlers: ClassVar[
-        dict[
-            int | type[HTTPException] | type[BaseException],
-            Callable[[Exception], Response],
-        ]
+    # NOTE: configs now expose immutable-friendly defaults so they can be
+    # overridden per-instance without mutating shared class state.
+    blueprint_name: str | None
+    url_prefix: str | None
+    error_handlers: Mapping[
+        int | type[HTTPException] | type[BaseException],
+        Callable[[Exception], Response],
     ]
-    request_body_parsers: ClassVar[Mapping[str, RequestBodyParser]]
-    default_content_type: ClassVar[str | None]
-    response_handlers: ClassVar[Mapping[str, ResponseHandler]]
-    default_accept_mimetype: ClassVar[str | None]
+    request_body_parsers: Mapping[str, RequestBodyParser]
+    default_content_type: str | None
+    response_handlers: Mapping[str, ResponseHandler]
+    default_accept_mimetype: str | None
 
 class Resource:
     config: ResourceConfig

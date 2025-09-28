@@ -9,7 +9,7 @@
 
 """Record Resource Configuration."""
 
-from typing import Any, ClassVar
+from typing import Any, Mapping
 
 import marshmallow as ma
 from flask_resources import RequestBodyParser, ResourceConfig, ResponseHandler
@@ -19,19 +19,20 @@ class RecordResourceConfig(ResourceConfig):
     """Record resource config."""
 
     # Blueprint configuration
-    blueprint_name: ClassVar[None] = None
-    url_prefix: ClassVar[str] = "/records"
-    routes: ClassVar[dict[str, str]]
+    # NOTE: use immutable-friendly annotations to avoid shared mutable state.
+    blueprint_name: str | None = None
+    url_prefix: str | None = "/records"
+    routes: Mapping[str, str]
 
     # Request parsing
-    request_read_args: ClassVar[dict[str, Any]]
-    request_view_args: ClassVar[dict[str, ma.fields.Field]]
-    request_search_args: ClassVar[type[SearchRequestArgsSchema]]
-    request_extra_args: ClassVar[dict[str, ma.fields.Field]]
-    request_headers: ClassVar[dict[str, ma.fields.Field]]
-    request_body_parsers: ClassVar[dict[str, RequestBodyParser]]
-    default_content_type: ClassVar[str]
+    request_read_args: Mapping[str, Any]
+    request_view_args: Mapping[str, ma.fields.Field]
+    request_search_args: type[SearchRequestArgsSchema]
+    request_extra_args: Mapping[str, ma.fields.Field]
+    request_headers: Mapping[str, ma.fields.Field]
+    request_body_parsers: Mapping[str, RequestBodyParser]
+    default_content_type: str | None
 
     # Response handling
-    response_handlers: ClassVar[dict[str, ResponseHandler]]
-    default_accept_mimetype: ClassVar[str]
+    response_handlers: Mapping[str, ResponseHandler]
+    default_accept_mimetype: str | None

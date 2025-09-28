@@ -1,4 +1,5 @@
-from typing import Any, ClassVar
+from collections.abc import Mapping
+from typing import Any
 
 from invenio_communities.communities.records.api import Community
 from invenio_drafts_resources.services.records.config import (
@@ -69,17 +70,18 @@ def record_thumbnail_sizes() -> list[int]: ...
 def get_record_thumbnail_file(record, **kwargs) -> str | None: ...
 
 class RDMSearchOptions(SearchOptions, SearchOptionsMixin):
-    verified_sorting_enabled: ClassVar[bool]
+    # NOTE: immutable defaults prevent shared-state mutation across configs.
+    verified_sorting_enabled: bool
 
 class RDMCommunityRecordSearchOptions(RDMSearchOptions):
-    verified_sorting_enabled: ClassVar[bool]
+    verified_sorting_enabled: bool
 
 class RDMSearchDraftsOptions(SearchDraftsOptions, SearchOptionsMixin):
-    facets: ClassVar[dict[str, Any]]
-    params_interpreters_cls: ClassVar[list[type]]
+    facets: Mapping[str, Any]
+    params_interpreters_cls: tuple[type, ...]
 
 class RDMSearchVersionsOptions(SearchVersionsOptions, SearchOptionsMixin):
-    params_interpreters_cls: ClassVar[list[type]]
+    params_interpreters_cls: tuple[type, ...]
 
 class RecordPIDLink(ExternalLink):
     def vars(self, record, vars: dict[str, Any]) -> None: ...
@@ -109,37 +111,40 @@ class WithFileLinks(type): ...
 class FileServiceConfig(
     BaseFileServiceConfig, ConfiguratorMixin, metaclass=WithFileLinks
 ):
-    name_of_file_blueprint: ClassVar[str]
+    # NOTE: configs expose immutable defaults so subclasses override safely.
+    name_of_file_blueprint: str
 
 class RDMFileRecordServiceConfig(FileServiceConfig, ConfiguratorMixin): ...
 
 class RDMRecordServiceConfig(RecordServiceConfig, ConfiguratorMixin):
-    schema_access_settings: ClassVar[type[AccessSettingsSchema]]
-    schema_secret_link: ClassVar[type[SecretLinkSchema]]
-    schema_grant: ClassVar[type[GrantSchema]]
-    schema_grants: ClassVar[type[GrantsSchema]]
-    schema_request_access: ClassVar[type[RequestAccessSchema]]
-    schema_tombstone: ClassVar[type[TombstoneSchema]]
-    schema_quota: ClassVar[type[QuotaSchema]]
-    link_result_item_cls: ClassVar[type[SecretLinkItem]]
-    link_result_list_cls: ClassVar[type[SecretLinkList]]
-    grant_result_item_cls: ClassVar[type[GrantItem]]
-    grant_result_list_cls: ClassVar[type[GrantList]]
-    revision_result_list_cls: ClassVar[type[RDMRecordRevisionsList]]
-    pids_providers: ClassVar[FromConfigPIDsProviders]
-    pids_required: ClassVar[FromConfigRequiredPIDs]
-    parent_pids_providers: ClassVar[FromConfigPIDsProviders]
-    parent_pids_required: ClassVar[FromConfigRequiredPIDs]
-    parent_pids_conditional: ClassVar[FromConfigConditionalPIDs]
-    nested_links_item: ClassVar[list[NestedLinks]]
-    record_file_processors: ClassVar[list[Any]]
+    # NOTE: immutable defaults to avoid shared mutable state between configs.
+    schema_access_settings: type[AccessSettingsSchema]
+    schema_secret_link: type[SecretLinkSchema]
+    schema_grant: type[GrantSchema]
+    schema_grants: type[GrantsSchema]
+    schema_request_access: type[RequestAccessSchema]
+    schema_tombstone: type[TombstoneSchema]
+    schema_quota: type[QuotaSchema]
+    link_result_item_cls: type[SecretLinkItem]
+    link_result_list_cls: type[SecretLinkList]
+    grant_result_item_cls: type[GrantItem]
+    grant_result_list_cls: type[GrantList]
+    revision_result_list_cls: type[RDMRecordRevisionsList]
+    pids_providers: FromConfigPIDsProviders
+    pids_required: FromConfigRequiredPIDs
+    parent_pids_providers: FromConfigPIDsProviders
+    parent_pids_required: FromConfigRequiredPIDs
+    parent_pids_conditional: FromConfigConditionalPIDs
+    nested_links_item: tuple[NestedLinks, ...]
+    record_file_processors: tuple[Any, ...]
 
 class RDMCommunityRecordsConfig(BaseRecordServiceConfig, ConfiguratorMixin):
-    community_cls: ClassVar[type[Community]]
-    search_versions: ClassVar[type[RDMSearchVersionsOptions]]
-    community_record_schema: ClassVar[type[CommunityRecordsSchema]]
-    max_number_of_removals: ClassVar[int]
-    links_search_community_records: ClassVar[dict[str, Any]]
+    # NOTE: immutable defaults to ensure overrides happen via replacement.
+    community_cls: type[Community]
+    search_versions: type[RDMSearchVersionsOptions]
+    community_record_schema: type[CommunityRecordsSchema]
+    max_number_of_removals: int
+    links_search_community_records: Mapping[str, Any]
 
 class RDMRecordMediaFilesServiceConfig(RDMRecordServiceConfig): ...
 class RDMMediaFileRecordServiceConfig(FileServiceConfig, ConfiguratorMixin): ...

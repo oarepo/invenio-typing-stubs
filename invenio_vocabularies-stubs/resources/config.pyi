@@ -1,5 +1,5 @@
 from collections.abc import Callable, Mapping
-from typing import Any, ClassVar, Dict
+from typing import Any
 
 import marshmallow as ma
 from flask import Response
@@ -22,24 +22,24 @@ class VocabularySearchRequestArgsSchema(SearchRequestArgsSchema):
     status: ma.fields.Boolean
 
 class VocabulariesResourceConfig(RecordResourceConfig):
-    blueprint_name: ClassVar[None]
-    url_prefix: ClassVar[str]
-    routes: ClassVar[Dict[str, str]]
-    request_view_args: ClassVar[Dict[str, ma.fields.Field]]
+    # NOTE: immutable annotations avoid shared mutable defaults between configs.
+    blueprint_name: str | None = None
+    url_prefix: str | None
+    routes: Mapping[str, str]
+    request_view_args: Mapping[str, ma.fields.Field]
     request_search_args = VocabularySearchRequestArgsSchema
-    response_handlers: ClassVar[dict[str, ResponseHandler]]
+    response_handlers: Mapping[str, ResponseHandler]
 
 class VocabularyTypeResourceConfig(ResourceConfig, ConfiguratorMixin):
-    blueprint_name: ClassVar[str | None]
-    url_prefix: ClassVar[str | None]
-    routes: ClassVar[Dict[str, str]]
-    request_read_args: ClassVar[Dict[str, Any]]
-    request_view_args: ClassVar[Dict[str, ma.fields.Field]]
+    # NOTE: configs expose immutable defaults to prevent accidental mutation.
+    blueprint_name: str | None
+    url_prefix: str | None
+    routes: Mapping[str, str]
+    request_read_args: Mapping[str, Any]
+    request_view_args: Mapping[str, ma.fields.Field]
     request_search_args = VocabularySearchRequestArgsSchema
-    error_handlers: ClassVar[
-        dict[
-            int | type[HTTPException] | type[BaseException],
-            Callable[[Exception], Response],
-        ]
+    error_handlers: Mapping[
+        int | type[HTTPException] | type[BaseException],
+        Callable[[Exception], Response],
     ]
-    response_handlers: ClassVar[Mapping[str, ResponseHandler]]
+    response_handlers: Mapping[str, ResponseHandler]

@@ -1,4 +1,4 @@
-from typing import Any, ClassVar, Collection, List, Set
+from typing import Any, List, Set
 
 from flask_principal import Need
 from invenio_access import Permission
@@ -6,21 +6,13 @@ from invenio_records_permissions.generators import Generator
 from invenio_search.engine import dsl
 
 class BasePermissionPolicy(Permission):
-    can_search: ClassVar[
-        Collection[Generator]
-    ]  # keep typing as Collection to allow tuples
-    can_create: ClassVar[
-        Collection[Generator]
-    ]  # keep typing as Collection to allow tuples
-    can_read: ClassVar[
-        Collection[Generator]
-    ]  # keep typing as Collection to allow tuples
-    can_update: ClassVar[
-        Collection[Generator]
-    ]  # keep typing as Collection to allow tuples
-    can_delete: ClassVar[
-        Collection[Generator]
-    ]  # keep typing as Collection to allow tuples
+    # NOTE: tuples keep the defaults immutable on the base but subclasses can
+    # safely override the attribute with their own tuple of generators.
+    can_search: tuple[Generator, ...]
+    can_create: tuple[Generator, ...]
+    can_read: tuple[Generator, ...]
+    can_update: tuple[Generator, ...]
+    can_delete: tuple[Generator, ...]
     action: str
     over: dict[str, Any]
     def __init__(self, action: str, **over: Any) -> None: ...
