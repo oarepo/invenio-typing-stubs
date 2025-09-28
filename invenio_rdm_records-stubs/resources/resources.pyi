@@ -1,10 +1,20 @@
-from typing import Any, Callable, ParamSpec, TypeAlias, TypeVar
+from typing import Any, Callable, Generic, ParamSpec, TypeAlias, TypeVar
 
-from invenio_drafts_resources.resources.records.resource import (
-    RecordResource,
+from invenio_rdm_records.resources.config import (
+    RDMCommunityRecordsResourceConfig,
+    RDMParentGrantsResourceConfig,
+    RDMParentRecordLinksResourceConfig,
+    RDMRecordResourceConfig,
 )
+from invenio_rdm_records.services.access.service import RecordAccessService
+from invenio_rdm_records.services.community_records.service import (
+    CommunityRecordsService,
+)
+from invenio_rdm_records.services.services import RDMRecordService
+from invenio_records_resources.resources import RecordResourceConfig
 from invenio_records_resources.resources.errors import ErrorHandlersMixin
 from invenio_records_resources.resources.records.resource import (
+    RecordResource,
     request_data,
     request_extra_args,
     request_headers,
@@ -12,6 +22,7 @@ from invenio_records_resources.resources.records.resource import (
     request_search_args,
     request_view_args,
 )
+from invenio_records_resources.services.records.service import RecordService
 
 P = ParamSpec("P")
 R = TypeVar("R")
@@ -23,7 +34,10 @@ response_handler: Callable[..., AnyDecorator]
 
 def response_header_signposting(f: Callable[P, R]) -> Callable[P, R]: ...
 
-class RDMRecordResource(RecordResource):
+CRecord = TypeVar("CRecord", bound=RDMRecordResourceConfig)
+SRecord = TypeVar("SRecord", bound=RDMRecordService)
+
+class RDMRecordResource(RecordResource[CRecord, SRecord], Generic[CRecord, SRecord]):
     def create_url_rules(self) -> list[dict[str, Any]]: ...
     @request_headers
     @request_extra_args
@@ -116,7 +130,12 @@ class RDMRecordRequestsResource(ErrorHandlersMixin):
     @response_handler(many=True)
     def search(self) -> tuple[dict[str, Any], int]: ...
 
-class RDMParentRecordLinksResource(RecordResource):
+CParentLinks = TypeVar("CParentLinks", bound=RDMParentRecordLinksResourceConfig)
+SParentLinks = TypeVar("SParentLinks", bound=RecordService)
+
+class RDMParentRecordLinksResource(
+    RecordResource[CParentLinks, SParentLinks], Generic[CParentLinks, SParentLinks]
+):
     def create_url_rules(self) -> list[dict[str, Any]]: ...
     @request_view_args
     @request_data
@@ -137,7 +156,12 @@ class RDMParentRecordLinksResource(RecordResource):
     @response_handler(many=True)
     def search(self) -> tuple[dict[str, Any], int]: ...
 
-class RDMParentGrantsResource(RecordResource):
+CParentGrants = TypeVar("CParentGrants", bound=RDMParentGrantsResourceConfig)
+SParentGrants = TypeVar("SParentGrants", bound=RecordAccessService)
+
+class RDMParentGrantsResource(
+    RecordResource[CParentGrants, SParentGrants], Generic[CParentGrants, SParentGrants]
+):
     def create_url_rules(self) -> list[dict[str, Any]]: ...
     @request_extra_args
     @request_view_args
@@ -166,7 +190,12 @@ class RDMParentGrantsResource(RecordResource):
     @response_handler(many=True)
     def search(self) -> tuple[dict[str, Any], int]: ...
 
-class RDMGrantsAccessResource(RecordResource):
+CGrantsAccess = TypeVar("CGrantsAccess", bound=RecordResourceConfig)
+SGrantsAccess = TypeVar("SGrantsAccess", bound=RecordAccessService)
+
+class RDMGrantsAccessResource(
+    RecordResource[CGrantsAccess, SGrantsAccess], Generic[CGrantsAccess, SGrantsAccess]
+):
     def create_url_rules(self) -> list[dict[str, Any]]: ...
     @request_extra_args
     @request_view_args
@@ -185,7 +214,15 @@ class RDMGrantsAccessResource(RecordResource):
     @response_handler()
     def partial_update(self) -> tuple[dict[str, Any], int]: ...
 
-class RDMCommunityRecordsResource(RecordResource):
+CCommunityRecords = TypeVar(
+    "CCommunityRecords", bound=RDMCommunityRecordsResourceConfig
+)
+SCommunityRecords = TypeVar("SCommunityRecords", bound=CommunityRecordsService)
+
+class RDMCommunityRecordsResource(
+    RecordResource[CCommunityRecords, SCommunityRecords],
+    Generic[CCommunityRecords, SCommunityRecords],
+):
     def create_url_rules(self) -> list[dict[str, Any]]: ...
     @request_search_args
     @request_view_args

@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Mapping
-from typing import Any
+from typing import Any, Generic, TypeVar
 
 import marshmallow as ma
 from flask import Response
 from flask_resources import Resource, ResourceConfig, ResponseHandler
+from invenio_rdm_records.services.iiif.service import IIIFService
 from invenio_records_resources.resources.errors import ErrorHandlersMixin
 from invenio_records_resources.resources.records.resource import (
     request_headers as request_headers,
@@ -39,9 +40,12 @@ def with_iiif_content_negotiation(
 
 iiif_request_view_args: Any
 
-class IIIFResource(ErrorHandlersMixin, Resource):
-    service: Any
-    def __init__(self, config: IIIFResourceConfig, service: Any) -> None: ...
+C = TypeVar("C", bound=IIIFResourceConfig)
+S = TypeVar("S", bound=IIIFService)
+
+class IIIFResource(ErrorHandlersMixin, Resource[C], Generic[C, S]):
+    service: S
+    def __init__(self, config: C, service: S) -> None: ...
     @cached_property
     def proxy(self) -> Callable[[], Any] | None: ...
     @staticmethod

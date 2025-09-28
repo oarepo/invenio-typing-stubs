@@ -1,11 +1,14 @@
-from typing import Any, List
+from typing import Any, Generic, List, TypeVar
 
 from flask_principal import Identity
 from invenio_drafts_resources.services.records import RecordService
+from invenio_drafts_resources.services.records.config import RecordServiceConfig
 from invenio_rdm_records.services.pids.manager import PIDManager
 from invenio_records_resources.services.records.results import RecordItem
 
-class PIDsService(RecordService):
+C = TypeVar("C", bound=RecordServiceConfig)
+
+class PIDsService(RecordService[C], Generic[C]):
     def __init__(self, config: Any, manager_cls: type) -> None: ...
     @property
     def expandable_fields(self) -> List[Any]: ...

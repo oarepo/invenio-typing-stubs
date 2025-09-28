@@ -1,5 +1,5 @@
 from io import BufferedReader, BytesIO
-from typing import Any
+from typing import Any, Generic, TypeVar
 
 from flask_principal import (
     Identity,
@@ -8,6 +8,7 @@ from invenio_db.uow import UnitOfWork
 from invenio_records_resources.records.api import Record
 from invenio_records_resources.services.base.links import LinksTemplate
 from invenio_records_resources.services.base.service import Service
+from invenio_records_resources.services.files.config import FileServiceConfig
 from invenio_records_resources.services.files.results import (
     FileItem,
     FileList,
@@ -15,7 +16,9 @@ from invenio_records_resources.services.files.results import (
 from invenio_records_resources.services.records.schema import ServiceSchemaWrapper
 from werkzeug.wsgi import LimitedStream
 
-class FileService(Service):
+C = TypeVar("C", bound=FileServiceConfig)
+
+class FileService(Service[C], Generic[C]):
     def _get_record(
         self,
         id_: str,

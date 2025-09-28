@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Generic, TypeVar
 
 from flask_resources import JSONSerializer as JSONSerializer
 from flask_resources import ResponseHandler as ResponseHandler
@@ -23,8 +23,12 @@ from invenio_records_resources.resources.records.resource import (
     request_search_args,
     request_view_args,
 )
+from invenio_records_resources.services.records.service import RecordService
 
-class RecordResource(RecordResourceBase):
+C = TypeVar("C", bound=RecordResourceConfigBase)
+S = TypeVar("S", bound=RecordService)
+
+class RecordResource(RecordResourceBase[C, S], Generic[C, S]):
     def create_blueprint(self, **options): ...
     def create_url_rules(self): ...
     @request_extra_args

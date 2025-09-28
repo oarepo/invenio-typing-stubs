@@ -1,3 +1,5 @@
+from typing import Generic, TypeVar
+
 from invenio_drafts_resources.auditlog.actions import (
     DraftCreateAuditLog as DraftCreateAuditLog,
 )
@@ -16,12 +18,15 @@ from invenio_drafts_resources.auditlog.actions import (
 from invenio_drafts_resources.resources.records.errors import (
     DraftNotCreatedError as DraftNotCreatedError,
 )
+from invenio_drafts_resources.services.records.config import RecordServiceConfig
 from invenio_drafts_resources.services.records.uow import (
     ParentRecordCommitOp as ParentRecordCommitOp,
 )
 from invenio_records_resources.services import RecordService as RecordServiceBase
 
-class RecordService(RecordServiceBase):
+C = TypeVar("C", bound=RecordServiceConfig)
+
+class RecordService(RecordServiceBase[C], Generic[C]):
     def __init__(
         self, config, files_service=None, draft_files_service=None
     ) -> None: ...

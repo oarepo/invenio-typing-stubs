@@ -1,11 +1,14 @@
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any, Generic, Optional, TypeVar
 
 from invenio_drafts_resources.services.records.service import RecordService
+from invenio_rdm_records.services.config import RDMRecordServiceConfig
 from invenio_records_resources.services.records.schema import ServiceSchemaWrapper
 
-class RDMRecordService(RecordService):
+C = TypeVar("C", bound=RDMRecordServiceConfig)
+
+class RDMRecordService(RecordService[C], Generic[C]):
     def __init__(
         self,
         config,

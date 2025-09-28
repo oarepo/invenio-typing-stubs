@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 from flask_principal import Identity
 from invenio_db.uow import UnitOfWork
@@ -6,9 +6,15 @@ from invenio_records_resources.services import RecordService
 from invenio_records_resources.services.records.results import RecordList
 from invenio_search.engine import dsl
 from invenio_vocabularies.records.models import VocabularyType as VocabularyType
+from invenio_vocabularies.services.config import (
+    VocabulariesServiceConfig,
+    VocabularyTypesServiceConfig,
+)
 from invenio_vocabularies.services.tasks import process_datastream as process_datastream
 
-class VocabularyTypeService(RecordService):
+CTypeConfig = TypeVar("CTypeConfig", bound=VocabularyTypesServiceConfig)
+
+class VocabularyTypeService(RecordService[CTypeConfig], Generic[CTypeConfig]):
     def rebuild_index(
         self, identity: Identity, uow: Optional[UnitOfWork] = None
     ) -> bool: ...
@@ -21,7 +27,9 @@ class VocabularyTypeService(RecordService):
         **kwargs,
     ) -> RecordList: ...
 
-class VocabulariesService(RecordService):
+CVocabConfig = TypeVar("CVocabConfig", bound=VocabulariesServiceConfig)
+
+class VocabulariesService(RecordService[CVocabConfig], Generic[CVocabConfig]):
     @property
     def task_schema(self): ...
     def create_type(

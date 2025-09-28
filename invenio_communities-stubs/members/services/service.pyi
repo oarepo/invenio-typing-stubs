@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Dict, Optional, Type
+from typing import Any, Dict, Generic, Optional, Type, TypeVar
 from uuid import UUID
 
 from flask_principal import Identity
@@ -10,6 +10,7 @@ from invenio_communities.members.records.api import (
     ArchivedInvitation as ArchivedInvitation,
 )
 from invenio_communities.members.records.api import Member
+from invenio_communities.members.services.config import MemberServiceConfig
 from invenio_communities.members.services.request import (
     CommunityInvitation as CommunityInvitation,
 )
@@ -56,7 +57,9 @@ from invenio_requests.services.requests.results import RequestItem
 
 def invite_expires_at() -> datetime: ...
 
-class MemberService(RecordService):
+C = TypeVar("C", bound=MemberServiceConfig)
+
+class MemberService(RecordService[C], Generic[C]):
     @property
     def community_cls(self) -> Type[Community]: ...
     @property

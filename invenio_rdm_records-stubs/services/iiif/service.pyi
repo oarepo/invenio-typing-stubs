@@ -1,11 +1,14 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Generic, TypeVar
 
 from flask_principal import Identity
 from invenio_records_resources.services import Service
+from invenio_records_resources.services.base import ServiceConfig
 
-class IIIFService(Service):
+C = TypeVar("C", bound=ServiceConfig)
+
+class IIIFService(Service[C], Generic[C]):
     def __init__(self, config: Any, records_service: Any) -> None: ...
     def _iiif_uuid(self, uuid: str) -> tuple[str, str]: ...
     def _iiif_image_uuid(self, uuid: str) -> tuple[str, str, str]: ...

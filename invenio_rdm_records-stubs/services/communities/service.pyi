@@ -1,11 +1,14 @@
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, Generic, List, Tuple, TypeVar
 
 from flask_principal import Identity
 from invenio_db.uow import UnitOfWork
+from invenio_rdm_records.services.config import RDMRecordCommunitiesConfig
 from invenio_records_resources.services import RecordIndexerMixin, Service
 from invenio_records_resources.services.records.schema import ServiceSchemaWrapper
 
-class RecordCommunitiesService(Service, RecordIndexerMixin):
+C = TypeVar("C", bound=RDMRecordCommunitiesConfig)
+
+class RecordCommunitiesService(Service[C], RecordIndexerMixin, Generic[C]):
     @property
     def schema(self) -> ServiceSchemaWrapper: ...
     @property

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, Generic, List, Tuple, TypeVar
 
 from flask_resources import BaseListSchema as BaseListSchema
 from flask_resources import JSONSerializer as JSONSerializer
@@ -21,12 +21,17 @@ from invenio_records_resources.resources.records.resource import (
     request_search_args,
     request_view_args,
 )
+from invenio_vocabularies.resources.config import VocabulariesResourceConfig
 from invenio_vocabularies.resources.serializer import (
     VocabularyL10NItemSchema as VocabularyL10NItemSchema,
 )
+from invenio_vocabularies.services.service import VocabulariesService
 from marshmallow import fields as fields
 
-class VocabulariesResource(RecordResource):
+C = TypeVar("C", bound=VocabulariesResourceConfig)
+S = TypeVar("S", bound=VocabulariesService)
+
+class VocabulariesResource(RecordResource[C, S], Generic[C, S]):
     def create_url_rules(self) -> List[Any]: ...
     @request_search_args
     @request_view_args
@@ -46,7 +51,7 @@ class VocabulariesResource(RecordResource):
     @request_data
     def launch(self) -> Tuple[str, int]: ...
 
-class VocabulariesAdminResource(RecordResource):
+class VocabulariesAdminResource(RecordResource[C, S], Generic[C, S]):
     def create_url_rules(self) -> List[Any]: ...
     @request_search_args
     def search(self) -> Tuple[Dict[str, Any], int]: ...

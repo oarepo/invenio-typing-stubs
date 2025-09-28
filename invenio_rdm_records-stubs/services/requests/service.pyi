@@ -1,12 +1,15 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Generic, TypeVar
 
 from flask_principal import Identity
+from invenio_rdm_records.services.config import RDMRecordRequestsConfig
 from invenio_records_resources.services import Service
 from invenio_records_resources.services.records.results import RecordList
 
-class RecordRequestsService(Service):
+C = TypeVar("C", bound=RDMRecordRequestsConfig)
+
+class RecordRequestsService(Service[C], Generic[C]):
     @property
     def record_cls(self) -> Any: ...
     def search(

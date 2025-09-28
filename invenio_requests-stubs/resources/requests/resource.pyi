@@ -1,4 +1,4 @@
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Generic, Tuple, TypeVar
 
 from flask.blueprints import Blueprint
 from invenio_records_resources.resources import RecordResource
@@ -9,8 +9,13 @@ from invenio_records_resources.resources.records.resource import (
     request_search_args,
     request_view_args,
 )
+from invenio_requests.resources.requests.config import RequestsResourceConfig
+from invenio_requests.services.requests.service import RequestsService
 
-class RequestsResource(RecordResource):
+C = TypeVar("C", bound=RequestsResourceConfig)
+S = TypeVar("S", bound=RequestsService)
+
+class RequestsResource(RecordResource[C, S], Generic[C, S]):
     def create_blueprint(self, **options: Any) -> Blueprint: ...
     def create_url_rules(self): ...
     @request_extra_args

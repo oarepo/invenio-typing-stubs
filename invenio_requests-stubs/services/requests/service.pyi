@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
 
 from _typeshed import Incomplete
 from flask_principal import Identity
@@ -16,6 +16,7 @@ from invenio_requests.proxies import (
 )
 from invenio_requests.records.api import Request
 from invenio_requests.resolvers.registry import ResolverRegistry as ResolverRegistry
+from invenio_requests.services.requests.config import RequestsServiceConfig
 from invenio_requests.services.requests.links import RequestLinksTemplate
 from invenio_requests.services.results import (
     EntityResolverExpandableField as EntityResolverExpandableField,
@@ -24,7 +25,9 @@ from invenio_requests.services.results import (
     MultiEntityResolverExpandableField as MultiEntityResolverExpandableField,
 )
 
-class RequestsService(RecordService):
+C = TypeVar("C", bound=RequestsServiceConfig)
+
+class RequestsService(RecordService[C], Generic[C]):
     @property
     def links_item_tpl(self) -> RequestLinksTemplate: ...
     @property

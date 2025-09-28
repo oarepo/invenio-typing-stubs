@@ -1,10 +1,11 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 from flask_principal import Identity
 from invenio_cache.decorators import cached_with_expiration
 from invenio_communities.communities.records.systemfields.deletion_status import (
     CommunityDeletionStatusEnum as CommunityDeletionStatusEnum,
 )
+from invenio_communities.communities.services.config import CommunityServiceConfig
 from invenio_communities.communities.services.links import CommunityLinksTemplate
 from invenio_communities.communities.services.results import (
     CommunityFeaturedList,
@@ -43,7 +44,9 @@ def get_cached_community_slug(
     community_id: str, community_service_id: str = "communities"
 ) -> str: ...
 
-class CommunityService(RecordService):
+C = TypeVar("C", bound=CommunityServiceConfig)
+
+class CommunityService(RecordService[C], Generic[C]):
     def __init__(
         self,
         config: Any,

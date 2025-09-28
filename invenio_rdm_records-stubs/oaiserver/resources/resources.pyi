@@ -1,6 +1,9 @@
-from typing import Any, Protocol
+from typing import Any, Generic, Protocol, TypeVar
 
 from flask_resources import Resource
+from invenio_rdm_records.oaiserver.resources.config import (
+    OAIPMHServerResourceConfig,
+)
 from invenio_records_resources.resources.errors import ErrorHandlersMixin
 
 class OAIPMHService(Protocol):
@@ -11,10 +14,13 @@ class OAIPMHService(Protocol):
     def delete(self, identity, id: int, /) -> None: ...
     def read_all_formats(self, identity, /) -> Any: ...
 
-class OAIPMHServerResource(ErrorHandlersMixin, Resource):
-    service: OAIPMHService
+C = TypeVar("C", bound=OAIPMHServerResourceConfig)
+S = TypeVar("S", bound=OAIPMHService)
 
-    def __init__(self, config, service: OAIPMHService) -> None: ...
+class OAIPMHServerResource(ErrorHandlersMixin, Resource[C], Generic[C, S]):
+    service: S
+
+    def __init__(self, config: C, service: S) -> None: ...
     def create_url_rules(self) -> list[dict[str, Any]]: ...
     def search(self) -> tuple[dict[str, Any], int]: ...
     def create(self) -> tuple[dict[str, Any], int]: ...

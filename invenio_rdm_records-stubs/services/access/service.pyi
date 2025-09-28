@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Generic, TypeVar
 
 from flask_principal import Identity
 from invenio_db.uow import UnitOfWork
 from invenio_drafts_resources.services.records import RecordService
+from invenio_drafts_resources.services.records.config import RecordServiceConfig
 from invenio_rdm_records.records.api import RDMDraft, RDMParent, RDMRecord
 from invenio_rdm_records.services.decorators import groups_enabled
 from invenio_rdm_records.services.result_items import (
@@ -19,7 +20,9 @@ from invenio_records_resources.services.records.results import RecordItem
 from invenio_records_resources.services.records.schema import ServiceSchemaWrapper
 from invenio_records_resources.services.uow import unit_of_work
 
-class RecordAccessService(RecordService):
+C = TypeVar("C", bound=RecordServiceConfig)
+
+class RecordAccessService(RecordService[C], Generic[C]):
     group_subject_type: ClassVar[str]
 
     def link_result_item(self, *args: Any, **kwargs: Any) -> SecretLinkItem: ...

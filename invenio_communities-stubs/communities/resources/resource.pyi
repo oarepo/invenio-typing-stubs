@@ -1,6 +1,10 @@
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, Generic, List, Tuple, TypeVar
 
 from _typeshed import Incomplete
+from invenio_communities.communities.resources.config import (
+    CommunityResourceConfig,
+)
+from invenio_communities.communities.services.service import CommunityService
 from invenio_communities.proxies import current_communities as current_communities
 from invenio_records_resources.resources.records.resource import (
     RecordResource,
@@ -15,7 +19,10 @@ request_stream: Incomplete
 
 request_community_requests_search_args: Any
 
-class CommunityResource(RecordResource):
+C = TypeVar("C", bound=CommunityResourceConfig)
+S = TypeVar("S", bound=CommunityService)
+
+class CommunityResource(RecordResource[C, S], Generic[C, S]):
     def create_url_rules(self) -> List[Dict[str, Any]]: ...
     @request_search_args
     def search_user_communities(self) -> Tuple[Dict[str, Any], int]: ...

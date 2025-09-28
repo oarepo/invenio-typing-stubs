@@ -1,5 +1,7 @@
-from typing import Any
+from typing import Any, Generic, TypeVar
 
+from invenio_communities.members.resources.config import MemberResourceConfig
+from invenio_communities.members.services.service import MemberService
 from invenio_records_resources.resources.records.resource import (
     RecordResource,
     request_data,
@@ -8,7 +10,10 @@ from invenio_records_resources.resources.records.resource import (
     request_view_args,
 )
 
-class MemberResource(RecordResource):
+C = TypeVar("C", bound=MemberResourceConfig)
+S = TypeVar("S", bound=MemberService)
+
+class MemberResource(RecordResource[C, S], Generic[C, S]):
     def create_url_rules(self) -> list[dict[str, Any]]: ...
     @request_view_args
     @request_search_args
