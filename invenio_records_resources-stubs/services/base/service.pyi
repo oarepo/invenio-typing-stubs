@@ -1,4 +1,4 @@
-from typing import Any, Iterator, Union
+from typing import Any, Generic, Iterator, TypeVar, Union
 
 from flask_principal import AnonymousIdentity, Identity
 from invenio_records_resources.services.base.components import BaseServiceComponent
@@ -10,9 +10,13 @@ from invenio_records_resources.services.base.results import (
     ServiceListResult,
 )
 
-class Service:
-    config: ServiceConfig  # keep typing
-    def __init__(self, config: ServiceConfig) -> None: ...
+# having generic here (unlike in sources) to be able to have subclasses
+# of config safely typed inside the Service
+C = TypeVar("C", bound=ServiceConfig)
+
+class Service(Generic[C]):
+    config: C  # keep typing
+    def __init__(self, config: C) -> None: ...
     def check_permission(
         self,
         identity: Union[Identity, AnonymousIdentity],

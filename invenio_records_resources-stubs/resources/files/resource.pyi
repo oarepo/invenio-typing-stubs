@@ -12,7 +12,7 @@
 
 """Invenio Record File Resources."""
 
-from typing import Any, Callable, ParamSpec, TypeAlias, TypeVar
+from typing import Any, Callable, Generic, ParamSpec, TypeAlias, TypeVar
 
 from flask.wrappers import Response
 from flask_resources import Resource
@@ -26,12 +26,17 @@ Decorator: TypeAlias = Callable[[Callable[P, R]], Callable[P, R]]
 
 def set_max_content_length(func: Callable[P, R]) -> Callable[P, R]: ...
 
-class FileResource(ErrorHandlersMixin, Resource):
+# note: unlike in sources, we are having generics here so that we can safely pass and access
+# instances of subclasses in inheriting resources
+C = TypeVar("C", bound=FileResourceConfig)
+S = TypeVar("S", bound=FileService)
+
+class FileResource(ErrorHandlersMixin, Resource[C], Generic[C, S]):
     """File resource."""
 
-    service: FileService
+    service: S
 
-    def __init__(self, config: FileResourceConfig, service: FileService) -> None: ...
+    def __init__(self, config: C, service: S) -> None: ...
     def create_url_rules(self) -> list[dict[str, Any]]: ...
     def search(self) -> tuple[dict[str, Any], int]: ...
     def delete_all(self) -> tuple[str, int]: ...

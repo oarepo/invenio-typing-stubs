@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable, Mapping, Sequence
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Generic, TypeVar
 
 from flask import Blueprint, Response
 from flask_resources.config import ConfigAttrValue
@@ -35,8 +35,10 @@ class ResourceConfig:
     response_handlers: Mapping[str, ResponseHandler]
     default_accept_mimetype: str | None
 
-class Resource:
-    config: ResourceConfig
+C = TypeVar("C", bound=ResourceConfig)
+
+class Resource(Generic[C]):
+    config: C
     decorators: ClassVar[Sequence[Decorator]]
     error_handlers: ClassVar[
         dict[

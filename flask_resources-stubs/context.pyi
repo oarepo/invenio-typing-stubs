@@ -22,10 +22,10 @@ class ResourceConfigProtocol(Protocol):
 
 class ResourceRequestCtx:
     config: ResourceConfigProtocol
-    args: Mapping[str, Any] | None
-    headers: Mapping[str, str] | None
+    args: Mapping[str, Any]  # intentionally not None as it is initialized to {}
+    headers: Mapping[str, str]  # intentionally not None as it is initialized to {}
     data: Any
-    view_args: Mapping[str, Any] | None
+    view_args: Mapping[str, Any]  # intentionally not None as it is initialized to {}
     accept_mimetype: str | None
     response_handler: ResponseHandlerProtocol | None
 

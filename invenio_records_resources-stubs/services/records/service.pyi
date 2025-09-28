@@ -1,12 +1,4 @@
-from typing import (
-    Any,
-    Dict,
-    Iterator,
-    List,
-    Optional,
-    Tuple,
-    Type,
-)
+from typing import Any, Dict, Generic, Iterator, List, Optional, Tuple, Type, TypeVar
 
 from flask_principal import (
     Identity,
@@ -36,8 +28,9 @@ class RecordIndexerMixin:
     def indexer(self) -> RecordIndexer: ...
     def record_to_index(self, record: Record) -> str: ...
 
-class RecordService(Service, RecordIndexerMixin):
-    config: RecordServiceConfig  # keep typing # type: ignore[assignment]
+C = TypeVar("C", bound=RecordServiceConfig)
+
+class RecordService(Service[C], RecordIndexerMixin, Generic[C]):
     def _create(
         self,
         record_cls: Type[Record],
