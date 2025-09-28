@@ -1,4 +1,4 @@
-from typing import Any, Iterator, Optional
+from typing import Any, Generic, Iterator, Optional, TypeVar
 
 from flask import Flask
 from invenio_records_permissions.policies import BasePermissionPolicy
@@ -9,9 +9,11 @@ from invenio_records_resources.services.base.results import (
     ServiceListResult,
 )
 
-class ServiceConfig:
+PermissionPolicyT = TypeVar("PermissionPolicyT", bound=BasePermissionPolicy)
+
+class ServiceConfig(Generic[PermissionPolicyT]):
     service_id: Optional[str]
-    permission_policy_cls: type[BasePermissionPolicy]
+    permission_policy_cls: type[PermissionPolicyT]
     result_item_cls: type[ServiceItemResult]
     result_list_cls: type[ServiceListResult]
     result_bulk_item_cls: type[ServiceBulkItemResult]
@@ -23,7 +25,7 @@ class ConfiguratorMixin:
     """Shared customization for requests service config."""
 
     @classmethod
-    def build(cls, app: Flask) -> ServiceConfig: ...
+    def build(cls, app: Flask) -> ServiceConfig[Any]: ...
 
 class SearchOptionsMixin:
     """Customization of search options."""

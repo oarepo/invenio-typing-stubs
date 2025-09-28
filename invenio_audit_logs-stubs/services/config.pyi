@@ -11,13 +11,16 @@ from invenio_audit_logs.services.permissions import (
 )
 from invenio_audit_logs.services.schema import AuditLogSchema as AuditLogSchema
 from invenio_indexer.api import RecordIndexer
-from invenio_records_resources.services.base import ServiceConfig
+from invenio_records.dumpers import Dumper
 from invenio_records_resources.services.base.config import ConfiguratorMixin
 from invenio_records_resources.services.base.results import (
     ServiceItemResult,
     ServiceListResult,
 )
-from invenio_records_resources.services.records.config import SearchOptions
+from invenio_records_resources.services.records.config import (
+    RecordServiceConfig,
+    SearchOptions,
+)
 
 class AuditLogSearchOptions(SearchOptions):
     # NOTE: immutable defaults prevent shared-state mutation across configs.
@@ -31,19 +34,25 @@ class AuditLogSearchOptions(SearchOptions):
 
 def idvar(log, vars) -> None: ...
 
-class AuditLogServiceConfig(ServiceConfig, ConfiguratorMixin):
+class AuditLogServiceConfig(
+    RecordServiceConfig[
+        AuditLog,
+        AuditLogSearchOptions,
+        AuditLogSchema,
+        RecordIndexer,
+        AuditLogPermissionPolicy,
+    ],
+    ConfiguratorMixin,
+):
     # NOTE: configs expose immutable defaults to keep instances isolated.
     enabled: Any
     service_id: str | None
-    permission_policy_cls: Any
+    permission_policy_cls: type[AuditLogPermissionPolicy]
     search: type[AuditLogSearchOptions]
-    schema: type[AuditLogSchema]
+    schema: type[AuditLogSchema] | None
     record_cls: type[AuditLog]
     indexer_cls: type[RecordIndexer]
     indexer_queue_name: str
-    index_dumper: Any
-    components: tuple[type, ...]
-    links_item: Mapping[str, Any]
-    links_search: Mapping[str, Any]
+    index_dumper: Dumper | None
     result_item_cls: type[ServiceItemResult]
     result_list_cls: type[ServiceListResult]

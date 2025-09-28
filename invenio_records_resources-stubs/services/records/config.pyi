@@ -10,11 +10,12 @@
 
 """Record Service API."""
 
-from typing import Any, Callable, Mapping, Sequence
+from typing import Any, Callable, Generic, Mapping, Sequence, TypeVar
 
 import marshmallow as ma
 from invenio_indexer.api import RecordIndexer
 from invenio_records.dumpers import Dumper
+from invenio_records_permissions.policies import BasePermissionPolicy
 from invenio_records_resources.records import Record
 from invenio_records_resources.services.base import ServiceConfig
 from invenio_records_resources.services.base.links import Link
@@ -22,6 +23,12 @@ from invenio_records_resources.services.records.components.base import ServiceCo
 from invenio_records_resources.services.records.params import ParamInterpreter
 from invenio_records_resources.services.records.queryparser import QueryParser
 from invenio_search import RecordsSearchV2
+
+RecordT = TypeVar("RecordT", bound=Record)
+SearchOptionsT = TypeVar("SearchOptionsT", bound="SearchOptions")
+SchemaT = TypeVar("SchemaT", bound=ma.Schema)
+IndexerT = TypeVar("IndexerT", bound=RecordIndexer)
+PermissionPolicyT = TypeVar("PermissionPolicyT", bound=BasePermissionPolicy)
 
 class SearchOptions:
     """Search options."""
@@ -38,23 +45,26 @@ class SearchOptions:
     pagination_options: Mapping[str, int]
     params_interpreters_cls: tuple[type[ParamInterpreter], ...]
 
-class RecordServiceConfig(ServiceConfig):
+class RecordServiceConfig(
+    ServiceConfig[PermissionPolicyT],
+    Generic[RecordT, SearchOptionsT, SchemaT, IndexerT, PermissionPolicyT],
+):
     """Service factory configuration."""
 
     # Record specific configuration
     # NOTE: defaults are immutable here as well to prevent runtime mutation.
-    record_cls: type[Record]
-    indexer_cls: type[RecordIndexer]
+    record_cls: type[RecordT]
+    indexer_cls: type[IndexerT]
     indexer_queue_name: str
     index_dumper: Dumper | None
     # inverse relation mapping, stores which fields relate to which record type
     relations: Mapping[str, Any]
 
     # Search configuration
-    search: type[SearchOptions]
+    search: type[SearchOptionsT]
 
     # Service schema
-    schema: type[ma.Schema] | None
+    schema: type[SchemaT] | None
 
     # Definition of those is left up to implementations
 
