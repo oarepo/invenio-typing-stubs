@@ -1,4 +1,5 @@
-from typing import Any
+from collections.abc import Mapping
+from typing import Any, ClassVar
 
 import marshmallow as ma
 from flask_resources import ResourceConfig, ResponseHandler
@@ -44,7 +45,7 @@ class RDMRecordCommunitiesResourceConfig(
 ): ...
 
 class RDMRecordRequestsResourceConfig(ResourceConfig, ConfiguratorMixin):
-    request_search_args: type[RequestSearchRequestArgsSchema]
-    request_view_args: dict[str, ma.fields.Field]
-    request_extra_args: dict[str, ma.fields.Field]
-    response_handlers: dict[str, ResponseHandler]
+    request_search_args: ClassVar[type[RequestSearchRequestArgsSchema]]
+    request_view_args: ClassVar[dict[str, ma.fields.Field]]
+    request_extra_args: ClassVar[dict[str, ma.fields.Field]]
+    response_handlers: ClassVar[Mapping[str, ResponseHandler]]

@@ -1,4 +1,4 @@
-from typing import ClassVar, Collection
+from typing import Any, ClassVar, Collection
 
 from invenio_records_permissions.generators import Generator
 from invenio_records_permissions.policies.records import RecordPermissionPolicy

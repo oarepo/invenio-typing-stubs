@@ -1,3 +1,5 @@
+from typing import Any
+
 from flask_principal import PermissionDenied
 
 class RDMRecordsException(Exception): ...

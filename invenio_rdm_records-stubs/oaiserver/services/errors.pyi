@@ -1,3 +1,5 @@
+from typing import Any
+
 class OAIPMHError(Exception):
     description: str
     def __init__(self, description: str, *args: Any) -> None: ...

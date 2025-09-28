@@ -4,6 +4,7 @@ from flask import Response
 from flask_resources import HTTPJSONException
 from invenio_records_resources.services.errors import ValidationErrorGroup
 from marshmallow import ValidationError
+from werkzeug.exceptions import HTTPException
 
 def create_pid_redirected_error_handler() -> Callable[[Exception], Response]: ...
 
@@ -17,5 +18,8 @@ class HTTPJSONSearchRequestError(HTTPJSONException):
 
 class ErrorHandlersMixin:
     error_handlers: ClassVar[
-        dict[type[BaseException], Callable[[BaseException], Response]]
+        dict[
+            int | type[HTTPException] | type[BaseException],
+            Callable[[Exception], Response],
+        ]
     ]

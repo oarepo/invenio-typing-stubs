@@ -1,6 +1,8 @@
+from collections.abc import Callable
 from typing import Any, ClassVar
 
 import marshmallow as ma
+from flask import Response
 from flask_resources import ResponseHandler
 from invenio_communities.communities.resources.args import (
     CommunitiesSearchRequestArgsSchema as CommunitiesSearchRequestArgsSchema,
@@ -26,6 +28,7 @@ from invenio_records_resources.resources import (
 )
 from invenio_records_resources.services.base.config import ConfiguratorMixin
 from invenio_requests.resources.requests.config import RequestSearchRequestArgsSchema
+from werkzeug.exceptions import HTTPException
 
 community_error_handlers: dict[type, Any]
 
@@ -34,7 +37,12 @@ class CommunityResourceConfig(RecordResourceConfig, ConfiguratorMixin):
     routes: ClassVar[dict[str, str]]
     request_search_args: ClassVar[type[SearchRequestArgsSchema]]
     request_view_args: ClassVar[dict[str, ma.fields.Field]]
-    error_handlers: Any
+    error_handlers: ClassVar[
+        dict[
+            int | type[HTTPException] | type[BaseException],
+            Callable[[Exception], Response],
+        ]
+    ]
     request_community_requests_search_args: ClassVar[
         type[RequestSearchRequestArgsSchema]
     ]

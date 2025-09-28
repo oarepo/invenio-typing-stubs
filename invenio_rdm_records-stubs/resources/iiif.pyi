@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Any, Callable
+from collections.abc import Callable, Mapping
+from typing import Any, ClassVar
 
 import marshmallow as ma
 from flask import Response
@@ -12,19 +13,25 @@ from invenio_records_resources.resources.records.resource import (
     request_read_args as request_read_args,
 )
 from invenio_records_resources.services.base.config import ConfiguratorMixin
+from werkzeug.exceptions import HTTPException
 from werkzeug.utils import cached_property
 
 class IIIFResourceConfig(ResourceConfig, ConfiguratorMixin):
-    blueprint_name: str
-    url_prefix: str
-    routes: dict[str, str]
-    request_view_args: dict[str, ma.fields.Field]
-    request_read_args: dict[str, ma.fields.Field]
-    request_headers: dict[str, ma.fields.Field]
-    response_handler: dict[str, ResponseHandler]
-    supported_formats: dict[str, str]
-    proxy_cls: Any
-    error_handlers: dict[type, Any]
+    blueprint_name: ClassVar[str | None]
+    url_prefix: ClassVar[str | None]
+    routes: ClassVar[dict[str, str]]
+    request_view_args: ClassVar[dict[str, ma.fields.Field]]
+    request_read_args: ClassVar[dict[str, ma.fields.Field]]
+    request_headers: ClassVar[dict[str, ma.fields.Field]]
+    response_handler: ClassVar[Mapping[str, ResponseHandler]]
+    supported_formats: ClassVar[Any]
+    proxy_cls: ClassVar[Any]
+    error_handlers: ClassVar[
+        dict[
+            int | type[HTTPException] | type[BaseException],
+            Callable[[Exception], Response],
+        ]
+    ]
 
 def with_iiif_content_negotiation(
     serializer: type,

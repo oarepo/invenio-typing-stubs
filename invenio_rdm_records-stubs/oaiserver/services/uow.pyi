@@ -1,3 +1,5 @@
+from typing import Any
+
 from invenio_db.uow import Operation
 
 class OAISetCommitOp(Operation):

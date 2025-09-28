@@ -48,7 +48,7 @@ class PersonOrOrgSchema(Schema):
     ) -> Optional[list[Mapping[str, Any]]]: ...
 
 class SchemaorgSchema(BaseSerializerSchema, CommonFieldsMixin):
-    context: fields.Constant
+    context: Any
     id_: fields.Method
     type_: fields.Method
     identifier: fields.Method

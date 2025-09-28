@@ -6,7 +6,12 @@ from flask_resources import response_handler, with_content_negotiation
 from invenio_drafts_resources.resources.records.errors import (
     RedirectException as RedirectException,
 )
-from invenio_records_resources.resources import RecordResource as RecordResourceBase
+from invenio_records_resources.resources import (
+    RecordResource as RecordResourceBase,
+)
+from invenio_records_resources.resources import (
+    RecordResourceConfig as RecordResourceConfigBase,
+)
 from invenio_records_resources.resources.records.headers import (
     etag_headers as etag_headers,
 )
@@ -40,7 +45,15 @@ class RecordResource(RecordResourceBase):
     @request_view_args
     def publish(self) -> tuple[dict[str, Any], int]: ...
     @request_view_args
-    @with_content_negotiation
+    @with_content_negotiation(
+        response_handlers={
+            "application/vnd.inveniordm.v1+json": RecordResourceConfigBase.response_handlers[
+                "application/json"
+            ],
+            **RecordResourceConfigBase.response_handlers,
+        },
+        default_accept_mimetype="application/json",
+    )
     @response_handler(many=True)
     def import_files(self) -> tuple[dict[str, Any], int]: ...
     @request_extra_args

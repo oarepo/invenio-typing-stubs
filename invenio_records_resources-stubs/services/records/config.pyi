@@ -34,7 +34,7 @@ class SearchOptions:
     sort_options: ClassVar[dict[str, dict[str, Any]]]
     facets: ClassVar[dict[str, Any]]
     pagination_options: ClassVar[dict[str, int]]
-    params_interpreters_cls: ClassVar[list[type[ParamInterpreter]]] | property
+    params_interpreters_cls: ClassVar[list[type[ParamInterpreter]]]
 
 class RecordServiceConfig(ServiceConfig):
     """Service factory configuration."""
