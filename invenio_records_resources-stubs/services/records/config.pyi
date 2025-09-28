@@ -10,13 +10,14 @@
 
 """Record Service API."""
 
-from typing import Any, Callable, Generic, Mapping, Sequence, TypeVar
+from typing import Any, Callable, Generic, Mapping, TypeVar
 
 import marshmallow as ma
 from invenio_indexer.api import RecordIndexer
 from invenio_records.dumpers import Dumper
 from invenio_records_permissions.policies import BasePermissionPolicy
 from invenio_records_resources.records import Record
+from invenio_records_resources.services import EndpointLink
 from invenio_records_resources.services.base import ServiceConfig
 from invenio_records_resources.services.base.links import Link
 from invenio_records_resources.services.records.components.base import ServiceComponent
@@ -67,20 +68,6 @@ class RecordServiceConfig(
     schema: type[SchemaT] | None
 
     # Definition of those is left up to implementations
-
-    @property
-    def links_item(
-        self,
-    ) -> dict[
-        str, Callable[..., Any] | Link
-    ]: ...  # keep typing to be able to use property
-    @property
-    def links_search(
-        self,
-    ) -> dict[
-        str, Callable[..., Any] | Link
-    ]: ...  # keep typing to be able to use property
-    @property
-    def components(
-        self,
-    ) -> Sequence[type[ServiceComponent]]: ...  # keep typing to be able to use property
+    links_item: Mapping[str, Callable[..., Any] | Link | EndpointLink]
+    links_search: Mapping[str, Callable[..., Any] | Link | EndpointLink]
+    components: tuple[type[ServiceComponent]]

@@ -21,6 +21,7 @@ from invenio_drafts_resources.services.records.search_params import (
     AllVersionsParam as AllVersionsParam,
 )
 from invenio_indexer.api import RecordIndexer  # type: ignore[import-untyped]
+from invenio_records_resources.services import EndpointLink, Link
 from invenio_records_resources.services import (
     RecordServiceConfig as RecordServiceConfigBase,
 )
@@ -68,3 +69,5 @@ class RecordServiceConfig(
     default_files_enabled: bool
     default_media_files_enabled: bool
     lock_edit_published_files: Callable[..., Any]
+    links_search_drafts: Mapping[str, Callable[..., Any] | Link | EndpointLink]
+    links_search_versions: Mapping[str, Callable[..., Any] | Link | EndpointLink]
