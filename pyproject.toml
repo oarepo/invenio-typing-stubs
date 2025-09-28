@@ -42,4 +42,5 @@ packages = [
     "invenio_requests-stubs",
     "invenio_vocabularies-stubs",
     "invenio_search-stubs",
+    "flask_resources-stubs",
 ]
