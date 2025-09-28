@@ -46,6 +46,7 @@ from invenio_communities.permissions import (
 from invenio_communities.permissions import (
     can_perform_action as can_perform_action,
 )
+from invenio_indexer.api import RecordIndexer
 from invenio_records_resources.services import FileServiceConfig
 from invenio_records_resources.services.base.config import (
     ConfiguratorMixin,
@@ -64,7 +65,16 @@ class SearchOptions(SearchOptionsBase, SearchOptionsMixin):
 
 def children_allowed(record: Community | Incomplete, _: Any) -> bool: ...
 
-class CommunityServiceConfig(RecordServiceConfig, ConfiguratorMixin):
+class CommunityServiceConfig(
+    RecordServiceConfig[
+        Community,
+        SearchOptionsBase,
+        ma.Schema,
+        RecordIndexer,
+        CommunityPermissionPolicy,
+    ],
+    ConfiguratorMixin,
+):
     service_id = "communities"
     permission_policy_cls: Any
     record_cls = Community

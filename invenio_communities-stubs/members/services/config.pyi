@@ -11,6 +11,8 @@ from invenio_communities.members.services import facets as facets
 from invenio_communities.members.services.components import (
     CommunityMemberCachingComponent as CommunityMemberCachingComponent,
 )
+from invenio_indexer.api import RecordIndexer
+from invenio_records_permissions.policies import BasePermissionPolicy
 from invenio_records_resources.services import RecordServiceConfig, SearchOptions
 from invenio_records_resources.services.base.config import ConfiguratorMixin
 
@@ -34,7 +36,16 @@ class MemberSearchOptions(PublicSearchOptions):
     facets: Mapping[str, Any]
     query_parser_cls: Any
 
-class MemberServiceConfig(RecordServiceConfig, ConfiguratorMixin):
+class MemberServiceConfig(
+    RecordServiceConfig[
+        Member,
+        SearchOptions,
+        ma.Schema,
+        RecordIndexer,
+        BasePermissionPolicy,
+    ],
+    ConfiguratorMixin,
+):
     service_id = "members"
     community_cls = Community
     record_cls = Member

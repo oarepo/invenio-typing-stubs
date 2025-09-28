@@ -1,5 +1,8 @@
 from typing import Any, Dict
 
+import marshmallow as ma
+from invenio_indexer.api import RecordIndexer
+from invenio_records_resources.records import Record
 from invenio_records_resources.services import RecordServiceConfig, SearchOptions
 from invenio_vocabularies.records.api import Vocabulary as Vocabulary
 from invenio_vocabularies.records.models import VocabularyType as VocabularyType
@@ -22,7 +25,23 @@ class VocabularyTypeSearchOptions(SearchOptions):
     sort_direction_options: Dict[str, Dict[str, Any]]
     sort_direction_default: str
 
-class VocabulariesServiceConfig(RecordServiceConfig):
+class VocabulariesServiceConfig(
+    RecordServiceConfig[
+        Vocabulary,
+        VocabularySearchOptions,
+        VocabularySchema,
+        RecordIndexer,
+        PermissionPolicy,
+    ]
+):
     task_schema: type[TaskSchema]
 
-class VocabularyTypesServiceConfig(RecordServiceConfig): ...
+class VocabularyTypesServiceConfig(
+    RecordServiceConfig[
+        Record,
+        VocabularyTypeSearchOptions,
+        ma.Schema,
+        RecordIndexer,
+        PermissionPolicy,
+    ]
+): ...

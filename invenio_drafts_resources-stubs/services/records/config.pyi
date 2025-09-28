@@ -1,7 +1,7 @@
 from collections.abc import Mapping
 from typing import Any, Callable
 
-from invenio_drafts_resources.records.api import Draft
+from invenio_drafts_resources.records.api import Draft, Record
 from invenio_drafts_resources.services.records.components import (
     DraftMetadataComponent as DraftMetadataComponent,
 )
@@ -48,7 +48,15 @@ class SearchVersionsOptions(SearchOptions):
     facets_options: Mapping[str, Any]
     params_interpreters_cls: tuple[type, ...]
 
-class RecordServiceConfig(RecordServiceConfigBase):
+class RecordServiceConfig(
+    RecordServiceConfigBase[
+        Record,
+        SearchOptionsBase,
+        RecordSchema,
+        RecordIndexer,
+        RecordPermissionPolicy,
+    ]
+):
     # NOTE: configs expose immutable defaults so subclasses override safely.
     draft_cls: type[Draft] | None
     draft_indexer_cls: type[RecordIndexer]

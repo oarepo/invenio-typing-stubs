@@ -8,10 +8,15 @@ from invenio_drafts_resources.services.records.config import (
     SearchOptions,
     SearchVersionsOptions,
 )
+from invenio_indexer.api import RecordIndexer
+from invenio_rdm_records.records.api import RDMRecord
 from invenio_rdm_records.services.customizations import (
     FromConfigConditionalPIDs,
     FromConfigPIDsProviders,
     FromConfigRequiredPIDs,
+)
+from invenio_rdm_records.services.permissions import (
+    RDMRecordPermissionPolicy,
 )
 from invenio_rdm_records.services.result_items import (
     GrantItem,
@@ -138,7 +143,16 @@ class RDMRecordServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     nested_links_item: tuple[NestedLinks, ...]
     record_file_processors: tuple[Any, ...]
 
-class RDMCommunityRecordsConfig(BaseRecordServiceConfig, ConfiguratorMixin):
+class RDMCommunityRecordsConfig(
+    BaseRecordServiceConfig[
+        RDMRecord,
+        RDMCommunityRecordSearchOptions,
+        CommunityRecordsSchema,
+        RecordIndexer,
+        RDMRecordPermissionPolicy,
+    ],
+    ConfiguratorMixin,
+):
     # NOTE: immutable defaults to ensure overrides happen via replacement.
     community_cls: type[Community]
     search_versions: type[RDMSearchVersionsOptions]

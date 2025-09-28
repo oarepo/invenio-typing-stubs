@@ -1,6 +1,8 @@
 from collections.abc import Mapping
 from typing import Any, Callable, Dict
 
+import marshmallow as ma
+from invenio_indexer.api import RecordIndexer
 from invenio_records_resources.services import RecordServiceConfig, SearchOptions
 from invenio_records_resources.services.base.config import (
     ConfiguratorMixin,
@@ -44,7 +46,16 @@ class RequestSearchOptions(SearchOptions, SearchOptionsMixin):
 
 class UserRequestSearchOptions(RequestSearchOptions): ...
 
-class RequestsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
+class RequestsServiceConfig(
+    RecordServiceConfig[
+        Request,
+        RequestSearchOptions,
+        ma.Schema,
+        RecordIndexer,
+        PermissionPolicy,
+    ],
+    ConfiguratorMixin,
+):
     # Only declare attributes that don't conflict with base invariants here
     search_user_requests: type[UserRequestSearchOptions]
     links_user_requests_search: Mapping[str, Callable[..., Any]]
