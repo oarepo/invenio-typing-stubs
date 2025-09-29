@@ -18,7 +18,7 @@ class ServiceSchemaWrapper:
     def __init__(
         self,
         service: Service,
-        schema: ma.Schema,
+        schema: type[ma.Schema],
     ): ...
     def _build_context(
         self, base_context: dict[str, Incomplete]
