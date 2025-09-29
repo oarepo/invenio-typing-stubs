@@ -1,10 +1,8 @@
 from collections.abc import Iterator, Mapping
-from typing import Any
+from typing import Any, Self, overload
 
 from invenio_records.systemfields import SystemField
 from invenio_records_resources.records.api import FileRecord
-
-from oarepo_typing.descriptors import Descriptor
 
 class TransferFieldData(Mapping[str, Any]):
     _field: dict[str, Any]
@@ -21,5 +19,11 @@ class TransferFieldData(Mapping[str, Any]):
     def __iter__(self) -> Iterator[str]: ...
     def __len__(self) -> int: ...
 
-class TransferField(Descriptor[FileRecord, TransferFieldData], SystemField):  # type: ignore[misc]
-    ...
+class TransferField(SystemField):  # type: ignore[misc]
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[FileRecord]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: FileRecord, owner: type[FileRecord]
+    ) -> TransferFieldData: ...
+    def __set__(self, instance: FileRecord, value: TransferFieldData) -> None: ...  # type: ignore[override]

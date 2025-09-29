@@ -1,4 +1,4 @@
-from typing import Any, Callable, Type
+from typing import Any, Callable, Self, Type, overload
 
 from invenio_records.systemfields import SystemField
 from invenio_records_resources.records.api import FileRecord, Record
@@ -6,12 +6,10 @@ from invenio_records_resources.records.api import FileRecord, Record
 # type: ignore[import-untyped]
 from invenio_records_resources.records.systemfields.files.manager import FilesManager
 
-from oarepo_typing.descriptors import Descriptor
-
-class FilesField[R: Record = Record](Descriptor[R, FilesManager], SystemField):  # type: ignore[misc]
+class FilesField(SystemField):  # type: ignore[misc]
     _store: bool
     _dump: bool
-    _dump_entries: bool | Callable[[R], bool]
+    _dump_entries: bool | Callable[[Record], bool]
     _enabled: bool
     _bucket_id_attr: str
     _bucket_attr: str
@@ -26,7 +24,7 @@ class FilesField[R: Record = Record](Descriptor[R, FilesManager], SystemField): 
         bucket_attr: str = ...,
         store: bool = ...,
         dump: bool = ...,
-        dump_entries: bool | Callable[[R], bool] = ...,
+        dump_entries: bool | Callable[[Record], bool] = ...,
         file_cls: Type[FileRecord] | None = ...,
         enabled: bool = ...,
         bucket_args: dict[str, Any] | None = ...,
@@ -36,15 +34,22 @@ class FilesField[R: Record = Record](Descriptor[R, FilesManager], SystemField): 
     @property
     def _manager_options(self) -> dict[str, Any]: ...
     def dump(
-        self, record: R, files: FilesManager, include_entries: bool = ...
+        self, record: Record, files: FilesManager, include_entries: bool = ...
     ) -> dict[str, Any]: ...
     @property
     def file_cls(self) -> Type[FileRecord] | None: ...
     def load(
         self,
-        record: R,
+        record: Record,
         data: dict[str, Any],
         from_dump: bool = ...,
     ) -> FilesManager: ...
-    def obj(self, record: R) -> FilesManager | None: ...
-    def store(self, record: R, files: FilesManager): ...
+    def obj(self, record: Record) -> FilesManager | None: ...
+    def store(self, record: Record, files: FilesManager): ...
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[Record]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: Record, owner: type[Record]
+    ) -> FilesManager: ...
+    def __set__(self, instance: Record, value: FilesManager) -> None: ...  # type: ignore[override]

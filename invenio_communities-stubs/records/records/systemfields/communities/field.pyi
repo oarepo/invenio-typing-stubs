@@ -1,4 +1,4 @@
-from typing import Any, Optional, Type
+from typing import Any, Optional, Self, Type, overload
 
 from invenio_communities.records.records.systemfields.communities.context import (
     CommunitiesFieldContext as CommunitiesFieldContext,
@@ -9,9 +9,7 @@ from invenio_communities.records.records.systemfields.communities.manager import
 from invenio_records.api import Record
 from invenio_records.systemfields import SystemField
 
-from oarepo_typing.descriptors import Descriptor
-
-class CommunitiesField(Descriptor[Record, CommunitiesRelationManager], SystemField):  # type: ignore[misc]
+class CommunitiesField(SystemField):  # type: ignore[misc]
     def __init__(
         self,
         m2m_model_cls: Type[Any],
@@ -27,3 +25,10 @@ class CommunitiesField(Descriptor[Record, CommunitiesRelationManager], SystemFie
     def post_load(
         self, record: Record, data: Any, loader: Optional[Any] = None
     ) -> None: ...
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[Record]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: Record, owner: type[Record]
+    ) -> CommunitiesRelationManager: ...
+    def __set__(self, instance: Record, value: CommunitiesRelationManager) -> None: ...  # type: ignore[override]

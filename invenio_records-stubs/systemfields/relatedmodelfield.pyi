@@ -3,37 +3,32 @@ from typing import Any, Callable, Optional, Type, overload
 from invenio_records.api import Record
 from invenio_records.systemfields.base import SystemField, SystemFieldContext
 
-from oarepo_typing.descriptors import Descriptor
-
 class RelatedModelFieldContext[R: Record = Record](SystemFieldContext):
     def session_merge(self, record: R) -> None: ...
 
-class RelatedModelField[  # type: ignore[misc]
-    R: Record = Record,
-    C: RelatedModelFieldContext = RelatedModelFieldContext,
-    M: Any = Any,
-](Descriptor[R, Optional[M]], SystemField):
-    _model: Type[M]
+class RelatedModelField(SystemField):
+    _model: Type[Any]
     _required: bool
-    _load: Callable[..., Optional[M]]
+    _load: Callable[..., Optional[Any]]
     _dump: Callable[..., None]
-    _context_cls: Type[RelatedModelFieldContext[R]]
+    _context_cls: Type[RelatedModelFieldContext]
 
     def __init__(
         self,
-        model: Type[M],
+        model: Type[Any],
         key: Optional[str] = ...,
         required: bool = ...,
-        load: Optional[Callable[..., Optional[M]]] = ...,
+        load: Optional[Callable[..., Optional[Any]]] = ...,
         dump: Optional[Callable[..., None]] = ...,
-        context_cls: Optional[Type[RelatedModelFieldContext[R]]] = ...,
+        context_cls: Optional[Type[RelatedModelFieldContext]] = ...,
     ): ...
-    def pre_commit(self, record: R) -> None: ...
-    def obj(self, record: R) -> Optional[M]: ...
-    def set_obj(self, record: R, obj: M) -> None: ...
+    def pre_commit(self, record: Record) -> None: ...
+    def obj(self, record: Record) -> Optional[Any]: ...
+    def set_obj(self, record: Record, obj: Any) -> None: ...
     @overload  # type: ignore[override] # not consistent with systemfield
     def __get__(  # type: ignore[override] # not consistent with systemfield
-        self, instance: None, owner: type[R]
-    ) -> C: ...
+        self, instance: None, owner: type[Record]
+    ) -> RelatedModelFieldContext: ...
     @overload
-    def __get__(self, instance: R, owner: type[R]) -> M: ...  # type: ignore[override] # not consistent with systemfield
+    def __get__(self, instance: Record, owner: type[Record]) -> Any: ...  # type: ignore[override] # not consistent with systemfield
+    def __set__(self, instance: Record, value: Any) -> None: ...  # type: ignore[override]

@@ -1,9 +1,7 @@
-from typing import Dict, Optional, Type
+from typing import Dict, Optional, Self, Type, overload
 
 from invenio_records.systemfields import SystemField
 from invenio_records_resources.records.api import Record
-
-from oarepo_typing.descriptors import Descriptor
 
 class Children:
     dirty: bool
@@ -16,7 +14,7 @@ class Children:
     def from_dict(cls, data: Dict[str, bool]) -> Children: ...
     def dump(self) -> Dict[str, bool]: ...
 
-class ChildrenField(Descriptor[Record, Children], SystemField):  # type: ignore[misc]
+class ChildrenField(SystemField):  # type: ignore[misc]
     children_obj_class = Children
     def __init__(
         self, key: str = "children", children_obj_class: Optional[Type[Children]] = None
@@ -24,3 +22,10 @@ class ChildrenField(Descriptor[Record, Children], SystemField):  # type: ignore[
     def obj(self, instance: Record) -> Children: ...
     def set_obj(self, record: Record, obj: Children | Dict[str, bool]) -> None: ...
     def pre_commit(self, record: Record) -> None: ...
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[Record]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: Record, owner: type[Record]
+    ) -> Children: ...
+    def __set__(self, instance: Record, value: Children) -> None: ...  # type: ignore[override]

@@ -1,11 +1,9 @@
-from typing import Any, Optional
+from typing import Any, Optional, Self, overload
 
 from invenio_records.api import Record
 from invenio_records.systemfields.base import SystemField
 
-from oarepo_typing.descriptors import Descriptor
-
-class DictField[R: Record = Record](Descriptor[R, dict[str, Any]], SystemField):  # type: ignore[misc]
+class DictField(SystemField):  # type: ignore[misc]
     clear_none: bool
     create_if_missing: bool
 
@@ -15,3 +13,10 @@ class DictField[R: Record = Record](Descriptor[R, dict[str, Any]], SystemField):
         clear_none: bool = ...,
         create_if_missing: bool = ...,
     ): ...
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[Record]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: Record, owner: type[Record]
+    ) -> dict[str, Any]: ...
+    def __set__(self, instance: Record, value: dict[str, Any]) -> None: ...  # type: ignore[override]

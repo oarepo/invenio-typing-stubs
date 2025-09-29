@@ -20,5 +20,5 @@ class Vocabulary(Record):
     index: ClassVar[IndexField]
     metadata: ClassVar[DictField]
     type: ClassVar[RelatedModelField]
-    pid: ClassVar[PIDField[Vocabulary, VocabularyPIDFieldContext]]  # type: ignore[type-var]
+    pid: ClassVar[PIDField]
     dumper: ClassVar[Dumper]

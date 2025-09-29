@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from typing import IO, Any, ClassVar, Generator, Mapping, Self, TypedDict
+from typing import IO, Any, ClassVar, Generator, Mapping, Self, TypedDict, overload
 from uuid import UUID
 
 from invenio_files_rest.models import (  # type: ignore[import-untyped]
@@ -13,8 +13,6 @@ from invenio_records.systemfields import DictField, SystemField, SystemFieldsMix
 from invenio_records.systemfields.model import ModelField
 from invenio_records_resources.records.systemfields import PIDField
 from invenio_records_resources.records.transfer import TransferField
-
-from oarepo_typing.descriptors import Descriptor
 
 class Record(RecordBase, SystemFieldsMixin):
     send_signals: ClassVar[bool]
@@ -39,7 +37,7 @@ class FileAccess:
     @hidden.setter
     def hidden(self, value: bool) -> None: ...
 
-class FileAccessField(Descriptor["FileRecord", FileAccess], SystemField):  # type: ignore[misc]
+class FileAccessField(SystemField):  # type: ignore[misc]
     _access_obj_class: type[FileAccess]
 
     def __init__(
@@ -50,6 +48,13 @@ class FileAccessField(Descriptor["FileRecord", FileAccess], SystemField):  # typ
         self, record: "FileRecord", obj: dict[str, bool] | FileAccess
     ) -> None: ...
     def pre_commit(self, record: "FileRecord") -> None: ...
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[FileRecord]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: FileRecord, owner: type[FileRecord]
+    ) -> FileAccess: ...
+    def __set__(self, instance: FileRecord, value: FileAccess) -> None: ...  # type: ignore[override]
 
 class FileRecord(RecordBase, SystemFieldsMixin):
     send_signals: ClassVar[bool]

@@ -1,13 +1,11 @@
-from typing import Any, List, Union
+from typing import Any, List, Self, Union, overload
 
 from invenio_pidstore.models import PIDStatus  # type: ignore[import-untyped]
 from invenio_records.dumpers import Dumper
 from invenio_records.systemfields import SystemField
 from invenio_records_resources.records.api import Record
 
-from oarepo_typing.descriptors import Descriptor
-
-class PIDStatusCheckField[R: Record = Record](Descriptor[R, bool], SystemField):  # type: ignore[misc]
+class PIDStatusCheckField(SystemField):  # type: ignore[misc]
     _pid_status: List[PIDStatus]
     _dump: bool
 
@@ -18,8 +16,15 @@ class PIDStatusCheckField[R: Record = Record](Descriptor[R, bool], SystemField):
         dump: bool = ...,
     ) -> None: ...
     def pre_dump(
-        self, record: R, data: dict[str, Any], dumper: Any | None = ...
+        self, record: Record, data: dict[str, Any], dumper: Any | None = ...
     ) -> None: ...
     def pre_load(
         self, data: dict[str, Any], loader: Dumper | None = ..., **kwargs: Any
     ) -> None: ...
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[Record]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: Record, owner: type[Record]
+    ) -> bool: ...
+    def __set__(self, instance: Record, value: bool) -> None: ...  # type: ignore[override]

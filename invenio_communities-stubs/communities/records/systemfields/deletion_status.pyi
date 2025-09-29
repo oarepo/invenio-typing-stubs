@@ -1,10 +1,8 @@
 import enum
-from typing import Any, Optional
+from typing import Any, Optional, Self, overload
 
 from invenio_communities.communities.records.api import Community
 from invenio_records.systemfields import SystemField
-
-from oarepo_typing.descriptors import Descriptor
 
 class CommunityDeletionStatusEnum(enum.Enum):
     PUBLISHED = "P"
@@ -26,7 +24,14 @@ class CommunityDeletionStatus:
     def __str__(self) -> str: ...
     def __eq__(self, other: Any) -> bool: ...
 
-class CommunityDeletionStatusField(Descriptor[Community, CommunityDeletionStatus], SystemField):  # type: ignore[misc]
+class CommunityDeletionStatusField(SystemField):  # type: ignore[misc]
     def pre_commit(self, record: Community) -> None: ...
     def pre_dump(self, *args: Any, **kwargs: Any) -> None: ...
     def post_load(self, *args: Any, **kwargs: Any) -> None: ...
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[Community]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: Community, owner: type[Community]
+    ) -> CommunityDeletionStatus: ...
+    def __set__(self, instance: Community, value: CommunityDeletionStatus) -> None: ...  # type: ignore[override]

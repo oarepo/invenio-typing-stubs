@@ -1,11 +1,9 @@
-from typing import Any, Optional
+from typing import Any, Optional, Self, overload
 
 from invenio_records.api import Record
 from invenio_records.systemfields.base import SystemField
 
-from oarepo_typing.descriptors import Descriptor
-
-class ModelField[R: Record = Record, T = Any](Descriptor[R, T], SystemField):  # type: ignore[misc]
+class ModelField(SystemField):  # type: ignore[misc]
     _model_field_name: Optional[str]
     dump: bool
     _dump_key: Optional[str]
@@ -28,8 +26,15 @@ class ModelField[R: Record = Record, T = Any](Descriptor[R, T], SystemField):  #
     def model_field_name(self) -> str: ...
     def post_init(
         self,
-        record: R,
+        record: Record,
         data: dict[str, Any],
         model: Any | None = ...,
         **kwargs: Any,
     ) -> None: ...
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[Record]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: Record, owner: type[Record]
+    ) -> Any: ...
+    def __set__(self, instance: Record, value: Any) -> None: ...  # type: ignore[override]

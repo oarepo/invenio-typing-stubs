@@ -1,10 +1,8 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Self, overload
 
 from invenio_communities.communities.records.api import Community
 from invenio_records.systemfields import SystemField
 from invenio_users_resources.entity_resolvers import UserProxy
-
-from oarepo_typing.descriptors import Descriptor
 
 class Tombstone:
     def __init__(self, data: Dict[str, Any]) -> None: ...
@@ -36,6 +34,13 @@ class Tombstone:
     def removed_by_proxy(self) -> UserProxy: ...
     def dump(self) -> Dict[str, Any]: ...
 
-class TombstoneField(Descriptor[Community, Optional[Tombstone]], SystemField):  # type: ignore[misc]
+class TombstoneField(SystemField):  # type: ignore[misc]
     pass
     def pre_commit(self, record: Community) -> None: ...
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[Community]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: Community, owner: type[Community]
+    ) -> Optional[Tombstone]: ...
+    def __set__(self, instance: Community, value: Optional[Tombstone]) -> None: ...  # type: ignore[override]

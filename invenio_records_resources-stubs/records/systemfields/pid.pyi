@@ -1,4 +1,4 @@
-from typing import Any, Optional, Type
+from typing import Any, Optional, Self, Type, overload
 
 # type: ignore[import-untyped]
 from invenio_pidstore.models import PersistentIdentifier
@@ -23,7 +23,7 @@ class PIDFieldContext[R: Record = Record](RelatedModelFieldContext[R]):
         with_deleted: bool = ...,
     ) -> R: ...
 
-class PIDField[R: Record = Record, C: PIDFieldContext = PIDFieldContext[Record]](RelatedModelField[R, C, PersistentIdentifier]):  # type: ignore[type-var]
+class PIDField(RelatedModelField):  # type: ignore[type-var]
     def __init__(
         self,
         key: str = ...,
@@ -35,14 +35,21 @@ class PIDField[R: Record = Record, C: PIDFieldContext = PIDFieldContext[Record]]
         create: bool = ...,
         context_cls: Type[PIDFieldContext] = ...,
     ): ...
-    def create(self, record: R) -> PersistentIdentifier: ...
-    def delete(self, record: R) -> None: ...
+    def create(self, record: Record) -> PersistentIdentifier: ...
+    def delete(self, record: Record) -> None: ...
     @staticmethod
     def dump_obj(field: Any, record: Any, pid: PersistentIdentifier): ...
     @staticmethod
     def load_obj(field: Any, record: Any) -> Optional[PersistentIdentifier]: ...
-    def post_create(self, record: R): ...
-    def post_delete(self, record: R, force: bool = ...): ...
+    def post_create(self, record: Record): ...
+    def post_delete(self, record: Record, force: bool = ...): ...
+    @overload  # type: ignore[override] # not consistent with systemfield
+    def __get__(  # type: ignore[override] # not consistent with systemfield
+        self, instance: None, owner: type[Record]
+    ) -> PIDFieldContext: ...
+    @overload
+    def __get__(self, instance: Record, owner: type[Record]) -> PersistentIdentifier: ...  # type: ignore[override] # not consistent with systemfield
+    def __set__(self, instance: Record, value: PersistentIdentifier) -> None: ...  # type: ignore[override]
 
 class ModelPIDFieldContext[R: Record = Record](PIDFieldContext[R]):
     def resolve(
@@ -51,9 +58,7 @@ class ModelPIDFieldContext[R: Record = Record](PIDFieldContext[R]):
     def create(self, record: R) -> None: ...
     def session_merge(self, record: R) -> None: ...
 
-class ModelPIDField[R: Record = Record](
-    ModelField[R, Optional[PersistentIdentifierWrapper]]
-):
+class ModelPIDField(ModelField):
     def __init__(
         self,
         model_field_name: str = ...,
@@ -61,3 +66,10 @@ class ModelPIDField[R: Record = Record](
         resolver_cls: Type[ModelResolver] = ...,
         context_cls: Type[ModelPIDFieldContext] = ...,
     ): ...
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[Record]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: Record, owner: type[Record]
+    ) -> Optional[PersistentIdentifierWrapper]: ...
+    def __set__(self, instance: Record, value: Optional[PersistentIdentifierWrapper]) -> None: ...  # type: ignore[override]

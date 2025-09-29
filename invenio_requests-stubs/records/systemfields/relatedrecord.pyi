@@ -1,8 +1,6 @@
-from typing import TYPE_CHECKING, Any, Dict, Optional, Set, Type, Union
+from typing import TYPE_CHECKING, Any, Dict, Optional, Self, Set, Type, Union, overload
 
 from invenio_records.systemfields import SystemField
-
-from oarepo_typing.descriptors import Descriptor
 
 if TYPE_CHECKING:
     from invenio_records_resources.records.api import Record
@@ -20,9 +18,7 @@ class AttrProxy:
     def __getattr__(self, attr: str) -> Any: ...
     def __getitem__(self, attr: str) -> Any: ...
 
-class RelatedRecord(  # type: ignore[misc]
-    Descriptor[Record, Record], SystemField
-):  # in reality, the return value is attrproxy
+class RelatedRecord(SystemField):  # in reality, the return value is attrproxy
     def __init__(
         self,
         record_cls: Type["Record"],
@@ -41,3 +37,10 @@ class RelatedRecord(  # type: ignore[misc]
         self, record: "Record", record_or_id: Union["Record", str]
     ) -> None: ...
     def get_value(self, record: "Record") -> Optional[AttrProxy]: ...
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[Record]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: Record, owner: type[Record]
+    ) -> Record: ...
+    def __set__(self, instance: Record, value: Record) -> None: ...  # type: ignore[override]

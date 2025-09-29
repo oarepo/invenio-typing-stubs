@@ -1,10 +1,8 @@
 from enum import Enum
-from typing import Any, Dict, Optional, Type, Union
+from typing import Any, Dict, Optional, Self, Type, Union, overload
 
 from invenio_communities.communities.records.api import Community
 from invenio_records.systemfields import SystemField
-
-from oarepo_typing.descriptors import Descriptor
 
 class AccessEnumMixin:
     def __str__(self) -> str: ...
@@ -93,7 +91,7 @@ class CommunityAccess:
     @classmethod
     def from_dict(cls, access_dict: Dict[str, str]) -> CommunityAccess: ...
 
-class CommunityAccessField(Descriptor[Community, CommunityAccess], SystemField):  # type: ignore[misc]
+class CommunityAccessField(SystemField):
     access_obj_class = CommunityAccess
     def __init__(
         self,
@@ -103,3 +101,12 @@ class CommunityAccessField(Descriptor[Community, CommunityAccess], SystemField):
     def obj(self, instance: Community) -> CommunityAccess: ...
     def set_obj(self, record: Community, obj: CommunityAccess) -> None: ...
     def pre_commit(self, record: Community) -> None: ...
+    @overload  # type: ignore[override]
+    def __get__(self, instance: None, owner: type[Self]) -> Self: ...  # type: ignore # keep typing tighter
+    @overload
+    def __get__(  # type: ignore # keep typing tighter
+        self, instance: Community, owner: type[Community]
+    ) -> CommunityAccess: ...
+    def __set__(self, instance: Community, value: Any) -> None: ...  # type: ignore[override]
+
+# to override this behaviour.
