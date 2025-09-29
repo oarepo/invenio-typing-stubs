@@ -5,7 +5,9 @@ from invenio_requests.proxies import (
 )
 from invenio_requests.records.api import Request
 
-class RequestTypeField(SystemField[Request, RequestType]):
+from oarepo_typing.descriptors import Descriptor
+
+class RequestTypeField(Descriptor[Request, RequestType], SystemField):  # type: ignore[misc]
     def __init__(self, key: str = "type") -> None: ...
     def obj(self, instance: "Request") -> "RequestType": ...
     def set_obj(self, instance: "Request", obj: "RequestType") -> None: ...

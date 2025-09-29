@@ -3,7 +3,9 @@ from typing import Any, Optional
 from invenio_records.systemfields import SystemField
 from invenio_records_resources.records.api import Record
 
-class CalculatedField[R: Record = Record, T: Any = Any](SystemField[R, T]):
+from oarepo_typing.descriptors import Descriptor
+
+class CalculatedField[R: Record = Record, T: Any = Any](Descriptor[R, T], SystemField):  # type: ignore[misc]
     _use_cache: bool
     def __init__(self, key: Optional[str] = ..., use_cache: bool = ...) -> None: ...
     def obj(self, instance: R) -> T: ...

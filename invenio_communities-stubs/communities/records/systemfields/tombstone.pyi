@@ -4,6 +4,8 @@ from invenio_communities.communities.records.api import Community
 from invenio_records.systemfields import SystemField
 from invenio_users_resources.entity_resolvers import UserProxy
 
+from oarepo_typing.descriptors import Descriptor
+
 class Tombstone:
     def __init__(self, data: Dict[str, Any]) -> None: ...
     @property
@@ -34,6 +36,6 @@ class Tombstone:
     def removed_by_proxy(self) -> UserProxy: ...
     def dump(self) -> Dict[str, Any]: ...
 
-class TombstoneField(SystemField[Community, Optional[Tombstone]]):
+class TombstoneField(Descriptor[Community, Optional[Tombstone]], SystemField):  # type: ignore[misc]
     pass
     def pre_commit(self, record: Community) -> None: ...

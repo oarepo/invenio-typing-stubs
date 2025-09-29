@@ -4,6 +4,8 @@ from typing import Any, Dict, Optional, Type, Union
 from invenio_communities.communities.records.api import Community
 from invenio_records.systemfields import SystemField
 
+from oarepo_typing.descriptors import Descriptor
+
 class AccessEnumMixin:
     def __str__(self) -> str: ...
     @classmethod
@@ -91,7 +93,7 @@ class CommunityAccess:
     @classmethod
     def from_dict(cls, access_dict: Dict[str, str]) -> CommunityAccess: ...
 
-class CommunityAccessField(SystemField[Community, CommunityAccess]):
+class CommunityAccessField(Descriptor[Community, CommunityAccess], SystemField):  # type: ignore[misc]
     access_obj_class = CommunityAccess
     def __init__(
         self,

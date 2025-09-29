@@ -7,7 +7,9 @@ from typing import (
 from invenio_records.api import Record
 from invenio_records.systemfields.base import SystemField
 
-class ConstantField[R: Record = Record, T = Any](SystemField[R, T]):
+from oarepo_typing.descriptors import Descriptor
+
+class ConstantField[R: Record = Record, T = Any](Descriptor[R, T], SystemField):  # type: ignore[misc]
     value: T
 
     def __init__(

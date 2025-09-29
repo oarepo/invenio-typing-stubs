@@ -6,12 +6,14 @@ from invenio_requests.proxies import (
     current_event_type_registry as current_event_type_registry,
 )
 
+from oarepo_typing.descriptors import Descriptor
+
 if TYPE_CHECKING:
     from invenio_records.models import RecordMetadataBase
     from invenio_requests.customizations.event_types import EventType
     from invenio_requests.records.api import RequestEvent
 
-class EventTypeField(SystemField[RequestEvent, EventType]):
+class EventTypeField(Descriptor[RequestEvent, EventType], SystemField):  # type: ignore[misc]
     def _set(
         self,
         model: "RecordMetadataBase",

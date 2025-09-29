@@ -3,14 +3,16 @@ from typing import Any, Callable, Optional, Type, overload
 from invenio_records.api import Record
 from invenio_records.systemfields.base import SystemField, SystemFieldContext
 
+from oarepo_typing.descriptors import Descriptor
+
 class RelatedModelFieldContext[R: Record = Record](SystemFieldContext):
     def session_merge(self, record: R) -> None: ...
 
-class RelatedModelField[
+class RelatedModelField[  # type: ignore[misc]
     R: Record = Record,
     C: RelatedModelFieldContext = RelatedModelFieldContext,
     M: Any = Any,
-](SystemField[R, Optional[M]]):
+](Descriptor[R, Optional[M]], SystemField):
     _model: Type[M]
     _required: bool
     _load: Callable[..., Optional[M]]

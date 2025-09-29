@@ -10,7 +10,9 @@ from invenio_records.systemfields.relations.relations import (
     RelationBase,
 )
 
-class RelationsField[R: Record = Record](SystemField[R, RelationsMapping]):
+from oarepo_typing.descriptors import Descriptor
+
+class RelationsField[R: Record = Record](Descriptor[R, RelationsMapping], SystemField):  # type: ignore[misc]
     _original_fields: Dict[str, RelationBase]
 
     def __init__(self, **fields: RelationBase): ...

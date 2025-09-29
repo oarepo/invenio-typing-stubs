@@ -3,6 +3,8 @@ from typing import Dict, Optional, Type
 from invenio_records.systemfields import SystemField
 from invenio_records_resources.records.api import Record
 
+from oarepo_typing.descriptors import Descriptor
+
 class Children:
     dirty: bool
     def __init__(self, allow: Optional[bool] = None) -> None: ...
@@ -14,7 +16,7 @@ class Children:
     def from_dict(cls, data: Dict[str, bool]) -> Children: ...
     def dump(self) -> Dict[str, bool]: ...
 
-class ChildrenField(SystemField[Record, Children]):
+class ChildrenField(Descriptor[Record, Children], SystemField):  # type: ignore[misc]
     children_obj_class = Children
     def __init__(
         self, key: str = "children", children_obj_class: Optional[Type[Children]] = None

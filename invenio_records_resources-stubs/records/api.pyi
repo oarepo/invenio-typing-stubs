@@ -14,6 +14,8 @@ from invenio_records.systemfields.model import ModelField
 from invenio_records_resources.records.systemfields import PIDField
 from invenio_records_resources.records.transfer import TransferField
 
+from oarepo_typing.descriptors import Descriptor
+
 class Record(RecordBase, SystemFieldsMixin):
     send_signals: ClassVar[bool]
     enable_jsonref: ClassVar[bool]
@@ -37,7 +39,7 @@ class FileAccess:
     @hidden.setter
     def hidden(self, value: bool) -> None: ...
 
-class FileAccessField(SystemField["FileRecord", FileAccess]):
+class FileAccessField(Descriptor["FileRecord", FileAccess], SystemField):  # type: ignore[misc]
     _access_obj_class: type[FileAccess]
 
     def __init__(

@@ -9,7 +9,9 @@ from invenio_communities.records.records.systemfields.communities.manager import
 from invenio_records.api import Record
 from invenio_records.systemfields import SystemField
 
-class CommunitiesField(SystemField[Record, CommunitiesRelationManager]):
+from oarepo_typing.descriptors import Descriptor
+
+class CommunitiesField(Descriptor[Record, CommunitiesRelationManager], SystemField):  # type: ignore[misc]
     def __init__(
         self,
         m2m_model_cls: Type[Any],

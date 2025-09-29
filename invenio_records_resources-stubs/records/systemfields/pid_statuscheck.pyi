@@ -5,7 +5,9 @@ from invenio_records.dumpers import Dumper
 from invenio_records.systemfields import SystemField
 from invenio_records_resources.records.api import Record
 
-class PIDStatusCheckField[R: Record = Record](SystemField[R, bool]):
+from oarepo_typing.descriptors import Descriptor
+
+class PIDStatusCheckField[R: Record = Record](Descriptor[R, bool], SystemField):  # type: ignore[misc]
     _pid_status: List[PIDStatus]
     _dump: bool
 

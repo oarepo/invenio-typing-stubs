@@ -6,7 +6,9 @@ from invenio_records_resources.records.api import FileRecord, Record
 # type: ignore[import-untyped]
 from invenio_records_resources.records.systemfields.files.manager import FilesManager
 
-class FilesField[R: Record = Record](SystemField[R, FilesManager]):
+from oarepo_typing.descriptors import Descriptor
+
+class FilesField[R: Record = Record](Descriptor[R, FilesManager], SystemField):  # type: ignore[misc]
     _store: bool
     _dump: bool
     _dump_entries: bool | Callable[[R], bool]

@@ -3,7 +3,9 @@ from typing import Any, Optional
 from invenio_records.api import Record
 from invenio_records.systemfields.base import SystemField
 
-class ModelField[R: Record = Record, T = Any](SystemField[R, T]):
+from oarepo_typing.descriptors import Descriptor
+
+class ModelField[R: Record = Record, T = Any](Descriptor[R, T], SystemField):  # type: ignore[misc]
     _model_field_name: Optional[str]
     dump: bool
     _dump_key: Optional[str]

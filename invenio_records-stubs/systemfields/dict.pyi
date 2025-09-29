@@ -3,7 +3,9 @@ from typing import Any, Optional
 from invenio_records.api import Record
 from invenio_records.systemfields.base import SystemField
 
-class DictField[R: Record = Record](SystemField[R, dict[str, Any]]):
+from oarepo_typing.descriptors import Descriptor
+
+class DictField[R: Record = Record](Descriptor[R, dict[str, Any]], SystemField):  # type: ignore[misc]
     clear_none: bool
     create_if_missing: bool
 

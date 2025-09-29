@@ -2,16 +2,16 @@ from typing import (
     Any,
     Dict,
     Optional,
+    Self,
     Tuple,
     Type,
     Union,
+    overload,
 )
 
 from invenio_records.api import Record
 from invenio_records.dumpers.search import SearchDumper
 from invenio_records.extensions import ExtensionMixin, RecordExtension, RecordMeta
-
-from oarepo_typing.descriptors import Descriptor
 
 def _get_fields(
     attrs: Any, field_class: Type[SystemField]
@@ -43,18 +43,26 @@ def _get_inherited_fields(
 # to override this behaviour.
 #
 
-class SystemField[R: Record = Record, V: Any = Any](Descriptor[R, V], ExtensionMixin):
+class SystemField(ExtensionMixin):
     def __init__(self, key: Optional[str] = ...): ...
     @property
     def attr_name(self) -> str: ...
     @property
     def key(self) -> str: ...
-    def get_dictkey(self, instance: R) -> Any: ...
+    def get_dictkey(self, instance: Record) -> Any: ...
     def set_dictkey(
-        self, instance: R, value: Any, create_if_missing: bool = False
+        self, instance: Record, value: Any, create_if_missing: bool = False
     ) -> None: ...
-    def _set_cache(self, instance: R, obj: Any) -> None: ...
-    def _get_cache(self, instance: R) -> Any: ...
+    def _set_cache(self, instance: Record, obj: Any) -> None: ...
+    def _get_cache(self, instance: Record) -> Any: ...
+    @overload
+    def __get__(self, instance: None, owner: type[Self]) -> Self: ...
+    @overload
+    def __get__(self, instance: Self, owner: type[Self]) -> Any: ...
+    @overload
+    def __set__(self, instance: None, value: Self) -> None: ...
+    @overload
+    def __set__(self, instance: Self, value: Any) -> None: ...
 
 class SystemFieldsMixin(metaclass=SystemFieldsMeta):
     """Mixin for classes that support system fields."""

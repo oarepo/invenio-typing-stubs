@@ -4,9 +4,11 @@ from uuid import UUID
 from invenio_communities.communities.records.api import Community
 from invenio_records.systemfields import SystemField
 
+from oarepo_typing.descriptors import Descriptor
+
 def is_valid_uuid(value: Any) -> bool: ...
 
-class ParentCommunityField(SystemField[Community, Optional[Community]]):
+class ParentCommunityField(Descriptor[Community, Optional[Community]], SystemField):  # type: ignore[misc]
     def __init__(self, key: str = "parent") -> None: ...
     def obj(self, instance: Community) -> Optional[Community]: ...
     def set_obj(
