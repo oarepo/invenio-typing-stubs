@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Mapping, Optional, Union
 
 from flask_principal import (
     Identity,
@@ -48,14 +48,17 @@ class Link:
 class LinksTemplate:
     def __init__(
         self,
-        links: Optional[
-            Dict[
+        links: (
+            Mapping[
                 str,
-                Union[
-                    RecordLink, Link, RecordEndpointLink, FileEndpointLink, EndpointLink
-                ],
+                RecordLink
+                | Link
+                | RecordEndpointLink
+                | FileEndpointLink
+                | EndpointLink,
             ]
-        ] = ...,
+            | None
+        ) = ...,
         context: Any = ...,
     ): ...
     @property
