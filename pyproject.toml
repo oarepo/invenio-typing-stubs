@@ -1,6 +1,6 @@
 [project]
 name = "oarepo-invenio-typing-stubs"
-version = "0.1.12"
+version = "0.1.13"
 description = "OAREPO typing package for invenio packages. Stub files only."
 readme = "README.md"
 requires-python = ">=3.13"
@@ -30,18 +30,19 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = [
-    "oarepo_typing",
     "flask_principal-stubs",
+    "flask_resources-stubs",
     "invenio_audit_logs-stubs",
     "invenio_communities-stubs",
     "invenio_db-stubs",
     "invenio_drafts_resources-stubs",
+    "invenio_jsonschemas-stubs",
+    "invenio_pidstore-stubs",
+    "invenio_rdm_records-stubs",
     "invenio_records_permissions-stubs",
     "invenio_records_resources-stubs",
     "invenio_records-stubs",
     "invenio_requests-stubs",
-    "invenio_vocabularies-stubs",
     "invenio_search-stubs",
-    "flask_resources-stubs",
-    "invenio_jsonschemas-stubs"
+    "invenio_vocabularies-stubs",
 ]
