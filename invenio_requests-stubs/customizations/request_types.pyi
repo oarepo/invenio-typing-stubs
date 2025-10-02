@@ -1,5 +1,7 @@
+from collections.abc import Mapping
 from typing import Any, Dict, List, Optional, Type
 
+from flask_babel.speaklater import LazyString
 from flask_principal import Need
 from invenio_requests.customizations.actions import AcceptAction as AcceptAction
 from invenio_requests.customizations.actions import CancelAction as CancelAction
@@ -20,7 +22,7 @@ from marshmallow.fields import Field
 
 class RequestType:
     type_id: str
-    name: str
+    name: str | LazyString
     available_statuses: Dict[str, RequestState]
     create_action: str
     delete_action: str
@@ -32,7 +34,7 @@ class RequestType:
     allowed_receiver_ref_types: List[str]
     allowed_topic_ref_types: List[str]
     resolve_topic_needs: bool
-    payload_schema: Optional[Dict[str, Field]]
+    payload_schema: Optional[Mapping[str, Field]]
     payload_schema_cls: Optional[Type[Schema]]
     comment_notification_builder: type
     needs_context: Optional[str]

@@ -39,6 +39,7 @@ class Community(Record):
     pid: ClassVar[PIDField]
     parent: ParentCommunityField
     children: ChildrenField
+    slug: ModelField
     schema: ClassVar[ConstantField]
     model_cls: ClassVar[type[RecordMetadata]]
     dumper: ClassVar[Dumper]
