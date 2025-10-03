@@ -42,3 +42,5 @@ class UnitOfWork:
 def unit_of_work(
     **kwargs: Any,
 ) -> Callable[[Callable[..., Any]], Callable[..., Any]]: ...
+
+dummy_uow: UnitOfWork

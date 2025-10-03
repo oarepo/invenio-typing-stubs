@@ -38,7 +38,7 @@ class RecordService(Service[C], RecordIndexerMixin, Generic[C]):
         identity: Identity,
         data: Dict[str, Any],
         raise_errors: bool = ...,
-        uow: Optional[UnitOfWork] = ...,
+        uow: UnitOfWork = ...,
         expand: bool = ...,
     ) -> RecordItem: ...
     def _read_many(
@@ -78,14 +78,14 @@ class RecordService(Service[C], RecordIndexerMixin, Generic[C]):
         self,
         identity: Identity,
         data: Dict[str, Any],
-        uow: Optional[UnitOfWork] = ...,
+        uow: UnitOfWork = ...,
         expand: bool = ...,
     ) -> RecordItem: ...
     def create_or_update_many(
         self,
         identity: Identity,
         data: List[Tuple[str, Dict[str, Any]]],
-        uow: Optional[UnitOfWork] = ...,
+        uow: UnitOfWork = ...,
     ) -> RecordBulkList: ...
     def create_search(
         self,
@@ -102,7 +102,7 @@ class RecordService(Service[C], RecordIndexerMixin, Generic[C]):
         identity: Identity,
         id_: str,
         revision_id: Optional[int] = ...,
-        uow: Optional[UnitOfWork] = ...,
+        uow: UnitOfWork = ...,
     ) -> bool: ...
     @property
     def expandable_fields(self) -> List[Any]: ...
@@ -181,13 +181,11 @@ class RecordService(Service[C], RecordIndexerMixin, Generic[C]):
         id_: str,
         data: Dict[str, Any],
         revision_id: Optional[int] = ...,
-        uow: Optional[UnitOfWork] = ...,
+        uow: UnitOfWork = ...,
         expand: bool = ...,
     ) -> RecordItem: ...
     def exists(self, identity: Identity, id_: str) -> bool: ...
-    def rebuild_index(
-        self, identity: Identity, uow: Optional[UnitOfWork] = ...
-    ) -> bool: ...
+    def rebuild_index(self, identity: Identity, uow: UnitOfWork = ...) -> bool: ...
 
     # inherited but with narrowed return types
     def result_bulk_item(self, *args: Any, **kwargs: Any) -> RecordBulkItem: ...

@@ -1,7 +1,7 @@
 from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 from flask_principal import Identity
-from invenio_db.uow import UnitOfWork
+from invenio_db.uow import UnitOfWork, dummy_uow
 from invenio_records_resources.services import RecordService
 from invenio_records_resources.services.records.results import RecordList
 from invenio_search.engine import dsl
@@ -16,7 +16,7 @@ CTypeConfig = TypeVar("CTypeConfig", bound=VocabularyTypesServiceConfig)
 
 class VocabularyTypeService(RecordService[CTypeConfig], Generic[CTypeConfig]):
     def rebuild_index(
-        self, identity: Identity, uow: Optional[UnitOfWork] = None
+        self, identity: Identity, uow: UnitOfWork = dummy_uow
     ) -> bool: ...
     def search(
         self,
@@ -37,7 +37,7 @@ class VocabulariesService(RecordService[CVocabConfig], Generic[CVocabConfig]):
         identity: Identity,
         id: str,
         pid_type: str,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> VocabularyType: ...
     def read_all(  # type: ignore[override]
         self,

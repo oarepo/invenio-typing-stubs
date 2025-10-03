@@ -31,7 +31,7 @@ class RequestsResourceConfig(RecordResourceConfig, ConfiguratorMixin):
     # rather than mutating shared state.
     url_prefix: str | None
     routes: Mapping[str, str]
-    request_view_args: Mapping[str, Any]
+    request_view_args: Mapping[str, fields.Field]
     request_search_args: type[SearchRequestArgsSchema]
     error_handlers: Mapping[
         int | type[HTTPException] | type[BaseException],

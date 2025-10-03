@@ -8,7 +8,7 @@ from invenio_communities.subcommunities.services.config import (
     SubCommunityServiceConfig,
 )
 from invenio_communities.subcommunities.services.request import SubCommunityRequest
-from invenio_db.uow import UnitOfWork
+from invenio_db.uow import UnitOfWork, dummy_uow
 from invenio_records_resources.services.base import Service
 from invenio_records_resources.services.records.schema import ServiceSchemaWrapper
 from invenio_requests.services.requests.results import RequestItem
@@ -41,5 +41,5 @@ class SubCommunityService(Service[C], Generic[C]):
         child_community_id: str,
         data: Dict[str, Any],
         expires_at: Optional[Any] = None,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> None: ...

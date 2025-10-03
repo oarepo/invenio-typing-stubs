@@ -1,4 +1,4 @@
-from typing import List, Optional, Type
+from typing import Optional, Type
 
 from flask_principal import Identity
 from invenio_db.uow import UnitOfWork
@@ -9,7 +9,7 @@ from invenio_requests.proxies import current_events_service as current_events_se
 from invenio_requests.records.api import Request
 
 class RequestAction:
-    status_from: Optional[List[str]]
+    status_from: Optional[tuple[str, ...]]
     status_to: str
     event_type: Optional[Type[EventType]]
     log_event: bool
@@ -29,36 +29,36 @@ class RequestActions:
     ) -> None: ...
 
 class CreateAction(RequestAction):
-    status_from: Optional[List[str]]
+    status_from: Optional[tuple[str, ...]]
     status_to: str
     log_event: bool
 
 class CreateAndSubmitAction(RequestAction):
-    status_from: Optional[List[str]]
+    status_from: Optional[tuple[str, ...]]
     status_to: str
     log_event: bool
 
 class DeleteAction(RequestAction):
-    status_from: Optional[List[str]]
+    status_from: Optional[tuple[str, ...]]
     status_to: str
 
 class SubmitAction(RequestAction):
-    status_from: Optional[List[str]]
+    status_from: Optional[tuple[str, ...]]
     status_to: str
     log_event: bool
 
 class AcceptAction(RequestAction):
-    status_from: Optional[List[str]]
+    status_from: Optional[tuple[str, ...]]
     status_to: str
 
 class DeclineAction(RequestAction):
-    status_from: Optional[List[str]]
+    status_from: Optional[tuple[str, ...]]
     status_to: str
 
 class CancelAction(RequestAction):
-    status_from: Optional[List[str]]
+    status_from: Optional[tuple[str, ...]]
     status_to: str
 
 class ExpireAction(RequestAction):
-    status_from: Optional[List[str]]
+    status_from: Optional[tuple[str, ...]]
     status_to: str

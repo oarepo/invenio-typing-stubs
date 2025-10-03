@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Optional, Type
 
 from flask_principal import Identity
-from invenio_db.uow import UnitOfWork
+from invenio_db.uow import UnitOfWork, dummy_uow
 from invenio_requests.customizations.user_moderation.user_moderation import (
     UserModerationRequest as UserModerationRequest,
 )
@@ -39,6 +39,6 @@ class UserModerationRequestService:
         identity: Identity,
         user_id: str,
         data: Optional[Dict[str, Any]] = None,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
         **kwargs: Any,
     ) -> RequestItem: ...

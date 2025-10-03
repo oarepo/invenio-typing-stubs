@@ -2,7 +2,7 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 
 from _typeshed import Incomplete
 from flask_principal import Identity
-from invenio_db.uow import UnitOfWork
+from invenio_db.uow import UnitOfWork, dummy_uow
 from invenio_records_resources.services import RecordService
 from invenio_records_resources.services.records.results import RecordItem, RecordList
 from invenio_requests.customizations import CommentEventType as CommentEventType
@@ -33,7 +33,7 @@ class RequestEventsService(RecordService[C], Generic[C]):
         request_id: Union[str, int],
         data: Dict[str, Any],
         event_type: Incomplete,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
         expand: bool = False,
         notify: bool = True,
     ) -> RecordItem: ...

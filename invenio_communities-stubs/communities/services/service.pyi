@@ -30,7 +30,7 @@ from invenio_communities.errors import (
 )
 from invenio_communities.generators import CommunityMembers as CommunityMembers
 from invenio_communities.members.services.service import MemberService
-from invenio_db.uow import UnitOfWork
+from invenio_db.uow import UnitOfWork, dummy_uow
 from invenio_records_resources.services.files.results import FileItem
 from invenio_records_resources.services.files.service import FileService
 from invenio_records_resources.services.records import RecordService
@@ -92,7 +92,7 @@ class CommunityService(RecordService[C], Generic[C]):
         data: Dict[str, Any],
         revision_id: Any = None,
         raise_errors: bool = True,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> CommunityItem: ...
     def read_logo(self, identity: Identity, id_: str) -> FileItem: ...
     def update_logo(
@@ -101,10 +101,10 @@ class CommunityService(RecordService[C], Generic[C]):
         id_: str,
         stream: LimitedStream,
         content_length: Optional[int] = None,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> FileItem: ...
     def delete_logo(
-        self, identity: Identity, id_: str, uow: Optional[UnitOfWork] = None
+        self, identity: Identity, id_: str, uow: UnitOfWork = dummy_uow
     ) -> FileItem: ...
     def featured_search(
         self,
@@ -122,7 +122,7 @@ class CommunityService(RecordService[C], Generic[C]):
         community_id: str,
         data: Dict[str, Any],
         raise_errors: bool = True,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> CommunityItem: ...
     def featured_update(
         self,
@@ -131,7 +131,7 @@ class CommunityService(RecordService[C], Generic[C]):
         data: Dict[str, Any],
         featured_id: int,
         raise_errors: bool = True,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> CommunityItem: ...
     def featured_delete(
         self,
@@ -139,7 +139,7 @@ class CommunityService(RecordService[C], Generic[C]):
         community_id: str,
         featured_id: int,
         raise_errors: bool = True,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> None: ...
     def delete_community(
         self,
@@ -148,7 +148,7 @@ class CommunityService(RecordService[C], Generic[C]):
         data: Optional[Dict[str, Any]] = None,
         revision_id: Any = None,
         expand: bool = False,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> CommunityItem: ...
     def delete(
         self,
@@ -163,31 +163,31 @@ class CommunityService(RecordService[C], Generic[C]):
         id_: str,
         data: Dict[str, Any],
         expand: bool = False,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> CommunityItem: ...
     def restore_community(
         self,
         identity: Identity,
         id_: str,
         expand: bool = False,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> CommunityItem: ...
     def mark_community_for_purge(
         self,
         identity: Identity,
         id_: str,
         expand: bool = False,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> CommunityItem: ...
     def unmark_community_for_purge(
         self,
         identity: Identity,
         id_: str,
         expand: bool = False,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> CommunityItem: ...
     def purge_community(
-        self, identity: Identity, id_: str, uow: Optional[UnitOfWork] = None
+        self, identity: Identity, id_: str, uow: UnitOfWork = dummy_uow
     ) -> None: ...
     def search(
         self,
@@ -211,7 +211,7 @@ class CommunityService(RecordService[C], Generic[C]):
         id_: str,
         data: Dict[str, Any],
         revision_id: Any = None,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
         expand: bool = False,
     ) -> CommunityItem: ...
     def on_relation_update(
@@ -227,7 +227,7 @@ class CommunityService(RecordService[C], Generic[C]):
         identity: Identity,
         community_ids: List[str],
         parent_id: str,
-        uow: Optional[UnitOfWork] = None,
+        uow: UnitOfWork = dummy_uow,
     ) -> None: ...
     def search_subcommunities(
         self,
