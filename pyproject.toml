@@ -1,6 +1,6 @@
 [project]
 name = "oarepo-invenio-typing-stubs"
-version = "0.1.17"
+version = "0.1.18"
 description = "OAREPO typing package for invenio packages. Stub files only."
 readme = "README.md"
 requires-python = ">=3.13"
