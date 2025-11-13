@@ -1,7 +1,13 @@
 from __future__ import annotations
 
+from typing import Any
+
 from marshmallow import Schema
 from marshmallow import fields as fields
+
+record_personorg_schemes: Any
+record_identifiers_schemes: Any
+record_location_schemes: Any
 
 class PersonOrOrganizationSchema(Schema):
     NAMES: list[str]
