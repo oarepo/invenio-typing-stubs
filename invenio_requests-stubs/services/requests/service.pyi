@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
 
 import marshmallow as ma
@@ -46,10 +47,10 @@ class RequestsService(RecordService[C], Generic[C]):
         identity: Identity,
         data: Dict[str, Any],
         request_type: Incomplete,
-        receiver: Dict[str, Any],
+        receiver: Dict[str, Any] | None = None,
         creator: Optional[Dict[str, Any]] = None,
         topic: Optional[Dict[str, Any]] = None,
-        expires_at: Optional[str] = None,
+        expires_at: Optional[datetime] = None,
         uow: UnitOfWork = dummy_uow,
         expand: bool = False,
     ) -> RequestItem: ...

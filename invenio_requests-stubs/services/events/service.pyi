@@ -1,4 +1,5 @@
 from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
+from uuid import UUID
 
 from _typeshed import Incomplete
 from flask_principal import Identity
@@ -30,7 +31,7 @@ class RequestEventsService(RecordService[C], Generic[C]):
     def create(  # type: ignore[override]
         self,
         identity: Identity,
-        request_id: Union[str, int],
+        request_id: Union[str, int, UUID],
         data: Dict[str, Any],
         event_type: Incomplete,
         uow: UnitOfWork = dummy_uow,
