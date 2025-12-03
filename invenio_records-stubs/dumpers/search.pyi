@@ -1,10 +1,12 @@
 from typing import Any
 
+from invenio_records.dumpers.base import Dumper
+
 class SearchDumperExt:
     def dump(self, record: Any, data: dict[str, Any]) -> None: ...
     def load(self, data: dict[str, Any], record_cls: type) -> None: ...
 
-class SearchDumper:
+class SearchDumper(Dumper):
     def __init__(
         self,
         extensions: list[SearchDumperExt] | None = ...,
