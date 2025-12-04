@@ -124,6 +124,7 @@ class RecordList(ServiceListResult):
     _nested_links_item: Optional[list[Link]]  # keep typing
     _service: RecordService  # keep typing
     _results: Any  # keep typing
+    _params: Optional[dict[str, Any]]  # keep typing
 
     def __init__(
         self,
