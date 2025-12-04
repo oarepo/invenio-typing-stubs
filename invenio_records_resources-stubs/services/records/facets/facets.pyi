@@ -12,6 +12,7 @@
 from collections.abc import Iterable
 from typing import Any, Callable
 
+from flask_babel.speaklater import LazyString
 from invenio_search.engine import dsl  # type: ignore[import-untyped]
 from opensearch_dsl.response.aggs import FieldBucket, FieldBucketData
 
@@ -25,7 +26,9 @@ class LabelledFacetMixin:
         self,
         label: str | None = None,
         value_labels: (
-            dict[Any, str] | Callable[[list[Any]], dict[Any, str]] | None
+            dict[Any, str | LazyString]
+            | Callable[[list[Any]], dict[Any, str | LazyString]]
+            | None
         ) = None,
         **kwargs: Any,
     ) -> None: ...
