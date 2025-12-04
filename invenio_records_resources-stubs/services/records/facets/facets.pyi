@@ -25,7 +25,7 @@ class LabelledFacetMixin:
         self,
         label: str | None = None,
         value_labels: (
-            dict[str, str] | Callable[[list[str]], dict[str, str]] | None
+            dict[Any, str] | Callable[[list[Any]], dict[Any, str]] | None
         ) = None,
         **kwargs: Any,
     ) -> None: ...
