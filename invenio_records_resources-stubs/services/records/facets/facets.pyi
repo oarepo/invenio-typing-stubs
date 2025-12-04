@@ -24,7 +24,7 @@ class LabelledFacetMixin:
 
     def __init__(
         self,
-        label: str | None = None,
+        label: str | LazyString | None = None,
         value_labels: (
             dict[Any, str | LazyString]
             | Callable[[list[Any]], dict[Any, str | LazyString]]
