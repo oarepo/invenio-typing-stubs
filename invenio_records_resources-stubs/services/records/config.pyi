@@ -70,4 +70,4 @@ class RecordServiceConfig(
     # Definition of those is left up to implementations
     links_item: Mapping[str, Callable[..., Any] | Link | EndpointLink]
     links_search: Mapping[str, Callable[..., Any] | Link | EndpointLink]
-    components: tuple[type[ServiceComponent]]
+    components: tuple[type[ServiceComponent], ...]
