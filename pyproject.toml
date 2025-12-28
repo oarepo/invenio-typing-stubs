@@ -1,9 +1,13 @@
 [project]
 name = "oarepo-invenio-typing-stubs"
-version = "0.1.27"
+version = "0.1.28"
 description = "OAREPO typing package for invenio packages. Stub files only."
 readme = "README.md"
 requires-python = ">=3.13"
+
+dependencies = [
+    "celery-types"
+]
 
 [project.optional-dependencies]
 tests = [
@@ -20,7 +24,7 @@ dev = [
     "mypy",
     "pyright",
     "types-lxml>=2025.8.25",
-    "absolufy-imports"
+    "absolufy-imports",
 ]
 
 
