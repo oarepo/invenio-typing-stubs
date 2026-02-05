@@ -4,6 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy as FlaskSQLAlchemy
 from sqlalchemy import MetaData
 from sqlalchemy.engine import URL
+from sqlalchemy.orm import Session
 
 NAMING_CONVENTION: dict[str, str]
 metadata: MetaData
@@ -14,6 +15,8 @@ class SQLAlchemy(FlaskSQLAlchemy):
     def apply_driver_hacks(
         self, app: Flask, sa_url: URL, options: dict[str, Any]
     ) -> tuple[URL, dict[str, Any]]: ...
+    @property
+    def session(self) -> Session: ...  # type: ignore[override]
 
 def do_sqlite_connect(dbapi_connection: Any, connection_record: Any) -> None: ...
 def do_sqlite_begin(dbapi_connection: Any) -> None: ...
