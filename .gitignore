@@ -10,3 +10,4 @@ wheels/
 .venv
 *-monkey
 .mypy_cache
+uv.lock
