@@ -2,9 +2,9 @@ from typing import Any, Optional
 
 from datacite import DataCiteRESTClient
 from flask import Flask
+from flask_resources import MarshmallowSerializer
 from invenio_pidstore.models import PersistentIdentifier, PIDStatus
 from invenio_rdm_records.records.api import RDMDraft, RDMRecord
-from invenio_rdm_records.resources.serializers.datacite import DataCite43JSONSerializer
 
 from .base import PIDProvider
 
@@ -29,13 +29,13 @@ class DataCiteClient:
     def api(self) -> DataCiteRESTClient: ...
 
 class DataCitePIDProvider(PIDProvider):
-    serializer: DataCite43JSONSerializer
+    serializer: MarshmallowSerializer
 
     def __init__(
         self,
         id_: str,
         client: Optional[DataCiteClient] = ...,
-        serializer: Optional[DataCite43JSONSerializer] = ...,
+        serializer: Optional[MarshmallowSerializer] = ...,
         pid_type: str = ...,
         default_status: PIDStatus = ...,
         **kwargs: Any,
