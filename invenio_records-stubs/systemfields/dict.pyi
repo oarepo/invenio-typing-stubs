@@ -13,10 +13,14 @@ class DictField(SystemField):  # type: ignore[misc]
         clear_none: bool = ...,
         create_if_missing: bool = ...,
     ): ...
+    # NOTE: parameter names mirror the runtime implementation
+    # (``DictField.__get__(self, record, owner=None)`` and
+    # ``DictField.__set__(self, record, value)``) so that subclasses which keep
+    # the runtime names stay valid overrides.
     @overload  # type: ignore[override]
-    def __get__(self, instance: None, owner: type[Record]) -> Self: ...  # type: ignore # keep typing tighter
+    def __get__(self, record: None, owner: type[Record]) -> Self: ...  # type: ignore # keep typing tighter
     @overload
     def __get__(  # type: ignore # keep typing tighter
-        self, instance: Record, owner: type[Record]
+        self, record: Record, owner: type[Record]
     ) -> dict[str, Any]: ...
-    def __set__(self, instance: Record, value: dict[str, Any]) -> None: ...  # type: ignore[override]
+    def __set__(self, record: Record, value: dict[str, Any]) -> None: ...  # type: ignore[override]
