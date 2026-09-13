@@ -62,4 +62,8 @@ class BaseRecordFilesComponent(FileConfigMixin, ServiceComponent):
 
 FilesAttrConfig: dict[str, str]
 
-FilesComponent: type[BaseRecordFilesComponent]
+class FilesComponent(BaseRecordFilesComponent):
+    _files_attr_key: str
+    _files_data_key: str
+    _files_bucket_attr_key: str
+    _files_bucket_id_attr_key: str
