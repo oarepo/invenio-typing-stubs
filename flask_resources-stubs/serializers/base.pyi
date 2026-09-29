@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import Any
 
+from flask_resources.parsers.schema import BaseListSchema
 from marshmallow import Schema
 
 class BaseSerializer:
@@ -13,13 +14,13 @@ class MarshmallowSerializer(BaseSerializer):
     schema_context: dict[str, Any]
     format_serializer: BaseSerializer
     object_schema: Schema
-    list_schema: Schema | None
+    list_schema: BaseListSchema | None
 
     def __init__(
         self,
         format_serializer_cls: type[BaseSerializer],
         object_schema_cls: type[Schema],
-        list_schema_cls: type[Schema] | None = ...,
+        list_schema_cls: type[BaseListSchema] | None = ...,
         schema_context: dict[str, Any] | None = ...,
         schema_kwargs: dict[str, Any] | None = ...,
         **serializer_options: Any,
