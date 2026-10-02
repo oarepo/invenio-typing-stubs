@@ -1,3 +1,4 @@
+from invenio_drafts_resources.records import ParentRecordStateMixin
 from datetime import timedelta
 from typing import ClassVar, Generator, Literal, overload
 from uuid import UUID
@@ -66,8 +67,8 @@ class Record(RecordBase):
 class Draft(Record):
     is_draft: ClassVar[bool]
     model_cls: ClassVar[type[RecordMetadata]]
-    versions_model_cls: ClassVar[type | None]
-    parent_record_cls: ClassVar[type["ParentRecord"] | None]
+    versions_model_cls: ClassVar[type[ParentRecordStateMixin]]
+    parent_record_cls: ClassVar[type[ParentRecord]]
     pid: ClassVar[PIDField]
     parent: ClassVar[ParentField]
     versions: ClassVar[VersionsField]

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Mapping, Any, Iterable
 
 import marshmallow as ma
 from _typeshed import Incomplete
@@ -26,13 +26,13 @@ class ServiceSchemaWrapper:
     def dump(
         self,
         data: Record,
-        schema_args: None = ...,
+        schema_args: dict[str, Any] | None = ...,
         context: Optional[dict[str, Incomplete]] = ...,
     ) -> dict[str, Incomplete]: ...
     def load(
         self,
-        data: dict[str, Incomplete],
-        schema_args: None = ...,
+        data: Mapping[str, Any] | Iterable[Mapping[str, Any]],
+        schema_args: dict[str, Any] | None = ...,
         context: Optional[dict[str, Incomplete]] = ...,
         raise_errors: bool = ...,
     ) -> Tuple[dict[str, Incomplete], list[dict[str, Incomplete]]]: ...
