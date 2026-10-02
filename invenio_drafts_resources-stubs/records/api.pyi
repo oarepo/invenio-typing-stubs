@@ -29,8 +29,8 @@ class ParentRecord(RecordBase):
 class Record(RecordBase):
     is_draft: ClassVar[bool]
     model_cls: ClassVar[type[RecordMetadata]]
-    versions_model_cls: ClassVar[type | None]
-    parent_record_cls: ClassVar[type["ParentRecord"] | None]
+    versions_model_cls: ClassVar[type[ParentRecordStateMixin]]
+    parent_record_cls: ClassVar[type[ParentRecord]]
     pid: ClassVar[PIDField]
     is_published: ClassVar[PIDStatusCheckField]
     parent: ClassVar[ParentField]
