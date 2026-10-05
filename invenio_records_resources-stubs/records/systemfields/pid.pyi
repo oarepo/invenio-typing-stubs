@@ -1,3 +1,4 @@
+from invenio_pidstore.providers.base import BaseProvider
 from typing import Any, Optional, Self, Type, overload
 
 # type: ignore[import-untyped]
@@ -27,13 +28,13 @@ class PIDField(RelatedModelField):  # type: ignore[type-var]
     def __init__(
         self,
         key: str = ...,
-        provider: Optional[Type[RecordIdProviderV2]] = ...,
+        provider: Optional[Type[BaseProvider]] = ...,
         pid_type: Optional[str] = ...,
         object_type: str = ...,
         resolver_cls: Optional[Type[Resolver]] = ...,
         delete: bool = ...,
         create: bool = ...,
-        context_cls: Type[PIDFieldContext] = ...,
+        context_cls:  Optional[Type[PIDFieldContext[Any]]] = ...,
     ): ...
     def create(self, record: Record) -> PersistentIdentifier: ...
     def delete(self, record: Record) -> None: ...

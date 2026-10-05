@@ -11,6 +11,8 @@ from invenio_vocabularies.services.config import (
     VocabularyTypesServiceConfig,
 )
 from invenio_vocabularies.services.tasks import process_datastream as process_datastream
+from invenio_records_resources.services.records.results import RecordItem
+
 
 CTypeConfig = TypeVar("CTypeConfig", bound=VocabularyTypesServiceConfig)
 
@@ -39,6 +41,7 @@ class VocabulariesService(RecordService[CVocabConfig], Generic[CVocabConfig]):
         pid_type: str,
         uow: UnitOfWork = dummy_uow,
     ) -> VocabularyType: ...
+    def read(self, identity: Identity, id: tuple[str,str], **kwargs: Any) -> RecordItem: ...
     def read_all(  # type: ignore[override]
         self,
         identity: Identity,
