@@ -9,6 +9,7 @@
 # details.
 
 """Record Service API."""
+from functools import partial
 
 from typing import Any, Callable, Generic, Mapping, TypeVar
 
@@ -38,7 +39,7 @@ class SearchOptions:
     # without mutating shared state.
     search_cls: type[RecordsSearchV2]
     query_parser_cls: type[QueryParser]
-    suggest_parser_cls: type[QueryParser] | None
+    suggest_parser_cls: type[QueryParser] | None | partial[QueryParser]
     sort_default: str = "bestmatch"
     sort_default_no_query: str = "newest"
     sort_options: Mapping[str, Mapping[str, Any]]
