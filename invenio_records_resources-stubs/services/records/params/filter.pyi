@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Mapping
+from typing import Any
 
 from _typeshed import Incomplete
 from invenio_records_resources.services.records.params import (
@@ -18,5 +18,5 @@ class FilterParam(ParamInterpreter):
         cls, param: str | None = None, field: str | None = None
     ) -> Incomplete: ...
     def apply(
-        self, identity: Incomplete, search: Incomplete, params: Mapping[str, Incomplete]
+        self, identity: Incomplete, search: Incomplete, params: dict[str, Any]
     ) -> Incomplete: ...
