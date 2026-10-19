@@ -1,4 +1,4 @@
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from typing import Any, Dict, List, Optional, Type
 
 from flask_babel.speaklater import LazyString
@@ -30,9 +30,9 @@ class RequestType:
     creator_can_be_none: bool
     receiver_can_be_none: bool
     topic_can_be_none: bool
-    allowed_creator_ref_types: List[str]
-    allowed_receiver_ref_types: List[str]
-    allowed_topic_ref_types: List[str]
+    allowed_creator_ref_types: Sequence[str]
+    allowed_receiver_ref_types: Sequence[str]
+    allowed_topic_ref_types: Sequence[str]
     resolve_topic_needs: bool
     payload_schema: Optional[Mapping[str, Field]]
     payload_schema_cls: Optional[Type[Schema]]

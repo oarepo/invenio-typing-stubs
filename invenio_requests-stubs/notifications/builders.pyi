@@ -1,4 +1,4 @@
-from typing import List
+from typing import Sequence
 
 from invenio_notifications.models import Notification
 from invenio_notifications.services.builders import NotificationBuilder
@@ -11,10 +11,10 @@ from invenio_notifications.services.generators import (
 
 class CommentRequestEventCreateNotificationBuilder(NotificationBuilder):
     type: str
-    context: List[ContextGenerator]
-    recipients: List[RecipientGenerator]
-    recipient_filters: List[RecipientFilter]
-    recipient_backends: List[RecipientBackendGenerator]
+    context: Sequence[ContextGenerator]
+    recipients: Sequence[RecipientGenerator]
+    recipient_filters: Sequence[RecipientFilter]
+    recipient_backends: Sequence[RecipientBackendGenerator]
 
     @classmethod
     def build(cls, **kwargs: object) -> Notification: ...

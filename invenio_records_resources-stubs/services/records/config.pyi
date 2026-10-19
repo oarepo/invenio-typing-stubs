@@ -31,6 +31,7 @@ SearchOptionsT = TypeVar("SearchOptionsT", bound="SearchOptions")
 SchemaT = TypeVar("SchemaT", bound=ma.Schema)
 IndexerT = TypeVar("IndexerT", bound=RecordIndexer)
 PermissionPolicyT = TypeVar("PermissionPolicyT", bound=BasePermissionPolicy)
+ParamInterpreterT = partial[ParamInterpreter] | type[ParamInterpreter]
 
 class SearchOptions:
     """Search options."""
@@ -45,7 +46,7 @@ class SearchOptions:
     sort_options: Mapping[str, Mapping[str, Any]]
     facets: Mapping[str, Any]
     pagination_options: Mapping[str, int]
-    params_interpreters_cls: tuple[type[ParamInterpreter], ...]
+    params_interpreters_cls: tuple[ParamInterpreterT, ...]
 
 class RecordServiceConfig(
     ServiceConfig[PermissionPolicyT],
