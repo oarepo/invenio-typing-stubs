@@ -8,6 +8,7 @@ from invenio_db.uow import UnitOfWork, dummy_uow
 from invenio_records_resources.services import RecordService
 from invenio_records_resources.services.records.schema import ServiceSchemaWrapper
 from invenio_requests.customizations import RequestActions as RequestActions
+from invenio_requests.customizations import RequestType
 from invenio_requests.customizations.event_types import (
     CommentEventType as CommentEventType,
 )
@@ -46,10 +47,10 @@ class RequestsService(RecordService[C], Generic[C]):
         self,
         identity: Identity,
         data: Dict[str, Any],
-        request_type: Incomplete,
-        receiver: Dict[str, Any] | None = None,
-        creator: Optional[Dict[str, Any]] = None,
-        topic: Optional[Dict[str, Any]] = None,
+        request_type: RequestType,
+        receiver: Dict[str, str] | Any | None = None,
+        creator: Dict[str, str] | Any | None = None,
+        topic: Dict[str, str] | Any | None = None,
         expires_at: Optional[datetime] = None,
         uow: UnitOfWork = dummy_uow,
         expand: bool = False,
