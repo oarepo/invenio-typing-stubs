@@ -5,7 +5,7 @@ from marshmallow import fields
 from marshmallow.schema import Schema
 
 class EventType:
-    type_id: Optional[str]
+    type_id: str
     payload_schema: Optional[
         Union[Dict[str, fields.Field], Callable[[], Dict[str, fields.Field]]]
     ]
