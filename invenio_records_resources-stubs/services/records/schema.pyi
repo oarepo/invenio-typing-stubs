@@ -4,7 +4,6 @@ from typing import Optional, Tuple, Mapping, Any, Iterable
 
 import marshmallow as ma
 from _typeshed import Incomplete
-from invenio_records_resources.records.api import Record
 from invenio_records_resources.services.base import Service
 
 class BaseRecordSchema(ma.Schema):
@@ -25,7 +24,7 @@ class ServiceSchemaWrapper:
     ) -> dict[str, Incomplete]: ...
     def dump(
         self,
-        data: Record,
+        data: Any,
         schema_args: dict[str, Any] | None = ...,
         context: Optional[dict[str, Incomplete]] = ...,
     ) -> dict[str, Incomplete]: ...
