@@ -37,7 +37,7 @@ class RequestType:
     payload_schema: Optional[Mapping[str, Field]]
     payload_schema_cls: Optional[Type[Schema]]
     comment_notification_builder: type
-    needs_context: Optional[str]
+    needs_context: Optional[Mapping[str, Any]]
 
     @classmethod
     def allowed_reviewers_ref_types(cls) -> List[str]: ...
