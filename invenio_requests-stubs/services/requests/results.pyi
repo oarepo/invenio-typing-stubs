@@ -20,6 +20,16 @@ class RequestItem(RecordItem):
         expandable_fields: Optional[List[Any]] = None,
         expand: bool = False,
     ) -> None: ...
+
+    _service : RequestsService
+    _identity : Identity
+    _request : Request
+    _record: Request
+    _errors: Optional[List[Dict[str, Any]]]
+    _links_tpl: Optional[RequestLinksTemplate]
+    _schema: Optional[ServiceSchemaWrapper]
+    _expand: bool
+
     @property
     def _obj(self) -> Request: ...
     @property
