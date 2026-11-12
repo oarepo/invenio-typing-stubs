@@ -58,4 +58,3 @@ packages = [
     "invenio_search-stubs",
     "invenio_vocabularies-stubs",
 ]
-
