@@ -1,6 +1,6 @@
 [project]
 name = "oarepo-invenio-typing-stubs"
-version = "0.1.44"
+version = "0.1.45"
 description = "OAREPO typing package for invenio packages. Stub files only."
 readme = "README.md"
 requires-python = ">=3.13"
@@ -58,3 +58,4 @@ packages = [
     "invenio_search-stubs",
     "invenio_vocabularies-stubs",
 ]
+
