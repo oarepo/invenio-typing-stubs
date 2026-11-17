@@ -25,6 +25,9 @@ class MemberResource(RecordResource[C, S], Generic[C, S]):
     @request_search_args
     def search_invitations(self) -> tuple[dict[str, Any], int]: ...
     @request_view_args
+    @request_search_args
+    def search_membership_requests(self) -> tuple[dict[str, Any], int]: ...
+    @request_view_args
     @request_data
     def add(self) -> tuple[str, int]: ...
     @request_view_args
@@ -40,6 +43,9 @@ class MemberResource(RecordResource[C, S], Generic[C, S]):
     @request_view_args
     @request_data
     def update_invitations(self) -> tuple[str, int]: ...
+    @request_view_args
+    @request_data
+    def update_membership_requests(self) -> tuple[str, int]: ...
     @request_view_args
     @request_data
     def delete(self) -> tuple[str, int]: ...

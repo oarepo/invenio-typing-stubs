@@ -6,8 +6,11 @@ from invenio_communities.communities.records.systemfields.access import (
     RecordSubmissionPolicyEnum as RecordSubmissionPolicyEnum,
 )
 from invenio_communities.communities.services import facets as facets
+from invenio_communities.permissions import CommunityPermissionPolicy
 
 COMMUNITIES_ROUTES: dict[str, str]
+COLLECTIONS_PERMISSION_POLICY = CommunityPermissionPolicy
+
 COMMUNITIES_FACETS: dict[str, dict[str, Any]]
 COMMUNITIES_SUBCOMMUNITIES_FACETS = COMMUNITIES_FACETS
 COMMUNITIES_SORT_OPTIONS: dict[str, dict[str, Any]]
@@ -22,6 +25,10 @@ COMMUNITIES_MEMBERS_FACETS: dict[str, dict[str, Any]]
 COMMUNITIES_INVITATIONS_SEARCH: dict[str, list[str]]
 COMMUNITIES_INVITATIONS_SORT_OPTIONS: dict[str, dict[str, Any]]
 COMMUNITIES_INVITATIONS_EXPIRES_IN: timedelta
+COMMUNITIES_MEMBERSHIP_REQUESTS_SEARCH: dict[str, list[str]]
+COMMUNITIES_MEMBERSHIP_REQUESTS_FACETS: dict[str, dict[str, Any]]
+COMMUNITIES_MEMBERSHIP_REQUESTS_EXPIRES_IN: timedelta
+COMMUNITIES_MEMBERSHIP_REQUESTS_DEFAULT_ROLE: str
 COMMUNITIES_LOGO_MAX_FILE_SIZE: int
 COMMUNITIES_NAMESPACES: dict[str, str]
 COMMUNITIES_CUSTOM_FIELDS: list[Any]
@@ -34,3 +41,4 @@ COMMUNITIES_OAI_SETS_PREFIX: str
 COMMUNITIES_ALWAYS_SHOW_CREATE_LINK: bool
 COMMUNITIES_ALLOW_MEMBERSHIP_REQUESTS: bool
 COMMUNITIES_DEFAULT_RECORD_SUBMISSION_POLICY: RecordSubmissionPolicyEnum
+COMMUNITIES_COLLECTIONS_ENABLED: bool

@@ -54,6 +54,43 @@ class CommunityInvitationExpireNotificationBuilder(
     def build(cls, **kwargs: Any) -> Notification: ...  # request
     recipients: List[Any]  # includes both community members and user recipient
 
+class CommunityMembershipRequestNotificationBuilder(BaseNotificationBuilder):
+    type: str
+    @classmethod
+    def build(cls, **kwargs: Any) -> Notification: ...  # request, message
+
+class CommunityMembershipRequestSubmittedNotificationBuilder(
+    CommunityMembershipRequestNotificationBuilder
+):
+    type: str
+    @classmethod
+    def build(cls, **kwargs: Any) -> Notification: ...  # request, role, message
+    recipients: List[CommunityMembersRecipient]
+
+class CommunityMembershipRequestCancelledNotificationBuilder(
+    CommunityMembershipRequestNotificationBuilder
+):
+    type: str
+    recipients: List[CommunityMembersRecipient]
+
+class CommunityMembershipRequestAcceptedNotificationBuilder(
+    CommunityMembershipRequestNotificationBuilder
+):
+    type: str
+    recipients: List[Any]  # List of UserRecipient objects
+
+class CommunityMembershipRequestDeclinedNotificationBuilder(
+    CommunityMembershipRequestNotificationBuilder
+):
+    type: str
+    recipients: List[Any]  # List of UserRecipient objects
+
+class CommunityMembershipRequestExpiredNotificationBuilder(
+    CommunityMembershipRequestNotificationBuilder
+):
+    type: str
+    recipients: List[Any]  # includes both community members and user recipient
+
 class SubCommunityBuilderBase(BaseNotificationBuilder):
     type: str
     context: List[EntityResolve]

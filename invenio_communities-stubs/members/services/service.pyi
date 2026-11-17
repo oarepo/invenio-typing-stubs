@@ -9,7 +9,11 @@ from invenio_communities.members.errors import InvalidMemberError as InvalidMemb
 from invenio_communities.members.records.api import (
     ArchivedInvitation as ArchivedInvitation,
 )
+from invenio_communities.members.records.api import (
+    ArchivedMemberRequest as ArchivedMemberRequest,
+)
 from invenio_communities.members.records.api import Member
+from invenio_communities.members.records.api import MemberMixin as MemberMixin
 from invenio_communities.members.services.config import MemberServiceConfig
 from invenio_communities.members.services.request import (
     CommunityInvitation as CommunityInvitation,
@@ -33,6 +37,9 @@ from invenio_communities.members.services.schemas import (
     MemberDumpSchema as MemberDumpSchema,
 )
 from invenio_communities.members.services.schemas import (
+    MembershipRequestDumpSchema as MembershipRequestDumpSchema,
+)
+from invenio_communities.members.services.schemas import (
     PublicDumpSchema as PublicDumpSchema,
 )
 from invenio_communities.members.services.schemas import (
@@ -44,10 +51,14 @@ from invenio_communities.members.services.schemas import (
 from invenio_communities.notifications.builders import (
     CommunityInvitationSubmittedNotificationBuilder as CommunityInvitationSubmittedNotificationBuilder,
 )
+from invenio_communities.notifications.builders import (
+    CommunityMembershipRequestSubmittedNotificationBuilder as CommunityMembershipRequestSubmittedNotificationBuilder,
+)
 from invenio_communities.proxies import current_roles as current_roles
 from invenio_communities.roles import Role
 from invenio_db.uow import UnitOfWork
 from invenio_indexer.api import RecordIndexer
+from invenio_records_resources.services import LinksTemplate
 from invenio_records_resources.services.records import (
     RecordService,
     ServiceSchemaWrapper,
@@ -62,6 +73,8 @@ C = TypeVar("C", bound=MemberServiceConfig)
 class MemberService(RecordService[C], Generic[C]):
     @property
     def community_cls(self) -> Type[Community]: ...
+    @property
+    def archive_cls(self) -> Type[ArchivedMemberRequest]: ...
     @property
     def member_dump_schema(self) -> ServiceSchemaWrapper: ...
     @property
@@ -91,6 +104,7 @@ class MemberService(RecordService[C], Generic[C]):
         uow: UnitOfWork,
         active: bool = ...,
         request_id: Optional[str] = ...,
+        **kwargs: Any,
     ) -> None: ...
     def _invite_factory(
         self,
@@ -101,6 +115,7 @@ class MemberService(RecordService[C], Generic[C]):
         member: Dict[str, Any],
         message: Optional[str],
         uow: UnitOfWork,
+        **kwargs: Any,
     ) -> None: ...
     def _members_search(
         self,
@@ -112,6 +127,7 @@ class MemberService(RecordService[C], Generic[C]):
         extra_filter: Optional[Any] = ...,
         params: Optional[Dict[str, Any]] = ...,
         search_preference: Optional[str] = ...,
+        links_tpl: Optional[LinksTemplate] = ...,
         scan: bool = ...,
         scan_params: Optional[Dict[str, Any]] = ...,
         **kwargs: Any,
@@ -123,11 +139,9 @@ class MemberService(RecordService[C], Generic[C]):
         member: Member,
         role: Optional[Role],
         visible: Optional[bool],
+        group_notification_enabled: Optional[bool],
         uow: UnitOfWork,
     ) -> bool: ...
-    def accept_invite(
-        self, identity: Identity, request_id: str, uow: Optional[UnitOfWork] = ...
-    ) -> None: ...
     def add(
         self,
         identity: Identity,
@@ -135,10 +149,13 @@ class MemberService(RecordService[C], Generic[C]):
         data: Dict[str, Any],
         uow: Optional[UnitOfWork] = ...,
     ) -> bool: ...
-    def decline_invite(
-        self, identity: Identity, request_id: str, uow: Optional[UnitOfWork] = ...
-    ) -> None: ...
-    def delete(self, *args: Any, **kwargs: Any) -> Any: ...
+    def delete(  # type: ignore[override]
+        self,
+        identity: Identity,
+        community_id: str | UUID,
+        data: Dict[str, Any],
+        uow: Optional[UnitOfWork] = ...,
+    ) -> bool: ...
     def invite(
         self,
         identity: Identity,
@@ -154,8 +171,24 @@ class MemberService(RecordService[C], Generic[C]):
         data: Dict[str, Any],
         uow: Optional[UnitOfWork] = ...,
     ) -> RequestItem: ...
-    def scan(self, *args: Any, **kwargs: Any) -> RecordList: ...
-    def search(self, *args: Any, **kwargs: Any) -> RecordList: ...
+    def scan(  # type: ignore[override]
+        self,
+        identity: Identity,
+        community_id: str | UUID,
+        params: Optional[Dict[str, Any]] = ...,
+        search_preference: Optional[str] = ...,
+        extra_filter: Optional[Any] = ...,
+        **kwargs: Any,
+    ) -> RecordList: ...
+    def search(  # type: ignore[override]
+        self,
+        identity: Identity,
+        community_id: str | UUID,
+        params: Optional[Dict[str, Any]] = ...,
+        search_preference: Optional[str] = ...,
+        extra_filter: Optional[Any] = ...,
+        **kwargs: Any,
+    ) -> RecordList: ...
     def search_invitations(
         self,
         identity: Identity,
@@ -172,23 +205,37 @@ class MemberService(RecordService[C], Generic[C]):
         search_preference: Optional[str] = ...,
         **kwargs: Any,
     ) -> RecordList: ...
-    def update(self, *args: Any, **kwargs: Any) -> Any: ...
-    def update_membership_request(
-        self, identity: Identity, community_id: str | UUID, data, uow=None
-    ) -> None: ...
-    def search_membership_requests(self) -> None: ...
-    def accept_membership_request(
+    def update(  # type: ignore[override]
+        self,
+        identity: Identity,
+        community_id: str | UUID,
+        data: Dict[str, Any],
+        uow: Optional[UnitOfWork] = ...,
+        refresh: bool = ...,
+    ) -> bool: ...
+    def search_membership_requests(
+        self,
+        identity: Identity,
+        community_id: str | UUID,
+        params: Optional[Dict[str, Any]] = ...,
+        search_preference: Optional[str] = ...,
+        **kwargs: Any,
+    ) -> RecordList: ...
+    def accept_member_request(
         self,
         identity: Identity,
         request_id: str | UUID,
         uow: Optional[UnitOfWork] = ...,
     ) -> None: ...
-    def close_membership_request(
+    def close_member_request(
         self,
         identity: Identity,
         request_id: str | UUID,
         uow: Optional[UnitOfWork] = ...,
     ) -> None: ...
+    def get_request_id_of_pending_member(
+        self, identity: Identity, community_id: str | UUID
+    ) -> Optional[UUID]: ...
     def rebuild_index(
         self, identity: Identity, uow: Optional[UnitOfWork] = ...
     ) -> bool: ...

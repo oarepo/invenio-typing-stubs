@@ -18,10 +18,17 @@ class RequestSchema(Schema):
     status: fields.String
     is_open: fields.Boolean
     expires_at: fields.String
+    type: fields.Method
+    def serialize_request_type(
+        self,
+        member_request: Optional[Mapping[str, Any]],
+        context: Optional[Any] = None,
+    ) -> str: ...
 
 class AddBulkSchema(MembersSchema, Schema):
     role: RoleField
     visible: fields.Boolean
+    group_notification_enabled: fields.Boolean
 
 class InviteBulkSchema(AddBulkSchema):
     message: fields.String
@@ -29,6 +36,7 @@ class InviteBulkSchema(AddBulkSchema):
 class UpdateBulkSchema(MembersSchema, Schema):
     role: RoleField
     visible: fields.Boolean
+    group_notification_enabled: fields.Boolean
     @validates_schema
     def validate_schema(self, data: Mapping[str, Any], **kwargs) -> None: ...
 
@@ -47,6 +55,7 @@ class PublicDumpSchema(Schema):
 class MemberDumpSchema(PublicDumpSchema):
     role: fields.String
     visible: fields.Boolean
+    group_notification_enabled: fields.Boolean
     is_current_user: fields.Method
     permissions: fields.Method
     created: TZDateTime
@@ -57,6 +66,11 @@ class MemberDumpSchema(PublicDumpSchema):
     def get_permissions(self, obj: Member) -> Dict[str, bool]: ...
 
 class InvitationDumpSchema(MemberDumpSchema):
+    request: fields.Nested
+    permissions: fields.Method
+    def get_permissions(self, obj: Mapping[str, Any]) -> Dict[str, bool]: ...
+
+class MembershipRequestDumpSchema(MemberDumpSchema):
     request: fields.Nested
     permissions: fields.Method
     def get_permissions(self, obj: Mapping[str, Any]) -> Dict[str, bool]: ...

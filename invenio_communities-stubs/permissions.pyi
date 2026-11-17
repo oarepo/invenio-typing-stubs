@@ -4,7 +4,7 @@ from flask_principal import Identity
 from invenio_communities.communities.records.api import Community
 from invenio_communities.generators import AllowedMemberTypes as AllowedMemberTypes
 from invenio_communities.generators import (
-    AuthenticatedButNotCommunityMembers as AuthenticatedButNotCommunityMembers,
+    AuthenticatedUserButNotCommunityMember as AuthenticatedUserButNotCommunityMember,
 )
 from invenio_communities.generators import CommunityCurators as CommunityCurators
 from invenio_communities.generators import CommunityManagers as CommunityManagers
@@ -14,8 +14,10 @@ from invenio_communities.generators import (
 from invenio_communities.generators import CommunityMembers as CommunityMembers
 from invenio_communities.generators import CommunityOwners as CommunityOwners
 from invenio_communities.generators import CommunitySelfMember as CommunitySelfMember
+from invenio_communities.generators import (
+    IfCommunityAllowsMembershipRequests as IfCommunityAllowsMembershipRequests,
+)
 from invenio_communities.generators import IfCommunityDeleted as IfCommunityDeleted
-from invenio_communities.generators import IfMemberPolicyClosed as IfMemberPolicyClosed
 from invenio_communities.generators import (
     IfRecordSubmissionPolicyClosed as IfRecordSubmissionPolicyClosed,
 )
@@ -35,12 +37,14 @@ class CommunityPermissionPolicy(BasePermissionPolicy):
     can_update: tuple[Generator, ...]
     can_delete: tuple[Generator, ...]
     can_purge: tuple[Generator, ...]
+    can_manage_collections: tuple[Generator, ...]
     can_manage_access: tuple[Generator, ...]
     can_create_restricted: tuple[Generator, ...]
     can_search: tuple[Generator, ...]
     can_search_user_communities: tuple[Generator, ...]
     can_search_invites: tuple[Generator, ...]
     can_search_requests: tuple[Generator, ...]
+    can_search_membership_requests: tuple[Generator, ...]
     can_rename: tuple[Generator, ...]
     can_submit_record: tuple[Generator, ...]
     can_include_directly: tuple[Generator, ...]
@@ -55,6 +59,7 @@ class CommunityPermissionPolicy(BasePermissionPolicy):
     can_members_delete = can_members_update
     can_invite_owners: tuple[Generator, ...]
     can_featured_search: tuple[Generator, ...]
+    featured_managers: tuple[Generator, ...]
     can_featured_list: tuple[Generator, ...]
     can_featured_create: tuple[Generator, ...]
     can_featured_update: tuple[Generator, ...]

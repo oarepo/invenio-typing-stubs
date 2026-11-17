@@ -1,4 +1,5 @@
 from typing import Any, ClassVar, Dict, List, Optional, Tuple
+from uuid import UUID
 
 from flask_principal import Identity
 from invenio_communities.members.errors import (
@@ -6,6 +7,9 @@ from invenio_communities.members.errors import (
 )
 from invenio_communities.members.records.models import (
     ArchivedInvitationModel as ArchivedInvitationModel,
+)
+from invenio_communities.members.records.models import (
+    ArchivedMemberRequestModel as ArchivedMemberRequestModel,
 )
 from invenio_communities.members.records.models import (
     MemberModel as MemberModel,
@@ -25,7 +29,9 @@ class MemberMixin:
     role: Any
     visible: Any
     active: Any
+    group_notification_enabled: Any
     relations: Any
+    index: ClassVar[IndexField]
     @classmethod
     def get_memberships_from_group_ids(
         cls, identity: Identity, group_ids: List[Any]
@@ -40,13 +46,19 @@ class MemberMixin:
     ) -> List["Member"]: ...
     @classmethod
     def has_members(cls, community_id: str, role: Optional[str] = None) -> int: ...
+    @classmethod
+    def get_pending_request_id(
+        cls, user_id: Any, community_id: Any
+    ) -> Optional[UUID]: ...
 
 class Member(Record, MemberMixin):
     metadata: ClassVar[DictField]
     index: ClassVar[IndexField]
 
-class ArchivedInvitation(Record, MemberMixin):
+class ArchivedMemberRequest(Record, MemberMixin):
     metadata: ClassVar[DictField]
     index: ClassVar[IndexField]
     @classmethod
-    def create_from_member(cls, member: "Member") -> "ArchivedInvitation": ...
+    def create_from_member(cls, member: "Member") -> "ArchivedMemberRequest": ...
+
+ArchivedInvitation = ArchivedMemberRequest
