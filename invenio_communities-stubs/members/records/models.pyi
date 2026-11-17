@@ -24,6 +24,7 @@ class BaseMemberModel(RecordMetadataBase):
     @declared_attr
     def request_id(cls): ...
     active: Any
+    group_notification_enabled: Any
     @classmethod
     def query_memberships(
         cls,
@@ -40,9 +41,11 @@ class MemberModel(_Model, BaseMemberModel):
     __tablename__: ClassVar[str]
     __table_args__: ClassVar[tuple[Any, ...]]
 
-class ArchivedInvitationModel(_Model, BaseMemberModel):
+class ArchivedMemberRequestModel(_Model, BaseMemberModel):
     __tablename__: ClassVar[str]
     @classmethod
     def from_member_model(
         cls, member_model: MemberModel
-    ) -> ArchivedInvitationModel: ...
+    ) -> ArchivedMemberRequestModel: ...
+
+ArchivedInvitationModel = ArchivedMemberRequestModel

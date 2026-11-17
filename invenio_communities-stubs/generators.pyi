@@ -6,7 +6,7 @@ from invenio_communities.communities.records.systemfields.deletion_status import
 )
 from invenio_communities.members.records.api import Member
 from invenio_communities.proxies import current_roles as current_roles
-from invenio_records_permissions.generators import Generator
+from invenio_records_permissions.generators import ConditionalGenerator, Generator
 from invenio_search.engine import dsl
 
 class _Need(NamedTuple):
@@ -57,13 +57,11 @@ class ReviewPolicy(Generator):
         open_: List[Generator],
         members_: List[Generator],
     ) -> None: ...
+    def _generators(self, record: Any, **kwargs: Any) -> List[Generator]: ...
     def needs(self, record: Any = ..., **kwargs: Any) -> Sequence[Need]: ...
     def excludes(self, record: Any = ..., **kwargs: Any) -> Sequence[Need]: ...
 
 class IfRecordSubmissionPolicyClosed(IfRestrictedBase):
-    def __init__(self, then_: List[Generator], else_: List[Generator]) -> None: ...
-
-class IfMemberPolicyClosed(IfRestrictedBase):
     def __init__(self, then_: List[Generator], else_: List[Generator]) -> None: ...
 
 class IfCommunityDeleted(Generator):
@@ -80,7 +78,10 @@ class IfCommunityDeleted(Generator):
         self, identity: Optional[Identity] = ..., **kwargs: Any
     ) -> dsl.query.Query | None: ...
 
-class AuthenticatedButNotCommunityMembers(Generator):
+class IfCommunityAllowsMembershipRequests(ConditionalGenerator):
+    def _condition(self, record: Any = ..., **kwargs: Any) -> bool: ...
+
+class AuthenticatedUserButNotCommunityMember(Generator):
     def needs(self, record: Any = ..., **kwargs: Any) -> Sequence[Need]: ...
     def excludes(self, record: Any = ..., **kwargs: Any) -> Sequence[Need]: ...
 
@@ -88,7 +89,11 @@ class CommunityRoles(Generator):
     def roles(self, **kwargs: Any) -> List[str]: ...
     def communities(self, identity: Identity) -> List[str]: ...
     def needs(
-        self, record: Any = ..., community_id: Optional[str] = ..., **kwargs: Any
+        self,
+        record: Any = ...,
+        community_id: Optional[str] = ...,
+        namespace_id: Optional[str] = ...,
+        **kwargs: Any,
     ) -> Sequence[Need]: ...
     def query_filter(
         self, identity: Optional[Identity] = ..., **kwargs: Any

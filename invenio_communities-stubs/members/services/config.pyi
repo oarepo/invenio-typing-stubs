@@ -7,6 +7,9 @@ from invenio_communities.members.records import Member as Member
 from invenio_communities.members.records.api import (
     ArchivedInvitation as ArchivedInvitation,
 )
+from invenio_communities.members.records.api import (
+    ArchivedMemberRequest as ArchivedMemberRequest,
+)
 from invenio_communities.members.services import facets as facets
 from invenio_communities.members.services.components import (
     CommunityMemberCachingComponent as CommunityMemberCachingComponent,
@@ -15,6 +18,7 @@ from invenio_indexer.api import RecordIndexer
 from invenio_records_permissions.policies import BasePermissionPolicy
 from invenio_records_resources.services import RecordServiceConfig, SearchOptions
 from invenio_records_resources.services.base.config import ConfiguratorMixin
+from invenio_records_resources.services.base.links import EndpointLink
 
 class PublicSearchOptions(SearchOptions):
     # NOTE: immutable defaults prevent shared-state mutation across configs.
@@ -52,10 +56,13 @@ class MemberServiceConfig(
     schema: type[ma.Schema] | None
     indexer_queue_name: str
     relations: Mapping[str, Any]
-    archive_cls = ArchivedInvitation
+    archive_cls = ArchivedMemberRequest
     archive_indexer_cls: Any
     archive_indexer_queue_name: str
     permission_policy_cls: Any
     search: type[SearchOptions]
     search_public: type[SearchOptions]
     search_invitations: type[SearchOptions]
+    links_search_public: Mapping[str, EndpointLink]
+    links_search_invitations: Mapping[str, EndpointLink]
+    links_search_membership_requests: Mapping[str, EndpointLink]

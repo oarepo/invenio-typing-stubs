@@ -15,7 +15,7 @@ class CommunityMemberCachingComponent(ServiceComponent):
         member: Union[MemberMixin, dict[str, str]],
         community: Optional[Community] = ...,
     ) -> None: ...
-    def accept_invite(
+    def accept_member_request(
         self,
         identity: Identity,
         record: Optional[MemberMixin] = ...,
