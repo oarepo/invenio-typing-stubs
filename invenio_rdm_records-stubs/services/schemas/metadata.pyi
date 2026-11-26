@@ -8,6 +8,7 @@ from marshmallow import fields as fields
 record_personorg_schemes: Any
 record_identifiers_schemes: Any
 record_location_schemes: Any
+record_related_identifiers_schemes: Any
 
 class PersonOrOrganizationSchema(Schema):
     NAMES: list[str]
